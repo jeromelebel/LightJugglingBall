@@ -4,7 +4,7 @@ batteryLength = 44;
 batteryRadius = 5;
 batteryDelta = 2;
 threadHolderHeight = 5;
-threadHolderThickness = 2;
+threadHolderThickness = 3;
 openBall = true;
 ball_a = true;
 ball_b = true;
@@ -24,7 +24,10 @@ module insideThreadHolder()
 {
 	translate([0, 0, -mysize])
 	difference() {
-		cylinder(h = (threadHolderHeight / 2) + mysize, r = mysize - threadHolderThickness);
+		union() {
+			cylinder(h = (threadHolderHeight / 2) + mysize, r = mysize - threadHolderThickness);
+			cylinder(h = mysize - (threadHolderHeight / 2), r = mysize + 10);
+		}
 		translate([0, 0, -1]) cylinder(h = (threadHolderHeight / 2) + mysize + 2, r = mysize - (threadHolderThickness * 2));
 	}
 }
@@ -33,7 +36,7 @@ module outsideThreadMask()
 {
 	translate([0, 0, threadHolderHeight / 2]) difference() {
 		cylinder(h = threadHolderHeight * 2, r = mysize - threadHolderThickness, center = true);
-		cylinder(h = threadHolderHeight * 3, r = mysize - (threadHolderThickness * 2), center = true);
+		cylinder(h = threadHolderHeight * 3, r = mysize - threadHolderThickness - thickness, center = true);
 	}
 }
 
@@ -55,7 +58,17 @@ module b_ball()
 		sphere(r = mysize);
 		difference()
 		{
-			halfBall(threadHolderHeight / 2);
+			union() {
+				halfBall(threadHolderHeight / 2);
+				translate([0, 0, -mysize]) difference() {
+					cylinder(h = mysize + (threadHolderHeight / 2), r = mysize);
+					translate([0, 0, -1]) cylinder(h = mysize + (threadHolderHeight / 2) + 2, r = mysize - threadHolderThickness);
+				}
+				translate([0, 0, -mysize]) difference() {
+					cylinder(h = mysize - (threadHolderHeight / 2), r = mysize);
+					translate([0, 0, -1]) cylinder(h = mysize + (threadHolderHeight / 2) + 2, r = mysize - (threadHolderThickness * 2));
+				}
+			}
 			outsideThreadMask();
 		}
 	}
