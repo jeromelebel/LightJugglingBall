@@ -3,8 +3,8 @@ thickness = 3;
 batteryLength = 44;
 batteryRadius = 5;
 batteryDelta = 2;
-threadHolderHeight = 5;
-threadHolderThickness = 2;
+threadHolderHeight = 8;
+threadHolderThickness = 4;
 openBall = true;
 
 module halfBall(extraLength)
@@ -34,19 +34,25 @@ module outsideThreadMask()
 
 module a_ball()
 {
-    union()
-    {
-		halfBall(-threadHolderHeight / 2);
-		insideThreadHolder();
+	intersection() {
+		sphere(r = mysize);
+		union()
+		{
+			halfBall(-threadHolderHeight / 2);
+			insideThreadHolder();
+		}
 	}
 }
 
 module b_ball()
 {
-	difference()
-	{
-		halfBall(threadHolderHeight / 2);
-		outsideThreadMask();
+	intersection() {
+		sphere(r = mysize);
+		difference()
+		{
+			halfBall(threadHolderHeight / 2);
+			outsideThreadMask();
+		}
 	}
 }
 
