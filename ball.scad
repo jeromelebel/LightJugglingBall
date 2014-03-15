@@ -50,6 +50,18 @@ module b_ball()
 	}
 }
 
+module battery()
+{
+	cylinder(h = batteryLength, r = batteryRadius);
+}
+
+module allBatteries()
+{
+	translate([-22, 10, 0]) rotate(a=[0, 90, 0]) battery();
+	translate([-22, -10, 0]) rotate(a=[0, 90, 0]) battery();
+	translate([-22, 0, 0]) rotate(a=[0, 90, 0]) battery();
+}
+
 translate([0, 0, 10]) rotate(a = [0, 180, 90]) difference () {
 	a_ball();
 	if (openBall) translate([0, -mysize * 2, -mysize]) cube([mysize * 2, mysize * 2, mysize * 2]);
@@ -58,3 +70,5 @@ difference () {
 	b_ball();
 	if (openBall) translate([0, -mysize * 2, -mysize]) cube([mysize * 2, mysize * 2, mysize * 2]);
 }
+
+allBatteries();
