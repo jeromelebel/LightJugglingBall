@@ -27,9 +27,9 @@ module insideThreadHolder()
 	translate([0, 0, -mysize])
 	difference() {
 		union() {
-			cylinder(h = (threadHolderHeight / 2) + mysize, r = mysize - threadHolderThickness);
+			cylinder(h = mysize - (threadHolderHeight / 2), r = mysize - threadHolderThickness);
 			cylinder(h = mysize - (threadHolderHeight / 2), r = mysize + 10);
-			translate([0, 0, -threadHolderHeight / 2]) thread(length = threadHolderHeight, r = mysize - threadHolderThickness);
+			translate([0, 0, mysize - (threadHolderHeight / 2)]) metric_thread(length = threadHolderHeight, diameter = (mysize - threadHolderThickness) * 2);
 		}
 		translate([0, 0, -1]) cylinder(h = (threadHolderHeight / 2) + mysize + 2, r = mysize - (threadHolderThickness * 2));
 	}
