@@ -20,16 +20,16 @@ module halfBall(extraLength)
 		translate([0, 0, mysize + extraLength]) cube([mysize * 2, mysize * 2, mysize * 2], center = true);
 	}
 	if (ballCenter) translate([0, 0, -mysize]) cylinder(r = 2, h = mysize);
-}
+} 
 
 module insideThreadHolder()
 {
 	translate([0, 0, -mysize])
 	difference() {
 		union() {
-			cylinder(h = mysize - (threadHolderHeight / 2), r = mysize - threadHolderThickness);
+			cylinder(h = mysize - (threadHolderHeight / 2) + 0.0002, r = mysize - threadHolderThickness);
 			cylinder(h = mysize - (threadHolderHeight / 2), r = mysize + 10);
-			translate([0, 0, mysize - (threadHolderHeight / 2)]) metric_thread(length = threadHolderHeight, diameter = (mysize - threadHolderThickness) * 2);
+			translate([0, 0, mysize - (threadHolderHeight / 2) + 0.0001]) metric_thread(length = threadHolderHeight - 0.0001, diameter = (mysize - threadHolderThickness) * 2);
 		}
 		translate([0, 0, -1]) cylinder(h = (threadHolderHeight / 2) + mysize + 2, r = mysize - (threadHolderThickness * 2));
 	}
