@@ -7,6 +7,7 @@ threadHolderHeight = 5;
 threadHolderThickness = 4;
 threadRadiusDelta = 0;
 threadPitch = 3;
+plateThickness = 0;
 openBall = true;
 ball_a = true;
 ball_b = true;
@@ -53,12 +54,12 @@ module a_ball()
 module b_ball()
 {
 	union() {
-		halfBall(-threadHolderHeight / 2);
+		halfBall(-threadHolderHeight / 2 - plateThickness);
 		intersection () {
 			sphere(r = mysize);
 			difference() {
 				translate([0, 0, -mysize]) cylinder(r = mysize, h = mysize + threadHolderHeight / 2);
-				translate([0, 0, - threadHolderHeight / 2]) metric_thread(pitch = threadPitch, length = threadHolderHeight * 2, diameter = (mysize - threadHolderThickness + threadRadiusDelta) * 2, internal = true);
+				translate([0, 0, - threadHolderHeight / 2 - plateThickness]) metric_thread(pitch = threadPitch, length = threadHolderHeight * 2 + plateThickness, diameter = (mysize - threadHolderThickness + threadRadiusDelta) * 2, internal = true);
 				translate([0, 0, -mysize - mysize / 2]) cylinder(r = mysize - threadHolderThickness * 2, h = mysize * 2);
   
 			}
