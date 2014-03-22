@@ -78,16 +78,6 @@ module allBatteries()
 	translate([-22, 0, 0]) rotate(a=[0, 90, 0]) battery();
 }
 
-module thread(r=4, pitch=1, length=1, internal=false, n_starts=1)
-{
-   h = pitch * cos(30);
-   if (internal) {
-      metric_thread(r * 2 + h*5/4, pitch, length, internal, n_starts);
-   } else {
-      metric_thread(r * 2 + h*5.3/4, pitch, length, internal, n_starts);
-   }
-}
-
 if (ball_a) {
 	translate([0, 0, 10]) rotate(a = [0, 180, 90])
 	difference () {
