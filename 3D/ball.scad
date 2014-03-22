@@ -8,11 +8,14 @@ threadHolderThickness = 4;
 threadRadiusDelta = 0;
 threadPitch = 3;
 plateThickness = 0;
-openBall = true;
 ball_a = true;
 ball_b = true;
 ballCenter = false;
 delta = 0.0001;
+
+printingPosition = true;
+openBall = true;
+threadOnly = true;
 
 use <threads.scad>
 
@@ -51,6 +54,9 @@ module a_ball()
 	}
 }
 
+function a_ballTranslation() = printingPosition ? [0, 0, threadHolderHeight / 2]:[0, 0, 10];
+function a_ballRotation() = [0, 180, 90];
+
 module b_ball()
 {
 	union() {
@@ -67,6 +73,9 @@ module b_ball()
 	}
 }
 
+function b_ballTranslation() = printingPosition ? [0, mysize * 2.2, threadHolderHeight / 2]:[0, 0, 0];
+function b_ballRotation() = printingPosition?[0, 180, 90]:[0, 0, 0];
+
 module battery()
 {
 	cylinder(h = batteryLength, r = batteryRadius);
@@ -80,15 +89,20 @@ module allBatteries()
 }
 
 if (ball_a) {
-	translate([0, 0, 10]) rotate(a = [0, 180, 90])
+	translate(a_ballTranslation()) rotate(a = a_ballRotation())
 	difference () {
 		a_ball();
 		if (openBall) translate([0, -mysize * 2, -mysize]) cube([mysize * 2, mysize * 2, mysize * 2]);
+		if (threadOnly) translate([-mysize, -mysize, - mysize * 2 - threadHolderHeight]) cube([mysize * 2, mysize * 2, mysize * 2]);
 	}
 }
-if (ball_b) difference () {
-	b_ball();
-	if (openBall) translate([0, -mysize * 2, -mysize]) cube([mysize * 2, mysize * 2, mysize * 2]);
+if (ball_b) {
+	translate(b_ballTranslation()) rotate(a = b_ballRotation())
+	difference () {
+		b_ball();
+		if (openBall) translate([0, -mysize * 2, -mysize]) cube([mysize * 2, mysize * 2, mysize * 2]);
+		if (threadOnly) translate([-mysize, -mysize, - mysize * 2 - threadHolderHeight]) cube([mysize * 2, mysize * 2, mysize * 2]);
+	}
 }
 
 //allBatteries();
