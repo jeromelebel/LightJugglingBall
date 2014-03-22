@@ -4,11 +4,14 @@ batteryLength = 44;
 batteryRadius = 5;
 batteryDelta = 2;
 threadHolderHeight = 5;
-threadHolderThickness = 3;
+threadHolderThickness = 4;
+threadRadiusDelta = 0;
+threadPitch = 3;
 openBall = true;
 ball_a = true;
-ball_b = true;
+ball_b = false;
 ballCenter = false;
+delta = 0.0001;
 
 use <threads.scad>
 
@@ -27,19 +30,11 @@ module insideThreadHolder()
 	translate([0, 0, -mysize])
 	difference() {
 		union() {
-			cylinder(h = mysize - (threadHolderHeight / 2) + 0.0002, r = mysize - threadHolderThickness);
+			cylinder(h = mysize - (threadHolderHeight / 2) + (delta * 2), r = mysize - threadHolderThickness);
 			cylinder(h = mysize - (threadHolderHeight / 2), r = mysize + 10);
-			translate([0, 0, mysize - (threadHolderHeight / 2) + 0.0001]) metric_thread(length = threadHolderHeight - 0.0001, diameter = (mysize - threadHolderThickness) * 2);
+			translate([0, 0, mysize - (threadHolderHeight / 2) + delta]) metric_thread(pitch = threadPitch, length = threadHolderHeight - delta, diameter = (mysize - threadHolderThickness + threadRadiusDelta) * 2);
 		}
 		translate([0, 0, -1]) cylinder(h = (threadHolderHeight / 2) + mysize + 2, r = mysize - (threadHolderThickness * 2));
-	}
-}
-
-module outsideThreadMask()
-{
-	translate([0, 0, threadHolderHeight / 2]) difference() {
-		cylinder(h = threadHolderHeight * 2, r = mysize - threadHolderThickness, center = true);
-		cylinder(h = threadHolderHeight * 3, r = mysize - threadHolderThickness - thickness, center = true);
 	}
 }
 
@@ -57,24 +52,18 @@ module a_ball()
 
 module b_ball()
 {
-	intersection() {
-		sphere(r = mysize);
-		difference()
-		{
-			union() {
-				halfBall(threadHolderHeight / 2);
-				translate([0, 0, -mysize]) difference() {
-					cylinder(h = mysize + (threadHolderHeight / 2), r = mysize);
-					translate([0, 0, -1]) cylinder(h = mysize + (threadHolderHeight / 2) + 2, r = mysize - threadHolderThickness);
-				}
-				translate([0, 0, -mysize]) difference() {
-					cylinder(h = mysize - (threadHolderHeight / 2), r = mysize);
-					translate([0, 0, -1]) cylinder(h = mysize + (threadHolderHeight / 2) + 2, r = mysize - (threadHolderThickness * 2));
-				}
-			}
-			outsideThreadMask();
-		}
-	}
+    union() {
+				halfBall(-threadHolderHeight / 2);
+        intersection () {
+            sphere(r = mysize);
+            difference() {
+                translate([0, 0, -mysize]) cylinder(r = mysize, h = mysize + threadHolderHeight / 2);
+                translate([0, 0, - threadHolderHeight / 2]) metric_thread(pitch = threadPitch, length = threadHolderHeight * 2, diameter = (mysize - threadHolderThickness + threadRadiusDelta) * 2, internal = true);
+                translate([0, 0, -mysize - mysize / 2]) cylinder(r = mysize - threadHolderThickness * 2, h = mysize * 2);
+  
+            }
+        }
+    }
 }
 
 module battery()
