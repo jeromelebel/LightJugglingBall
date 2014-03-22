@@ -14,7 +14,7 @@ ballCenter = false;
 delta = 0.0001;
 
 printingPosition = true;
-openBall = true;
+openBall = false;
 threadOnly = true;
 
 use <threads.scad>
