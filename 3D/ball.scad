@@ -3,12 +3,12 @@ thickness = 3;
 batteryLength = 44;
 batteryRadius = 5;
 batteryDelta = 2;
-threadHolderHeight = 5;
-threadHolderThickness = 4;
-threadRadiusDelta = 0;
+threadHolderHeight = 6;
+threadHolderThickness = 3;
+threadRadiusDelta = 0.5;
 threadPitch = 3;
 plateThickness = 0;
-ball_a = true;
+ball_a = false;
 ball_b = true;
 ballCenter = false;
 delta = 0.0001;
@@ -73,7 +73,7 @@ module b_ball()
 	}
 }
 
-function b_ballTranslation() = printingPosition ? [0, mysize * 2.2, threadHolderHeight / 2]:[0, 0, 0];
+function b_ballTranslation() = (printingPosition && ball_a) ? [0, mysize * 2.2, threadHolderHeight / 2]:[0, 0, 0];
 function b_ballRotation() = printingPosition?[0, 180, 90]:[0, 0, 0];
 
 module battery()
