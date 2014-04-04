@@ -7,15 +7,19 @@ threadHolderHeight = 6;
 threadHolderThickness = 3;
 threadRadiusDelta = 0.5;
 threadPitch = 3;
-plateThickness = 0;
-ball_a = false;
+plateThickness = 2;
+boxThickness = 2;
+ball_a = true;
 ball_b = true;
+plate = true;
 ballCenter = false;
 delta = 0.0001;
+myscale = 1.02;
 
-printingPosition = true;
-openBall = false;
-threadOnly = true;
+explodedPosition = true;
+printingPosition = false;
+openBall = true;
+threadOnly = false;
 
 use <threads.scad>
 
@@ -54,7 +58,7 @@ module a_ball()
 	}
 }
 
-function a_ballTranslation() = printingPosition ? [0, 0, threadHolderHeight / 2]:[0, 0, 10];
+function a_ballTranslation() = printingPosition ? [0, 0, threadHolderHeight / 2] : (explodedPosition ? [0, 0, batteryRadius * 2 + threadHolderHeight + 10] : [0, 0, 0]);
 function a_ballRotation() = [0, 180, 90];
 
 module b_ball()
@@ -65,7 +69,7 @@ module b_ball()
 			sphere(r = mysize);
 			difference() {
 				translate([0, 0, -mysize]) cylinder(r = mysize, h = mysize + threadHolderHeight / 2);
-				translate([0, 0, - threadHolderHeight / 2 - plateThickness]) metric_thread(pitch = threadPitch, length = threadHolderHeight * 2 + plateThickness, diameter = (mysize - threadHolderThickness + threadRadiusDelta) * 2, internal = true);
+				scale([myscale, myscale, 1]) translate([0, 0, - threadHolderHeight / 2 - plateThickness]) metric_thread(pitch = threadPitch, length = threadHolderHeight * 2 + plateThickness, diameter = (mysize - threadHolderThickness + threadRadiusDelta) * 2, internal = true);
 				translate([0, 0, -mysize - mysize / 2]) cylinder(r = mysize - threadHolderThickness * 2, h = mysize * 2);
   
 			}
@@ -73,8 +77,22 @@ module b_ball()
 	}
 }
 
-function b_ballTranslation() = (printingPosition && ball_a) ? [0, mysize * 2.2, threadHolderHeight / 2]:[0, 0, 0];
+function b_ballTranslation() = (printingPosition && ball_a) ? [0, mysize * 2.2, threadHolderHeight / 2] : (explodedPosition ? [0, 0, 0] : [0, 0, 0]);
 function b_ballRotation() = printingPosition?[0, 180, 90]:[0, 0, 0];
+
+module plate()
+{
+  union() {
+    metric_thread(pitch = threadPitch, length = plateThickness, diameter = (mysize - threadHolderThickness + threadRadiusDelta) * 2);
+    difference () {
+      translate([0, 0, batteryRadius + plateThickness]) cube(size = [ batteryLength + boxThickness * 2, batteryRadius * 6 + boxThickness * 2, batteryRadius * 2], center = true);
+      translate([0, 0, batteryRadius + plateThickness + 1]) cube(size = [ batteryLength, batteryRadius * 6, batteryRadius * 2 + 2], center = true);
+    }
+  }
+}
+
+function plateTranslation() = printingPosition ? ((ball_a || ball_b) ? [mysize * 2.2, 0, 0] : [0, 0, 0]) : (explodedPosition ? [0, 0, threadHolderHeight / 2 + 5] : [0, 0, - threadHolderHeight / 2 - plateThickness]);
+function plateRotation() = [0, 0, 0];
 
 module battery()
 {
@@ -103,6 +121,11 @@ if (ball_b) {
 		if (openBall) translate([0, -mysize * 2, -mysize]) cube([mysize * 2, mysize * 2, mysize * 2]);
 		if (threadOnly) translate([-mysize, -mysize, - mysize * 2 - threadHolderHeight]) cube([mysize * 2, mysize * 2, mysize * 2]);
 	}
+}
+
+if (plate) {
+	translate(plateTranslation()) rotate(a = plateRotation())
+  plate();
 }
 
 //allBatteries();
