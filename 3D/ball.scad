@@ -22,6 +22,8 @@ printingPosition = false;
 openBall = true;
 threadOnly = false;
 
+$fn=100;
+
 use <threads.scad>
 
 module halfBall(extraLength)
