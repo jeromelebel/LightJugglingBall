@@ -10,8 +10,8 @@ threadPitch = 3;
 plateThickness = 2;
 plateHoleRadius = 1.5;
 boxThickness = 2;
-ball_a = false;
-ball_b = false;
+ball_a = true;
+ball_b = true;
 plate = true;
 ballCenter = false;
 delta = 0.0001;
@@ -86,13 +86,14 @@ module plate()
   difference () {
     union() {
       metric_thread(pitch = threadPitch, length = plateThickness, diameter = (mysize - threadHolderThickness + threadRadiusDelta) * 2);
-      translate([0, 0, batteryRadius + plateThickness]) cube(size = [ batteryLength + boxThickness * 2, batteryRadius * 6 + boxThickness * 2, batteryRadius * 2], center = true);
+      if (!threadOnly) translate([0, 0, batteryRadius + plateThickness]) cube(size = [ batteryLength + boxThickness * 2, batteryRadius * 6 + boxThickness * 2, batteryRadius * 2], center = true);
     }
     translate([0, 0, batteryRadius + plateThickness + 1]) cube(size = [ batteryLength, batteryRadius * 6, batteryRadius * 2 + 2], center = true);
     translate([0, batteryRadius * 3 + boxThickness * 3, -plateThickness / 2]) cylinder(h = plateThickness * 2, r = plateHoleRadius);
     translate([0, -batteryRadius * 3 - boxThickness * 3, -plateThickness / 2]) cylinder(h = plateThickness * 2, r = plateHoleRadius);
     translate([batteryLength / 2 + boxThickness * 3, 0, -plateThickness / 2]) cylinder(h = plateThickness * 2, r = plateHoleRadius);
     translate([-batteryLength / 2 - boxThickness * 3, 0, -plateThickness / 2]) cylinder(h = plateThickness * 2, r = plateHoleRadius);
+    if (threadOnly) translate([0, 0, -plateThickness / 2]) cylinder(h = mysize, r = mysize * 0.8);
   }
 }
 
