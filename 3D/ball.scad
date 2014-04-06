@@ -10,19 +10,19 @@ threadPitch = 3;
 plateThickness = 2;
 plateHoleRadius = 1.5;
 boxThickness = 2;
-ball_a = false;
-ball_b = false;
+ball_a = true;
+ball_b = true;
 plate = true;
 ballCenter = false;
 delta = 0.0001;
 myscale = 1.02;
 
-explodedPosition = false;
-printingPosition = true;
+explodedPosition = true;
+printingPosition = false;
 openBall = true;
 threadOnly = false;
 
-$fn=100;
+//$fn=100;
 
 use <threads.scad>
 
@@ -72,7 +72,7 @@ module b_ball()
 			sphere(r = mysize);
 			difference() {
 				translate([0, 0, -mysize]) cylinder(r = mysize, h = mysize + threadHolderHeight / 2);
-				scale([myscale, myscale, 1]) translate([0, 0, - threadHolderHeight / 2 - plateThickness]) metric_thread(pitch = threadPitch, length = threadHolderHeight * 2 + plateThickness, diameter = (mysize - threadHolderThickness + threadRadiusDelta) * 2, internal = true);
+				scale([myscale, myscale, myscale]) translate([0, 0, - threadHolderHeight / 2 - plateThickness]) metric_thread(pitch = threadPitch, length = threadHolderHeight * 2 + plateThickness, diameter = (mysize - threadHolderThickness + threadRadiusDelta) * 2, internal = true);
 				translate([0, 0, -mysize - mysize / 2]) cylinder(r = mysize - threadHolderThickness * 2, h = mysize * 2);
   
 			}
