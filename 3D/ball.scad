@@ -11,16 +11,16 @@ plateThickness = 2;
 plateHoleRadius = 1.5;
 boxThickness = 2;
 ball_a = true;
-ball_b = true;
+ball_b = false;
 plate = true;
 ballCenter = false;
 delta = 0.0001;
 myscale = 1.02;
 
-explodedPosition = true;
+explodedPosition = false;
 printingPosition = false;
 openBall = true;
-threadOnly = false;
+threadOnly = true;
 
 //$fn=100;
 
@@ -98,6 +98,10 @@ module plate()
     translate([batteryLength / 2 + boxThickness * 3, 0, -plateThickness / 2]) cylinder(h = plateThickness * 2, r = plateHoleRadius);
     translate([-batteryLength / 2 - boxThickness * 3, 0, -plateThickness / 2]) cylinder(h = plateThickness * 2, r = plateHoleRadius);
     if (threadOnly) translate([0, 0, -plateThickness / 2]) cylinder(h = mysize, r = mysize * 0.8);
+    translate([0, 0, plateThickness]) difference() {
+      cylinder(h = batteryRadius * 2.5, r = mysize);
+      cylinder(h = batteryRadius * 3, r = (sqrt(batteryRadius * batteryRadius * 9 + batteryLength * batteryLength / 4)));
+    }
   }
 }
 
