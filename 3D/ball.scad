@@ -1,6 +1,6 @@
 mysize = 35;
 thickness = 3;
-batteryLength = 44;
+batteryLength = 45;
 batteryRadius = 5;
 batteryDelta = 2;
 threadHolderHeight = 6;
