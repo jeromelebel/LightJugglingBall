@@ -95,8 +95,8 @@ module plate()
     translate([-batteryLength / 4, batteryRadius * 3 + boxThickness * 3, -plateThickness / 2]) cylinder(h = plateThickness * 2, r = plateHoleRadius);
     translate([batteryLength / 4, -batteryRadius * 3 - boxThickness * 3, -plateThickness / 2]) cylinder(h = plateThickness * 2, r = plateHoleRadius);
     translate([-batteryLength / 4, -batteryRadius * 3 - boxThickness * 3, -plateThickness / 2]) cylinder(h = plateThickness * 2, r = plateHoleRadius);
-    translate([batteryLength / 2 + boxThickness * 3, 0, -plateThickness / 2]) cylinder(h = plateThickness * 2, r = plateHoleRadius);
-    translate([-batteryLength / 2 - boxThickness * 3, 0, -plateThickness / 2]) cylinder(h = plateThickness * 2, r = plateHoleRadius);
+    translate([batteryLength / 2 + boxThickness * 2, 0, -plateThickness / 2]) cylinder(h = plateThickness * 2, r = plateHoleRadius);
+    translate([-batteryLength / 2 - boxThickness * 2, 0, -plateThickness / 2]) cylinder(h = plateThickness * 2, r = plateHoleRadius);
     if (threadOnly) translate([0, 0, -plateThickness / 2]) cylinder(h = mysize, r = mysize * 0.7);
     translate([0, 0, plateThickness]) difference() {
       cylinder(h = batteryRadius * 2.5, r = mysize);
