@@ -28,6 +28,8 @@ pi = 3.14159265;
 
 // ----------------------------------------------------------------------------
 function segments(diameter) = min(50, ceil(diameter*6));
+function thread_h(pitch) = pitch * cos(30);
+function thread_inner_radius(diameter, pitch, internal) = internal ? (diameter/2 - thread_h(pitch)*5/8) : (diameter/2 - thread_h(pitch)*5.3/8);
 
 
 // ----------------------------------------------------------------------------
@@ -42,7 +44,7 @@ module metric_thread(diameter=8, pitch=1, length=1, internal=false, n_starts=1)
    // Number of turns needed.
    n_turns = floor(length/pitch);
    n_segments = segments(diameter);
-   h = pitch * cos(30);
+   h = thread_h(pitch);
 
    union() {
       intersection() {
@@ -60,13 +62,7 @@ module metric_thread(diameter=8, pitch=1, length=1, internal=false, n_starts=1)
       }
 
       // Solid center, including Dmin truncation.
-      if (internal) {
-         cylinder(r=diameter/2 - h*5/8, h=length, $fn=n_segments);
-      } else {
-
-         // External thread includes additional relief.
-         cylinder(r=diameter/2 - h*5.3/8, h=length, $fn=n_segments);
-      }
+      cylinder(r=thread_inner_radius(diameter, pitch, internal), h=length, $fn=n_segments);
    }
 }
 
@@ -176,7 +172,7 @@ module thread_polyhedron(radius, pitch, internal, n_starts)
                 [-x_incr_outer/2, -outer_r, pitch - z0_outer]                      // [7]
                ],
 
-      triangles = [
+      faces = [
                 [0, 3, 4],  // This-side trapezoid, bottom
                 [3, 7, 4],  // This-side trapezoid, top
 
