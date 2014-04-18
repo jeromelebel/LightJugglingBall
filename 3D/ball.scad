@@ -12,7 +12,7 @@ plateHoleRadius = 1.5;
 boxThickness = 2;
 ball_a = true;
 ball_b = false;
-plate = true;
+plate = false;
 ballCenter = false;
 delta = 0.0001;
 myscale = 1.02;
@@ -20,9 +20,10 @@ myscale = 1.02;
 explodedPosition = false;
 printingPosition = false;
 openBall = false;
-threadOnly = true;
+threadOnly = false;
 
-//$fn=100;
+function facets_count() = printingPosition ? 100 : 30;
+$fn = facets_count();
 
 use <threads.scad>
 
@@ -43,7 +44,7 @@ module insideThreadHolder()
 		union() {
 			cylinder(h = mysize - (threadHolderHeight / 2) + (delta * 2), r = mysize - threadHolderThickness);
 			cylinder(h = mysize - (threadHolderHeight / 2), r = mysize + 10);
-			translate([0, 0, mysize - (threadHolderHeight / 2) + delta]) metric_thread(pitch = threadPitch, length = threadHolderHeight - delta, diameter = (mysize - threadHolderThickness + threadRadiusDelta) * 2);
+			translate([0, 0, mysize - (threadHolderHeight / 2)]) metric_thread(pitch = threadPitch, length = threadHolderHeight - delta, diameter = (mysize - threadHolderThickness + threadRadiusDelta) * 2);
 		}
 		translate([0, 0, -1]) cylinder(h = (threadHolderHeight / 2) + mysize + 2, r = mysize - (threadHolderThickness * 2));
 	}
@@ -54,7 +55,7 @@ module a_ball()
 	intersection() {
 		sphere(r = mysize);
 		union()
-		{
+		{ 
 			halfBall(-threadHolderHeight / 2);
 			insideThreadHolder();
 		}
