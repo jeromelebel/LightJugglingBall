@@ -30,6 +30,8 @@ pi = 3.14159265;
 function segments(diameter) = min(50, ceil(diameter*6));
 function thread_h(pitch) = pitch * cos(30);
 function thread_inner_radius(diameter, pitch, internal) = internal ? (diameter/2 - thread_h(pitch)*5/8) : (diameter/2 - thread_h(pitch)*5.3/8);
+function thread_outer_radius(diameter, pitch, internal) = ((diameter / 2) + (internal ? thread_h(pitch)/20 : 0)) * 1.002; // Adds internal relief.
+
 
 
 // ----------------------------------------------------------------------------
@@ -104,7 +106,7 @@ module metric_thread_turn(diameter, pitch, internal, n_starts)
 // z (see diagram) as function of current radius.
 // (Only good for first half-pitch.)
 function z_fct(current_radius, radius, pitch)
-   = 0.5*(current_radius - (radius - 0.875*pitch*cos(30)))
+   = 0.5*(current_radius - (radius - 0.875*thread_h(pitch)))
                                                        /cos(30);
 
 // ----------------------------------------------------------------------------
@@ -113,7 +115,7 @@ module thread_polyhedron(radius, pitch, internal, n_starts)
    n_segments = segments(radius*2);
    fraction_circle = 1.0/n_segments;
 
-   h = pitch * cos(30);
+   h = thread_h(pitch);
    outer_r = radius + (internal ? h/20 : 0); // Adds internal relief.
    //echo(str("outer_r: ", outer_r));
 
