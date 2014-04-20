@@ -11,14 +11,15 @@ plateThickness = 2;
 plateHoleRadius = 1.5;
 boxThickness = 2;
 ball_a = true;
-ball_b = false;
-plate = false;
+ball_b = true;
+plate = true;
 ballCenter = false;
 delta = 0.0001;
 myscale = 1.02;
+angle = 30;
 
 explodedPosition = false;
-printingPosition = false;
+printingPosition = true;
 openBall = false;
 threadOnly = false;
 
@@ -42,12 +43,27 @@ module insideThreadHolder()
 	translate([0, 0, -mysize])
 	difference() {
 		union() {
-			cylinder(h = mysize - (threadHolderHeight / 2) + (delta * 2), r = mysize - threadHolderThickness);
-			cylinder(h = mysize - (threadHolderHeight / 2), r = mysize + 10);
-			translate([0, 0, mysize - (threadHolderHeight / 2)]) metric_thread(pitch = threadPitch, length = threadHolderHeight - delta, diameter = (mysize - threadHolderThickness + threadRadiusDelta) * 2);
+			cylinder(h = mysize - (threadHolderHeight / 2), r = thread_inner_radius(diameter = (mysize - threadHolderThickness + threadRadiusDelta) * 2, pitch = threadPitch, internal = false));
+			translate([0, 0, mysize - threadHolderHeight]) metric_thread(pitch = threadPitch, length = threadHolderHeight + threadHolderHeight / 2, diameter = (mysize - threadHolderThickness + threadRadiusDelta) * 2);
 		}
 		translate([0, 0, -1]) cylinder(h = (threadHolderHeight / 2) + mysize + 2, r = mysize - (threadHolderThickness * 2));
 	}
+}
+
+module a_ball_without_thread()
+{
+  intersection() {
+    sphere(r = mysize);
+    union()
+    {
+      halfBall(-threadHolderHeight / 2);
+      translate([0, 0, -mysize / 2 - threadHolderHeight / 2]) difference() {
+        cylinder(h = mysize / 2, r = mysize);
+        translate([0, 0, - mysize / 4]) cylinder(h = mysize, r = thread_inner_radius(diameter = (mysize - threadHolderThickness + threadRadiusDelta) * 2, pitch = threadPitch, internal = false));
+      }
+    }
+    translate([0, 0, -mysize - threadHolderHeight / 2]) cylinder(h = mysize, r1 = mysize / tan(angle) + thread_inner_radius(diameter = (mysize - threadHolderThickness + threadRadiusDelta) * 2, pitch = threadPitch, internal = false), r2 = thread_inner_radius(diameter = (mysize - threadHolderThickness + threadRadiusDelta) * 2, pitch = threadPitch, internal = false));
+  }
 }
 
 module a_ball()
@@ -55,8 +71,8 @@ module a_ball()
 	intersection() {
 		sphere(r = mysize);
 		union()
-		{ 
-			halfBall(-threadHolderHeight / 2);
+		{
+		  a_ball_without_thread();
 			insideThreadHolder();
 		}
 	}
@@ -124,7 +140,7 @@ module allBatteries()
 if (ball_a) {
 	translate(a_ballTranslation()) rotate(a = a_ballRotation())
 	difference () {
-		a_ball();
+		rotate(a = [0, 0, 210]) a_ball();
 		if (openBall) translate([0, -mysize * 2, -mysize]) cube([mysize * 2, mysize * 2, mysize * 2]);
 		if (threadOnly) translate([-mysize, -mysize, - mysize * 2 - threadHolderHeight]) cube([mysize * 2, mysize * 2, mysize * 2]);
 	}
