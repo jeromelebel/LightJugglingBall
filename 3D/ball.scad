@@ -149,9 +149,6 @@ module b_ball()
 function b_ballTranslation() = (printingPosition && ball_a) ? [0, mysize * 2.2, threadHolderHeight / 2] : (explodedPosition ? [0, 0, 0] : [0, 0, 0]);
 function b_ballRotation() = printingPosition?[0, 180, 90]:[0, 0, 0];
 
-echo(ball_b_thread_radius(false));
-echo(mysize - threadHolderThickness * 2);
-echo(ball_b_thread_radius(false) - mysize + threadHolderThickness * 2);
 module plate()
 {
   difference () {
