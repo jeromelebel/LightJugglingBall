@@ -16,11 +16,11 @@ plate = true;
 ballCenter = false;
 delta = 0.0001;
 myscale = 1.02;
-angle = 30;
+angle = 0;
 min_angle = 2;
 
 explodedPosition = false;
-printingPosition = false;
+printingPosition = true;
 openBall = true;
 threadOnly = false;
 
@@ -160,7 +160,9 @@ module plate()
         translate([0, 0, -plate_extra_thickness()]) metric_thread(pitch = threadPitch, length = real_plate_thickness(), diameter = (mysize - threadHolderThickness + threadRadiusDelta) * 2);
         if (!threadOnly) translate([0, 0, batteryRadius + plateThickness]) cube(size = [ batteryLength + boxThickness * 2, batteryRadius * 6 + boxThickness * 2, batteryRadius * 2], center = true);
       }
-      translate([0, 0, -plate_extra_thickness()]) cylinder(h = real_plate_thickness(), r1 = mysize - threadHolderThickness * 2, r2 = mysize - threadHolderThickness * 2 + length_for_height(real_plate_thickness()));
+      if (angle >= min_angle) {
+        translate([0, 0, -plate_extra_thickness()]) cylinder(h = real_plate_thickness(), r1 = mysize - threadHolderThickness * 2, r2 = mysize - threadHolderThickness * 2 + length_for_height(real_plate_thickness()));
+      }
     }
     translate([0, 0, batteryRadius + plateThickness + 1]) cube(size = [ batteryLength, batteryRadius * 6, batteryRadius * 2 + 2], center = true);
     translate([batteryLength / 4, batteryRadius * 3 + boxThickness * 3, -plateThickness / 2]) cylinder(h = plateThickness * 2, r = plateHoleRadius);
@@ -196,7 +198,7 @@ if (ball_a) {
 	translate(a_ballTranslation()) rotate(a = a_ballRotation())
 	difference () {
 		rotate(a = [0, 0, 290]) a_ball();
-		if (openBall) translate([0, -mysize * 2, -mysize]) cube([mysize * 2, mysize * 2, mysize * 2]);
+		if (openBall && !printingPosition) translate([0, -mysize * 2, -mysize]) cube([mysize * 2, mysize * 2, mysize * 2]);
 		if (threadOnly) translate([-mysize, -mysize, - mysize * 2 - threadHolderHeight]) cube([mysize * 2, mysize * 2, mysize * 2]);
 	}
 }
@@ -204,7 +206,7 @@ if (ball_b) {
 	translate(b_ballTranslation()) rotate(a = b_ballRotation())
 	difference () {
 		b_ball();
-		if (openBall) translate([0, -mysize * 2, -mysize]) cube([mysize * 2, mysize * 2, mysize * 2]);
+		if (openBall && !printingPosition) translate([0, -mysize * 2, -mysize]) cube([mysize * 2, mysize * 2, mysize * 2]);
 		if (threadOnly) translate([-mysize, -mysize, - mysize * 2 - threadHolderHeight * 1.4]) cube([mysize * 2, mysize * 2, mysize * 2]);
 	}
 }
@@ -213,7 +215,7 @@ if (plate) {
   translate(plateTranslation()) rotate(a = plateRotation())
 	difference () {
     rotate(a = [0, 0, 290]) plate();
-		if (openBall) translate([0, -mysize * 2, -mysize]) cube([mysize * 2, mysize * 2, mysize * 2]);
+		if (openBall && !printingPosition) translate([0, -mysize * 2, -mysize]) cube([mysize * 2, mysize * 2, mysize * 2]);
   }
 }
 
