@@ -10,9 +10,9 @@ threadPitch = 3;
 plateThickness = 2;
 plateHoleRadius = 1.5;
 boxThickness = 2;
-ball_a = false;
+ball_a = true;
 ball_b = true;
-plate = true;
+plate = false;
 ballCenter = false;
 delta = 0.0001;
 myscale = 1.02;
@@ -88,7 +88,9 @@ module a_ball_without_thread()
         translate([0, 0, - mysize / 4]) cylinder(h = mysize, r = ball_a_thread_radius(true));
       }
     }
-    translate([0, 0, -mysize - threadHolderHeight / 2]) cylinder(h = mysize, r1 = mysize / tan(angle) + ball_a_thread_radius(true), r2 = ball_a_thread_radius(true));
+    if (angle > 0) {
+      translate([0, 0, -mysize - threadHolderHeight / 2]) cylinder(h = mysize, r1 = length_for_height(mysize) + ball_a_thread_radius(true), r2 = ball_a_thread_radius(true));
+    }
   }
 }
 
@@ -121,15 +123,17 @@ module b_ball()
             cylinder(h = mysize * 4, r = mysize - threadHolderThickness * 2);
           }
         }
-        translate([0, 0, threadHolderHeight / 2]) cylinder(h = mysize, r1 = ball_b_thread_radius(true), r2 = mysize / tan(30) + ball_b_thread_radius(true));
+        translate([0, 0, threadHolderHeight / 2]) cylinder(h = mysize, r1 = ball_b_thread_radius(true), r2 = length_for_height(mysize) + ball_b_thread_radius(true));
       }
     }
-    intersection () {
-      translate([0, 0, -threadHolderHeight / 2 - plateThickness - height_for_length(ball_b_thread_radius(false) - mysize + threadHolderThickness * 2)]) difference() {
-        cylinder(h = height_for_length(ball_b_thread_radius(false) - mysize + threadHolderThickness * 2), r = mysize);
-        translate([0, 0, -1]) cylinder(h = height_for_length(ball_b_thread_radius(false) - mysize + threadHolderThickness * 2) + 2, r1 = mysize - threadHolderThickness * 2 - length_for_height(1), r2 = ball_b_thread_radius(false) + length_for_height(1));
+    if (angle > 0) {
+      intersection () {
+        translate([0, 0, -threadHolderHeight / 2 - plateThickness - height_for_length(ball_b_thread_radius(false) - mysize + threadHolderThickness * 2)]) difference() {
+          cylinder(h = height_for_length(ball_b_thread_radius(false) - mysize + threadHolderThickness * 2), r = mysize);
+          translate([0, 0, -1]) cylinder(h = height_for_length(ball_b_thread_radius(false) - mysize + threadHolderThickness * 2) + 2, r1 = mysize - threadHolderThickness * 2 - length_for_height(1), r2 = ball_b_thread_radius(false) + length_for_height(1));
+        }
+        sphere(r = mysize);
       }
-      sphere(r = mysize);
     }
   }
 }
@@ -187,7 +191,7 @@ if (ball_b) {
 	difference () {
 		b_ball();
 		if (openBall) translate([0, -mysize * 2, -mysize]) cube([mysize * 2, mysize * 2, mysize * 2]);
-		if (threadOnly) translate([-mysize, -mysize, - mysize * 2 - threadHolderHeight]) cube([mysize * 2, mysize * 2, mysize * 2]);
+		if (threadOnly) translate([-mysize, -mysize, - mysize * 2 - threadHolderHeight * 1.4]) cube([mysize * 2, mysize * 2, mysize * 2]);
 	}
 }
 
