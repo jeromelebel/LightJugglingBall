@@ -134,8 +134,8 @@ module b_ball()
   }
 }
 
-function b_ballRotation() = [0, 0, 0];
-function b_ballTranslation() = [0, 0, 0];
+function b_ballTranslation() = (printingPosition && ball_a) ? [0, mysize * 2.2, threadHolderHeight / 2] : (explodedPosition ? [0, 0, 0] : [0, 0, 0]);
+function b_ballRotation() = printingPosition?[0, 180, 90]:[0, 0, 0];
 
 module plate()
 {
