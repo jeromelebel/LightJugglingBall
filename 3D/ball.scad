@@ -16,7 +16,7 @@ plate = true;
 ballCenter = false;
 delta = 0.0001;
 myscale = 1.02;
-angle = 0;
+angle = 30;
 min_angle = 2;
 
 explodedPosition = false;
@@ -155,14 +155,14 @@ echo(ball_b_thread_radius(false) - mysize + threadHolderThickness * 2);
 module plate()
 {
   difference () {
-    intersection() {
-      union() {
+    union() {
+      intersection() {
         translate([0, 0, -plate_extra_thickness()]) metric_thread(pitch = threadPitch, length = real_plate_thickness(), diameter = (mysize - threadHolderThickness + threadRadiusDelta) * 2);
-        if (!threadOnly) translate([0, 0, batteryRadius + plateThickness]) cube(size = [ batteryLength + boxThickness * 2, batteryRadius * 6 + boxThickness * 2, batteryRadius * 2], center = true);
+        if (angle >= min_angle) {
+          translate([0, 0, -plate_extra_thickness()]) cylinder(h = real_plate_thickness(), r1 = mysize - threadHolderThickness * 2, r2 = mysize - threadHolderThickness * 2 + length_for_height(real_plate_thickness()));
+        }
       }
-      if (angle >= min_angle) {
-        translate([0, 0, -plate_extra_thickness()]) cylinder(h = real_plate_thickness(), r1 = mysize - threadHolderThickness * 2, r2 = mysize - threadHolderThickness * 2 + length_for_height(real_plate_thickness()));
-      }
+      if (!threadOnly) translate([0, 0, batteryRadius + plateThickness]) cube(size = [ batteryLength + boxThickness * 2, batteryRadius * 6 + boxThickness * 2, batteryRadius * 2], center = true);
     }
     translate([0, 0, batteryRadius + plateThickness + 1]) cube(size = [ batteryLength, batteryRadius * 6, batteryRadius * 2 + 2], center = true);
     translate([batteryLength / 4, batteryRadius * 3 + boxThickness * 3, -plateThickness / 2]) cylinder(h = plateThickness * 2, r = plateHoleRadius);
