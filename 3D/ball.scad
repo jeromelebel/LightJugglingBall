@@ -12,11 +12,12 @@ plateHoleRadius = 1.5;
 boxThickness = 2;
 ball_a = true;
 ball_b = true;
-plate = false;
+plate = true;
 ballCenter = false;
 delta = 0.0001;
 myscale = 1.02;
-angle = 30;
+angle = 0;
+min_angle = 2;
 
 explodedPosition = false;
 printingPosition = false;
@@ -88,7 +89,7 @@ module a_ball_without_thread()
         translate([0, 0, - mysize / 4]) cylinder(h = mysize, r = ball_a_thread_radius(true));
       }
     }
-    if (angle > 0) {
+    if (angle >= min_angle) {
       translate([0, 0, -mysize - threadHolderHeight / 2]) cylinder(h = mysize, r1 = length_for_height(mysize) + ball_a_thread_radius(true), r2 = ball_a_thread_radius(true));
     }
   }
@@ -123,10 +124,14 @@ module b_ball()
             cylinder(h = mysize * 4, r = mysize - threadHolderThickness * 2);
           }
         }
-        translate([0, 0, threadHolderHeight / 2]) cylinder(h = mysize, r1 = ball_b_thread_radius(true), r2 = length_for_height(mysize) + ball_b_thread_radius(true));
+        if (angle >= min_angle) {
+          translate([0, 0, threadHolderHeight / 2]) cylinder(h = mysize, r1 = ball_b_thread_radius(true), r2 = length_for_height(mysize) + ball_b_thread_radius(true));
+        } else {
+          translate([0, 0, threadHolderHeight / 2]) cylinder(h = mysize, r = mysize);
+        }
       }
     }
-    if (angle > 0) {
+    if (angle >= min_angle) {
       intersection () {
         translate([0, 0, -threadHolderHeight / 2 - plateThickness - height_for_length(ball_b_thread_radius(false) - mysize + threadHolderThickness * 2)]) difference() {
           cylinder(h = height_for_length(ball_b_thread_radius(false) - mysize + threadHolderThickness * 2), r = mysize);
