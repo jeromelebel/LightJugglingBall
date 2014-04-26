@@ -10,18 +10,18 @@ threadPitch = 3;
 plateThickness = 2;
 plateHoleRadius = 1.5;
 boxThickness = 2;
-ball_a = true;
-ball_b = false;
-plate = false;
+ball_a = false;
+ball_b = true;
+plate = true;
 ballCenter = false;
 delta = 0.0001;
 myscale = 1.02;
-angle = 0;
+angle = 30;
 min_angle = 2;
 flat_height = 1;
 
 explodedPosition = false;
-printingPosition = true;
+printingPosition = false;
 openBall = true;
 threadOnly = false;
 
@@ -35,8 +35,10 @@ function ball_b_thread_radius(inside) = myscale * (inside ? thread_inner_radius(
 function height_for_length(length) = tan(angle) * length;
 function length_for_height(height) = height / tan(angle);
 
-function plate_angle_thickness() = height_for_length(ball_b_thread_radius(false) - mysize + threadHolderThickness * 2);
+function plate_angle_thickness() = height_for_length(ball_a_thread_radius(false) - mysize + threadHolderThickness * 2);
 function real_plate_thickness() = plateThickness + plate_angle_thickness();
+
+function ball_b_angle_height() = height_for_length(ball_b_thread_radius(false) - mysize + threadHolderThickness * 2);
 
 module halfBall(extraLength)
 {
@@ -100,7 +102,7 @@ module b_ball()
     difference() {
       sphere(r = mysize);
       union() {
-        translate([0, 0, -threadHolderHeight / 2 - real_plate_thickness()]) scale([myscale, myscale, myscale]) metric_thread(pitch = threadPitch, length = threadHolderHeight * 2 + real_plate_thickness(), diameter = (mysize - threadHolderThickness + threadRadiusDelta) * 2, internal = true);
+        translate([0, 0, -threadHolderHeight / 2 - plateThickness - ball_b_angle_height()]) scale([myscale, myscale, myscale]) metric_thread(pitch = threadPitch, length = threadHolderHeight * 2 + plateThickness + ball_b_angle_height(), diameter = (mysize - threadHolderThickness + threadRadiusDelta) * 2, internal = true);
         difference() {
           sphere(r = mysize - thickness);
           translate ([0, 0, -mysize]) difference() {
@@ -118,9 +120,9 @@ module b_ball()
     }
     if (angle >= min_angle) {
       intersection () {
-        translate([0, 0, -threadHolderHeight / 2 - real_plate_thickness()]) difference() {
-          cylinder(h = plate_angle_thickness(), r = mysize);
-          translate([0, 0, -1]) cylinder(h = plate_angle_thickness() + 2, r1 = mysize - threadHolderThickness * 2 - length_for_height(1), r2 = ball_b_thread_radius(false) + length_for_height(1));
+        translate([0, 0, -threadHolderHeight / 2 - plateThickness - ball_b_angle_height()]) difference() {
+          cylinder(h = ball_b_angle_height(), r = mysize);
+          translate([0, 0, -1]) cylinder(h = ball_b_angle_height() + 2, r1 = mysize - threadHolderThickness * 2 - length_for_height(1), r2 = ball_b_thread_radius(false) + length_for_height(1));
         }
         sphere(r = mysize);
       }
