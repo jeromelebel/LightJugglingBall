@@ -35,8 +35,8 @@ function ball_b_thread_radius(inside) = myscale * (inside ? thread_inner_radius(
 function height_for_length(length) = tan(angle) * length;
 function length_for_height(height) = height / tan(angle);
 
-function plate_extra_thickness() = height_for_length(ball_b_thread_radius(false) - mysize + threadHolderThickness * 2);
-function real_plate_thickness() = plateThickness + plate_extra_thickness();
+function plate_angle_thickness() = height_for_length(ball_b_thread_radius(false) - mysize + threadHolderThickness * 2);
+function real_plate_thickness() = plateThickness + plate_angle_thickness();
 
 module halfBall(extraLength)
 {
@@ -119,8 +119,8 @@ module b_ball()
     if (angle >= min_angle) {
       intersection () {
         translate([0, 0, -threadHolderHeight / 2 - real_plate_thickness()]) difference() {
-          cylinder(h = plate_extra_thickness(), r = mysize);
-          translate([0, 0, -1]) cylinder(h = plate_extra_thickness() + 2, r1 = mysize - threadHolderThickness * 2 - length_for_height(1), r2 = ball_b_thread_radius(false) + length_for_height(1));
+          cylinder(h = plate_angle_thickness(), r = mysize);
+          translate([0, 0, -1]) cylinder(h = plate_angle_thickness() + 2, r1 = mysize - threadHolderThickness * 2 - length_for_height(1), r2 = ball_b_thread_radius(false) + length_for_height(1));
         }
         sphere(r = mysize);
       }
@@ -136,9 +136,9 @@ module plate()
   difference () {
     union() {
       intersection() {
-        translate([0, 0, -plate_extra_thickness()]) metric_thread(pitch = threadPitch, length = real_plate_thickness(), diameter = (mysize - threadHolderThickness + threadRadiusDelta) * 2);
+        translate([0, 0, -plate_angle_thickness()]) metric_thread(pitch = threadPitch, length = real_plate_thickness(), diameter = (mysize - threadHolderThickness + threadRadiusDelta) * 2);
         if (angle >= min_angle) {
-          translate([0, 0, -plate_extra_thickness()]) cylinder(h = real_plate_thickness(), r1 = mysize - threadHolderThickness * 2, r2 = mysize - threadHolderThickness * 2 + length_for_height(real_plate_thickness()));
+          translate([0, 0, -plate_angle_thickness()]) cylinder(h = real_plate_thickness(), r1 = mysize - threadHolderThickness * 2, r2 = mysize - threadHolderThickness * 2 + length_for_height(real_plate_thickness()));
         }
       }
       if (!threadOnly) translate([0, 0, batteryRadius + plateThickness]) cube(size = [ batteryLength + boxThickness * 2, batteryRadius * 6 + boxThickness * 2, batteryRadius * 2], center = true);
