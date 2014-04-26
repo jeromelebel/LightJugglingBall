@@ -38,26 +38,6 @@ function length_for_height(height) = height / tan(angle);
 function plate_extra_thickness() = height_for_length(ball_b_thread_radius(false) - mysize + threadHolderThickness * 2);
 function real_plate_thickness() = plateThickness + plate_extra_thickness();
 
-module fullBall()
-{
-  union() {
-    difference() {
-      sphere(r = mysize);
-      sphere(r = mysize - thickness);
-    }
-    difference() {
-      translate ([0, 0, -mysize]) difference() {
-        cylinder(h = mysize * 2, r = mysize);
-        cylinder(h = mysize * 4, r = mysize - threadHolderThickness * 2);
-      }
-      difference () {
-        sphere(r = mysize * 2);
-        sphere(r = mysize);
-      }
-    }
-  }
-}
-
 module halfBall(extraLength)
 {
 	difference() {
