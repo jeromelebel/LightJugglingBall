@@ -10,14 +10,15 @@ threadPitch = 3;
 plateThickness = 2;
 plateHoleRadius = 1.5;
 boxThickness = 2;
-ball_a = false;
+ball_a = true;
 ball_b = false;
-plate = true;
+plate = false;
 ballCenter = false;
 delta = 0.0001;
 myscale = 1.02;
-angle = 30;
+angle = 0;
 min_angle = 2;
+flat_height = 1;
 
 explodedPosition = false;
 printingPosition = true;
@@ -62,8 +63,8 @@ module halfBall(extraLength)
 	difference() {
 		sphere(r = mysize);
 		sphere(r = mysize - thickness);
-		translate([0, 0, mysize + extraLength])
-    cube([mysize * 2, mysize * 2, mysize * 2], center = true);
+		translate([0, 0, mysize + extraLength]) cube([mysize * 2, mysize * 2, mysize * 2], center = true);
+		translate([0, 0, -mysize * 2 + flat_height]) cube([mysize * 2, mysize * 2, mysize * 2], center = true);
 	}
 	if (ballCenter) translate([0, 0, -mysize]) cylinder(r = 2, h = mysize);
 }
@@ -133,6 +134,7 @@ module b_ball()
           translate([0, 0, threadHolderHeight / 2]) cylinder(h = mysize, r = mysize);
         }
       }
+  		translate([0, 0, -mysize * 2 + flat_height]) cube([mysize * 2, mysize * 2, mysize * 2], center = true);
     }
     if (angle >= min_angle) {
       intersection () {
