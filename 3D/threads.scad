@@ -27,7 +27,7 @@ pi = 3.14159265;
 
 
 // ----------------------------------------------------------------------------
-function segments(diameter) = min(50, ceil(diameter*6));
+function segments(diameter, max_segments) = min(max_segments, ceil(diameter*6));
 function thread_h(pitch) = pitch * cos(30);
 function thread_inner_radius(diameter, pitch, internal) = internal ? (diameter/2 - thread_h(pitch)*5/8) : (diameter/2 - thread_h(pitch)*5.3/8);
 function thread_outer_radius(diameter, pitch, internal) = ((diameter / 2) + (internal ? thread_h(pitch)/20 : 0)) * 1.002; // Adds internal relief.
@@ -41,11 +41,11 @@ function thread_outer_radius(diameter, pitch, internal) = ((diameter / 2) + (int
 //            difference()).
 // n_starts - Number of thread starts (e.g., DNA, a "double helix," has
 //            n_starts=2).  See wikipedia Screw_thread.
-module metric_thread(diameter=8, pitch=1, length=1, internal=false, n_starts=1)
+module metric_thread(diameter=8, pitch=1, length=1, internal=false, n_starts=1, max_segments = 50)
 {
    // Number of turns needed.
    n_turns = floor(length/pitch);
-   n_segments = segments(diameter);
+   n_segments = segments(diameter, max_segments);
    h = thread_h(pitch);
 
    union() {
@@ -53,7 +53,7 @@ module metric_thread(diameter=8, pitch=1, length=1, internal=false, n_starts=1)
          // Start one below z = 0.  Gives an extra turn at each end.
          for (i=[-1*n_starts : n_turns+1]) {
             translate([0, 0, i*pitch]) {
-               metric_thread_turn(diameter, pitch, internal, n_starts);
+               metric_thread_turn(diameter, pitch, internal, n_starts, max_segments);
             }
          }
 
@@ -88,14 +88,14 @@ module english_thread(diameter=0.25, threads_per_inch=20, length=1,
 
 
 // ----------------------------------------------------------------------------
-module metric_thread_turn(diameter, pitch, internal, n_starts)
+module metric_thread_turn(diameter, pitch, internal, n_starts, max_segments)
 {
-   n_segments = segments(diameter);
+   n_segments = segments(diameter, max_segments);
    fraction_circle = 1.0/n_segments;
    for (i=[0 : n_segments-1]) {
       rotate([0, 0, i*360*fraction_circle]) {
          translate([0, 0, i*n_starts*pitch*fraction_circle]) {
-            thread_polyhedron(diameter/2, pitch, internal, n_starts);
+            thread_polyhedron(diameter/2, pitch, internal, n_starts, max_segments);
          }
       }
    }
@@ -110,9 +110,9 @@ function z_fct(current_radius, radius, pitch)
                                                        /cos(30);
 
 // ----------------------------------------------------------------------------
-module thread_polyhedron(radius, pitch, internal, n_starts)
+module thread_polyhedron(radius, pitch, internal, n_starts, max_segments)
 {
-   n_segments = segments(radius*2);
+   n_segments = segments(radius*2, max_segments);
    fraction_circle = 1.0/n_segments;
 
    h = thread_h(pitch);

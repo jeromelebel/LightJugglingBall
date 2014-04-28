@@ -10,22 +10,23 @@ threadPitch = 3;
 plateThickness = 2;
 plateHoleRadius = 1.5;
 boxThickness = 2;
-ball_a = false;
+ball_a = true;
 ball_b = false;
 plate = true;
 ballCenter = false;
 delta = 0.0001;
 myscale = 1.02;
-angle = 30;
+angle = 0;
 min_angle = 2;
 flat_height = 0;
 
-explodedPosition = false;
-printingPosition = true;
+
+explodedPosition = true;
+printingPosition = false;
 openBall = false;
 threadOnly = false;
 
-function facets_count() = printingPosition ? 100 : 30;
+function facets_count() = printingPosition ? 100 : 25;
 $fn = facets_count();
 
 use <threads.scad>
@@ -57,7 +58,7 @@ module insideThreadHolder()
 	difference() {
 		union() {
 			cylinder(h = mysize - (threadHolderHeight / 2), r = ball_a_thread_radius(true));
-			translate([0, 0, mysize - threadHolderHeight]) metric_thread(pitch = threadPitch, length = threadHolderHeight + threadHolderHeight / 2, diameter = (mysize - threadHolderThickness + threadRadiusDelta) * 2);
+			translate([0, 0, mysize - threadHolderHeight]) metric_thread(pitch = threadPitch, length = threadHolderHeight + threadHolderHeight / 2, diameter = (mysize - threadHolderThickness + threadRadiusDelta) * 2, max_segments = facets_count());
 		}
 		translate([0, 0, -1]) cylinder(h = (threadHolderHeight / 2) + mysize + 2, r = mysize - (threadHolderThickness * 2));
 	}
@@ -102,7 +103,7 @@ module b_ball()
     difference() {
       sphere(r = mysize);
       union() {
-        translate([0, 0, -threadHolderHeight / 2 - plateThickness - ball_b_angle_height()]) scale([myscale, myscale, myscale]) metric_thread(pitch = threadPitch, length = threadHolderHeight * 2 + plateThickness + ball_b_angle_height(), diameter = (mysize - threadHolderThickness + threadRadiusDelta) * 2, internal = true);
+        translate([0, 0, -threadHolderHeight / 2 - plateThickness - ball_b_angle_height()]) scale([myscale, myscale, myscale]) metric_thread(pitch = threadPitch, length = threadHolderHeight * 2 + plateThickness + ball_b_angle_height(), diameter = (mysize - threadHolderThickness + threadRadiusDelta) * 2, internal = true, max_segments = facets_count());
         difference() {
           sphere(r = mysize - thickness);
           translate ([0, 0, -mysize]) difference() {
@@ -138,7 +139,7 @@ module plate()
   difference () {
     union() {
       intersection() {
-        translate([0, 0, -plate_angle_thickness()]) metric_thread(pitch = threadPitch, length = real_plate_thickness(), diameter = (mysize - threadHolderThickness + threadRadiusDelta) * 2);
+        translate([0, 0, -plate_angle_thickness()]) metric_thread(pitch = threadPitch, length = real_plate_thickness(), diameter = (mysize - threadHolderThickness + threadRadiusDelta) * 2, max_segments = facets_count());
         if (angle >= min_angle) {
           translate([0, 0, -plate_angle_thickness()]) cylinder(h = real_plate_thickness(), r1 = mysize - threadHolderThickness * 2, r2 = mysize - threadHolderThickness * 2 + length_for_height(real_plate_thickness()));
         }
