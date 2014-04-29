@@ -17,7 +17,12 @@ def clean():
   os.chdir(SPARK_FIRMWARE)
   os.system("git checkout .")
   os.system("git clean -f")
-  os.chdir("build")
+  os.chdir(current_dir)
+  for submodule in SUBMODULES:
+    os.chdir(submodule)
+    os.system("git checkout master")
+    os.chdir(current_dir)
+  os.chdir(SPARK_FIRMWARE + "/build")
   os.system("make clean")
   os.chdir(current_dir)
 
