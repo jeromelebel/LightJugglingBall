@@ -6,11 +6,13 @@ import sys
 
 MY_SOURCE = "src"
 SPARK_FIRMWARE = "core-firmware"
+SUBMODULES = [ SPARK_FIRMWARE, "core-common-lib", "core-communication-lib" ]
 SPARK_SOURCES = SPARK_FIRMWARE + "/src"
 SPARK_HEADERS = SPARK_FIRMWARE + "/inc"
 FILES = { ".cpp": { "destination": SPARK_SOURCES }, ".c": { "destination": SPARK_SOURCES }, ".h": { "destination": SPARK_HEADERS } }
 
 def clean():
+  os.system("git submodule update --init")
   current_dir = os.getcwd()
   os.chdir(SPARK_FIRMWARE)
   os.system("git checkout .")
