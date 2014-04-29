@@ -54,4 +54,3 @@ else:
   os.chdir(SPARK_FIRMWARE)
   os.chdir("build")
   os.system("make")
-  pass
