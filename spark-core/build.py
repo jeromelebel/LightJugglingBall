@@ -32,7 +32,7 @@ def copy_mysource():
     extension = os.path.splitext(filename)[1]
     if extension in FILES:
       destination = FILES[extension]["destination"]
-      if os.path.exists(destination + "/" + filename):
+      if os.path.exists(destination + "/" + filename) and filename != "application.cpp":
         print(destination + "/" + filename + " already exists")
         break
       shutil.copy2(MY_SOURCE + "/" + filename, destination)
