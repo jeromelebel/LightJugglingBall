@@ -3,7 +3,7 @@
 #include "MPU6050.h"
 
 // This #include statement was automatically added by the Spark IDE.
-#include "NeoPixel.h"
+#include "Adafruit_NeoPixel.h"
 
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(16, D2, WS2812B);
 
