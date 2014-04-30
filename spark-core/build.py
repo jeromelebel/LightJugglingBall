@@ -36,7 +36,7 @@ def copy_mysource():
         print(destination + "/" + filename + " already exists")
         break
       shutil.copy2(MY_SOURCE + "/" + filename, destination)
-      if extension == ".cpp" or extension == ".c":
+      if (extension == ".cpp" or extension == ".c") and filename != "application.cpp":
         source_list.append(filename)
   with open(SPARK_SOURCES + "/mysource.mk", "w") as file:
     for filename in source_list:
