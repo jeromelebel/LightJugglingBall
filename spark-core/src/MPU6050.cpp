@@ -51,7 +51,7 @@
 // the registers in that unknown area are for gain 
 // and offsets.
 // 
-#if 1
+
 #include "application.h"
 
 #define MPU6050_AUX_VDDIO          0x01   // R/W
@@ -885,4 +885,3 @@ int MPU6050_write_reg(int reg, uint8_t data)
 
   return (error);
 }
-#endif
