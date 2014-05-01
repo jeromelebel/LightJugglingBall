@@ -6,6 +6,7 @@
 #include "Adafruit_NeoPixel.h"
 
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(16, D2, WS2812B);
+MPU6050 mpu;
 
 uint32_t Wheel(byte WheelPos);
 
@@ -23,16 +24,31 @@ void blinkLED(unsigned int count, unsigned int mydelay)
     }
 }
 
-void setup_() {
-    strip.begin();
-    strip.show();
-    blinkLED(2, 250);
+void setup()
+{
+    uint8_t error, c;
+    
     Serial.begin(115200);
     Serial.println("started!");
+    strip.begin();
+    strip.show();
+    blinkLED(16, 250);
+    
+    Wire.begin();
+    Serial.println("prout");
+    while(true) {
+        c = mpu.readWho(&error);
+        Serial.print("WHO_AM_I : ");
+        Serial.print(c,HEX);
+        Serial.print(", error = ");
+        Serial.println(error,DEC);
+        delay(1000);
+    }
 }
 
-void loop_() {
+void loop() {
     Serial.println("ok");
+    delay(1000);
     //rainbow(20);
 }
 
