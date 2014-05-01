@@ -51,10 +51,6 @@
 // the registers in that unknown area are for gain 
 // and offsets.
 // 
-
-#include "application.h"
-#include "MPU6050.h"
-
 #define MPU6050_AUX_VDDIO          0x01   // R/W
 #define MPU6050_SMPLRT_DIV         0x19   // R/W
 #define MPU6050_CONFIG             0x1A   // R/W
@@ -143,6 +139,8 @@
 #define MPU6050_FIFO_R_W           0x74   // R/W
 #define MPU6050_WHO_AM_I           0x75   // R
 
+#include "application.h"
+#include "MPU6050.h"
 
 // Defines for the bits, to be able to change 
 // between bit number and binary definition.
@@ -623,13 +621,6 @@
 #define MPU6050_LP_WAKE_10HZ   MPU6050_LP_WAKE_CTRL_3
 
 
-// Default I2C address for the MPU-6050 is 0x68.
-// But only if the AD0 pin is low.
-// Some sensor boards have AD0 high, and the
-// I2C address thus becomes 0x69.
-#define MPU6050_I2C_ADDRESS 0x68
-
-
 // Declaring an union for the registers and the axis values.
 // The byte order does not match the byte order of 
 // the compiler and AVR chip.
@@ -669,6 +660,11 @@ typedef union accel_t_gyro_union
     int16_t z_gyro;
   } value;
 };
+
+MPU6050::MPU6050(Address address)
+{
+    _address = address;
+}
 
 uint8_t MPU6050::readWho(uint8_t *error)
 {
@@ -818,33 +814,33 @@ void loop()
 
 uint8_t MPU6050::read(int start, uint8_t *buffer, size_t size)
 {
-  size_t i, n;
+    size_t i, n;
 
-  Wire.beginTransmission(MPU6050_I2C_ADDRESS);
-  n = Wire.write(start);
-  if (n != 1) {
-    Serial.println("error 1");
-    return 10;
-  }
+    Wire.beginTransmission(_address);
+    n = Wire.write(start);
+    if (n != 1) {
+        Serial.println("error 1");
+        return 10;
+    }
 
-  n = Wire.endTransmission(false);    // hold the I2C-bus
-  if (n != 0) {
-    Serial.println("error 2");
-    return (n);
-  }
+    n = Wire.endTransmission(false);    // hold the I2C-bus
+    if (n != 0) {
+        Serial.println("error 2");
+        return (n);
+    }
 
-  // Third parameter is true: relase I2C-bus after data is read.
-  Wire.requestFrom(MPU6050_I2C_ADDRESS, size, true);
-  i = 0;
-  while(Wire.available() && i<size) {
-    buffer[i++]=Wire.read();
-  }
-  if ( i != size) {
-    Serial.println("error 3");
-    return 11;
-  }
+    // Third parameter is true: relase I2C-bus after data is read.
+    Wire.requestFrom(_address, size, true);
+    i = 0;
+    while(Wire.available() && i<size) {
+        buffer[i++]=Wire.read();
+    }
+    if ( i != size) {
+        Serial.println("error 3");
+        return 11;
+    }
 
-  return (0);  // return : no error
+    return 0;  // return : no error
 }
 
 
@@ -872,7 +868,7 @@ uint8_t MPU6050::write(int start, const uint8_t *pData, size_t size)
   size_t n;
   uint8_t error;
 
-  Wire.beginTransmission(MPU6050_I2C_ADDRESS);
+  Wire.beginTransmission(_address);
   n = Wire.write(start);        // write the start address
   if (n != 1)
     return (-20);
@@ -896,11 +892,56 @@ uint8_t MPU6050::write(int start, const uint8_t *pData, size_t size)
 // function, and it is only a convenient function
 // to make it easier to write a single register.
 //
-int MPU6050::write_reg(int reg, uint8_t data)
+void MPU6050::writeRegister(uint8_t reg, uint8_t data, uint8_t *error)
 {
-  int error;
+   uint8_t err;
+   
+   err = write(reg, &data, 1);
+   if (error) {
+      *error = err;
+   }
+}
 
-  error = write(reg, &data, 1);
+uint8_t MPU6050::readRegister(uint8_t reg, uint8_t *error)
+{
+    uint8_t data, err;
+    
+    err = read(reg, &data, 1);
+    if (error) {
+        *error = err;
+    }
+    return data;
+}
 
-  return (error);
+uint8_t MPU6050::readSleepBit(uint8_t *error)
+{
+    return readRegister(MPU6050_PWR_MGMT_1, error);
+}
+
+void MPU6050::writeSleepBit(int8_t sleepBit, uint8_t *error)
+{
+    writeRegister(MPU6050_PWR_MGMT_1, sleepBit, error);
+}
+
+void MPU6050::readValues(Values *values, uint8_t *error)
+{
+    uint8_t buffer[14], err;
+    
+    err = read(MPU6050_ACCEL_XOUT_H, buffer, sizeof(buffer));
+    if (error) {
+        *error = err;
+    }
+    if (err == 0 && values) {
+        uint8_t ii, count, swap;
+        
+        ii = 0;
+        count = sizeof(buffer);
+        while (ii < count) {
+            swap = buffer[ii];
+            buffer[ii] = buffer[ii + 1];
+            buffer[ii + 1] = swap;
+            ii += 2;
+        }
+        memcpy(values, buffer, count);
+    }
 }

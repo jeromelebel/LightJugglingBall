@@ -1,12 +1,9 @@
 #include "application.h"
-// This #include statement was automatically added by the Spark IDE.
 #include "MPU6050.h"
-
-// This #include statement was automatically added by the Spark IDE.
 #include "Adafruit_NeoPixel.h"
 
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(16, D2, WS2812B);
-MPU6050 mpu;
+MPU6050 mpu = MPU6050(MPU6050::Address0);
 
 uint32_t Wheel(byte WheelPos);
 
@@ -36,17 +33,60 @@ void setup()
     
     Wire.begin();
     Serial.println("prout");
-    while(true) {
-        c = mpu.readWho(&error);
-        Serial.print("WHO_AM_I : ");
-        Serial.print(c,HEX);
-        Serial.print(", error = ");
-        Serial.println(error,DEC);
-        delay(1000);
-    }
+    c = mpu.readWho(&error);
+    Serial.print("WHO_AM_I : ");
+    Serial.print(c,HEX);
+    Serial.print(", error = ");
+    Serial.println(error,DEC);
+
+    c = mpu.readSleepBit(&error);
+    Serial.print("PWR_MGMT_1 : ");
+    Serial.print(c,HEX);
+    Serial.print(", error = ");
+    Serial.println(error,DEC);
+
+    mpu.writeSleepBit(0, &error);
+    Serial.print("PWR_MGMT_1 write : error = ");
+    Serial.println(error,DEC);
 }
 
 void loop() {
+    MPU6050::Values values;
+    
+    mpu.readValues(&values, NULL);
+    Serial.print("accel x,y,z: ");
+    Serial.print(values.xAccel, DEC);
+    Serial.print(", ");
+    Serial.print(values.yAccel, DEC);
+    Serial.print(", ");
+    Serial.print(values.zAccel, DEC);
+    Serial.println("");
+
+
+    // The temperature sensor is -40 to +85 degrees Celsius.
+    // It is a signed integer.
+    // According to the datasheet: 
+    //   340 per degrees Celsius, -512 at 35 degrees.
+    // At 0 degrees: -512 - (340 * 35) = -12412
+
+    Serial.print("temperature: ");
+    double dT = ( (double) values.temperature + 12412.0) / 340.0;
+    Serial.print(dT, 3);
+    Serial.print(" degrees Celsius");
+    Serial.println("");
+
+
+    // Print the raw gyro values.
+
+    Serial.print("gyro x,y,z : ");
+    Serial.print(values.xGyro, DEC);
+    Serial.print(", ");
+    Serial.print(values.yGyro, DEC);
+    Serial.print(", ");
+    Serial.print(values.zGyro, DEC);
+    Serial.print(", ");
+    Serial.println("");
+    
     Serial.println("ok");
     delay(1000);
     //rainbow(20);
