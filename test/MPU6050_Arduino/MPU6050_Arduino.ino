@@ -689,14 +689,12 @@ void setup()
   //    The device is in sleep mode.
   //
 
-while (true) {
   error = MPU6050_read (MPU6050_WHO_AM_I, &c, 1);
   Serial.print(F("WHO_AM_I : "));
   Serial.print(c,HEX);
   Serial.print(F(", error = "));
   Serial.println(error,DEC);
   delay(1000);
-  }
 
   // According to the datasheet, the 'sleep' bit
   // should read a '1'.
