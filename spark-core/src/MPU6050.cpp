@@ -53,6 +53,7 @@
 // 
 
 #include "application.h"
+#include "MPU6050.h"
 
 #define MPU6050_AUX_VDDIO          0x01   // R/W
 #define MPU6050_SMPLRT_DIV         0x19   // R/W
@@ -669,6 +670,18 @@ typedef union accel_t_gyro_union
   } value;
 };
 
+uint8_t MPU6050::readWho(uint8_t *error)
+{
+  uint8_t c;
+  uint8_t err;
+  
+  err = read(MPU6050_WHO_AM_I, &c, 1);
+  if (error) {
+    *error = err;
+  }
+  return c;
+}
+
 /*
 void setup()
 {      
@@ -803,28 +816,33 @@ void loop()
 // There is no function for a single byte.
 //
 
-int MPU6050_read(int start, uint8_t *buffer, int size)
+uint8_t MPU6050::read(int start, uint8_t *buffer, size_t size)
 {
-  int i, n, error;
+  size_t i, n;
 
-  Wire.begin(MPU6050_I2C_ADDRESS);
+  Wire.beginTransmission(MPU6050_I2C_ADDRESS);
   n = Wire.write(start);
-  if (n != 1)
-    return (-10);
+  if (n != 1) {
+    Serial.println("error 1");
+    return 10;
+  }
 
   n = Wire.endTransmission(false);    // hold the I2C-bus
-  if (n != 0)
+  if (n != 0) {
+    Serial.println("error 2");
     return (n);
+  }
 
   // Third parameter is true: relase I2C-bus after data is read.
   Wire.requestFrom(MPU6050_I2C_ADDRESS, size, true);
   i = 0;
-  while(Wire.available() && i<size)
-  {
+  while(Wire.available() && i<size) {
     buffer[i++]=Wire.read();
   }
-  if ( i != size)
-    return (-11);
+  if ( i != size) {
+    Serial.println("error 3");
+    return 11;
+  }
 
   return (0);  // return : no error
 }
@@ -849,9 +867,10 @@ int MPU6050_read(int start, uint8_t *buffer, int size)
 //   int data = 0;        // the data to write
 //   MPU6050_write (MPU6050_PWR_MGMT_1, &c, 1);
 //
-int MPU6050_write(int start, const uint8_t *pData, int size)
+uint8_t MPU6050::write(int start, const uint8_t *pData, size_t size)
 {
-  int n, error;
+  size_t n;
+  uint8_t error;
 
   Wire.beginTransmission(MPU6050_I2C_ADDRESS);
   n = Wire.write(start);        // write the start address
@@ -877,11 +896,11 @@ int MPU6050_write(int start, const uint8_t *pData, int size)
 // function, and it is only a convenient function
 // to make it easier to write a single register.
 //
-int MPU6050_write_reg(int reg, uint8_t data)
+int MPU6050::write_reg(int reg, uint8_t data)
 {
   int error;
 
-  error = MPU6050_write(reg, &data, 1);
+  error = write(reg, &data, 1);
 
   return (error);
 }
