@@ -26,6 +26,10 @@ public:
     uint8_t readSleepBit(uint8_t *error);
     void writeSleepBit(int8_t sleepBit, uint8_t *error);
     
+    // 2, 4, 8 or 16
+    void writeAccelFullScaleRange(uint8_t fullScaleRange, uint8_t *error);
+    uint8_t readAccelFullScaleRange(uint8_t *error);
+    
     void readValues(Values *values, uint8_t *error);
 private:
     Address _address;

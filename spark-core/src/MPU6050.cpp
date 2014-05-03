@@ -36,7 +36,7 @@
 //      Register 0x75 (WHO_AM_I)   = 0x68.
 // 
 
-
+ 
 
 // The name of the sensor is "MPU-6050".
 // For program code, I omit the '-', 
@@ -158,7 +158,7 @@
 #define MPU6050_D7 7
 
 // AUX_VDDIO Register
-#define MPU6050_AUX_VDDIO MPU6050_D7  // I2C high: 1=VDD, 0=VLOGIC
+#define MPU6050_AUX_VDDIO_BIT MPU6050_D7  // I2C high: 1=VDD, 0=VLOGIC
 
 // CONFIG Register
 // DLPF is Digital Low Pass Filter for both gyro and accelerometers.
@@ -562,7 +562,7 @@
 #define MPU6050_FIFO_RESET     MPU6050_D2
 #define MPU6050_I2C_IF_DIS     MPU6050_D4   // must be 0 for MPU-6050
 #define MPU6050_I2C_MST_EN     MPU6050_D5
-#define MPU6050_FIFO_EN        MPU6050_D6
+#define MPU6050_FIFO_EN_BIT    MPU6050_D6
 
 // PWR_MGMT_1 Register
 // These are the names for the bits.
@@ -619,47 +619,6 @@
 #define MPU6050_LP_WAKE_2_5HZ  MPU6050_LP_WAKE_CTRL_1
 #define MPU6050_LP_WAKE_5HZ    MPU6050_LP_WAKE_CTRL_2
 #define MPU6050_LP_WAKE_10HZ   MPU6050_LP_WAKE_CTRL_3
-
-
-// Declaring an union for the registers and the axis values.
-// The byte order does not match the byte order of 
-// the compiler and AVR chip.
-// The AVR chip (on the Arduino board) has the Low Byte 
-// at the lower address.
-// But the MPU-6050 has a different order: High Byte at
-// lower address, so that has to be corrected.
-// The register part "reg" is only used internally, 
-// and are swapped in code.
-typedef union accel_t_gyro_union
-{
-  struct
-  {
-    uint8_t x_accel_h;
-    uint8_t x_accel_l;
-    uint8_t y_accel_h;
-    uint8_t y_accel_l;
-    uint8_t z_accel_h;
-    uint8_t z_accel_l;
-    uint8_t t_h;
-    uint8_t t_l;
-    uint8_t x_gyro_h;
-    uint8_t x_gyro_l;
-    uint8_t y_gyro_h;
-    uint8_t y_gyro_l;
-    uint8_t z_gyro_h;
-    uint8_t z_gyro_l;
-  } reg;
-  struct 
-  {
-    int16_t x_accel;
-    int16_t y_accel;
-    int16_t z_accel;
-    int16_t temperature;
-    int16_t x_gyro;
-    int16_t y_gyro;
-    int16_t z_gyro;
-  } value;
-};
 
 MPU6050::MPU6050(Address address)
 {
@@ -943,5 +902,61 @@ void MPU6050::readValues(Values *values, uint8_t *error)
             ii += 2;
         }
         memcpy(values, buffer, count);
+    }
+}
+
+void MPU6050::writeAccelFullScaleRange(uint8_t fullScaleRange, uint8_t *error)
+{
+    uint8_t err, value;
+    
+    value = readRegister(MPU6050_ACCEL_CONFIG, &err);
+    if (err != 0) {
+        if (error) {
+            *error = err;
+        }
+        return;
+    }
+    switch(fullScaleRange) {
+    case 2:
+        value = value & 0xE7;
+        break;
+    case 4:
+        value = (value & 0xE7) | 0x08;
+        break;
+    case 8:
+        value = (value & 0xE7) | 0x10;
+        break;
+    case 16:
+        value = (value & 0xE7) | 0x18;
+        break;
+    }
+    writeRegister(MPU6050_ACCEL_CONFIG, value, &err);
+    if (error) {
+        *error = err;
+    }
+}
+
+uint8_t MPU6050::readAccelFullScaleRange(uint8_t *error)
+{
+    uint8_t err, value;
+    
+    value = readRegister(MPU6050_ACCEL_CONFIG, &err);
+    if (err != 0) {
+        if (error) {
+            *error = err;
+        }
+        return 0;
+    }
+    switch(value & 0xE7) {
+    case 0:
+        return 2;
+    case 0x08:
+        return 4;
+    case 0x10:
+        return 8;
+    case 0x18:
+        return 16;
+    default:
+        return 0;
     }
 }
