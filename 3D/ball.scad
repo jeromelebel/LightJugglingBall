@@ -2,8 +2,8 @@ ball_a = false;
 ball_b = false;
 plate = true;
 
-explodedPosition = true;
-printingPosition = false;
+explodedPosition = false;
+printingPosition = true;
 openBall = false;
 threadOnly = false;
 
@@ -28,7 +28,10 @@ plateThickness = 2;
 plateHoleRadius = 2;
 plateSlotLength = 26;
 plateSlotWidth = 2.4;
-plateCutWidth = 6;
+plateCutWidth = 11;
+plateCircleInsideMargin = 0.2;
+plateInsideCircleThickness = 0.5;
+plateCircleHeight = 0.2;
 
 function facet_count() = printingPosition ? 100 : 25;
 function small_object_facet_count() = printingPosition ? facet_count() : 4;
@@ -150,6 +153,10 @@ module plate()
         }
       }
       if (!threadOnly) translate([0, 0, batteryRadius + plateThickness]) cube(size = [ batteryLength + boxThickness * 2, batteryRadius * 6 + boxThickness * 2, batteryRadius * 2], center = true);
+      translate([0, 0, plateThickness / 2 + plateCircleHeight]) difference() {
+        cylinder(h = plateThickness / 2, r = mysize - (threadHolderThickness * 2) - plateCircleInsideMargin);
+        cylinder(h = plateThickness, r = mysize - (threadHolderThickness * 2) - plateCircleInsideMargin - plateInsideCircleThickness);
+      }
     }
     translate([0, 0, batteryRadius + plateThickness + 1]) cube(size = [ batteryLength, batteryRadius * 6, batteryRadius * 2 + 2], center = true);
     translate([batteryLength / 4, batteryRadius * 3 + boxThickness * 3, -1 - plate_angle_thickness()]) cylinder(h = real_plate_thickness() + 2, r = plateHoleRadius, $fn = small_object_facet_count());
@@ -161,10 +168,16 @@ module plate()
     if (threadOnly) translate([0, 0, -1 - plate_angle_thickness()]) cylinder(h = mysize, r = mysize * 0.7);
     translate([0, 0, plateThickness]) difference() {
       cylinder(h = batteryRadius * 2.5, r = mysize);
-      cylinder(h = batteryRadius * 3, r = mysize - (threadHolderThickness * 2) - 0.5);
+      cylinder(h = batteryRadius * 3, r = mysize - (threadHolderThickness * 2) - plateCircleInsideMargin);
     }
     translate([-plateSlotLength / 2, 0, -1 - plate_angle_thickness()]) cube(size = [plateSlotLength, plateSlotWidth, real_plate_thickness() + 2]);
     translate([-plateCutWidth / 2, batteryRadius * 3 + boxThickness + 2, -1 - plate_angle_thickness()]) cube(size = [plateCutWidth, mysize, real_plate_thickness() + 2]);
+    if (angle == 0) {
+      translate([0, 0, -plateThickness / 2 + plateCircleHeight]) difference() {
+        cylinder(h = plateThickness / 2, r = mysize - (threadHolderThickness * 2) - plateCircleInsideMargin);
+        cylinder(h = plateThickness, r = mysize - (threadHolderThickness * 2) - plateCircleInsideMargin - plateInsideCircleThickness);
+      }
+    }
   }
 }
 
