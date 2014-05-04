@@ -1,30 +1,34 @@
-mysize = 35;
-thickness = 3;
-batteryLength = 45;
-batteryRadius = 5.5;
-batteryDelta = 2;
-threadHolderHeight = 6;
-threadHolderThickness = 3;
-threadRadiusDelta = 0.5;
-threadPitch = 3;
-plateThickness = 2;
-plateHoleRadius = 1.5;
-boxThickness = 2;
-ball_a = true;
+ball_a = false;
 ball_b = false;
 plate = true;
+
+explodedPosition = true;
+printingPosition = false;
+openBall = false;
+threadOnly = false;
+
+mysize = 35;
+thickness = 3;
+boxThickness = 2;
 ballCenter = false;
-delta = 0.0001;
-myscale = 1.02;
 angle = 0;
 min_angle = 2;
 flat_height = 0;
 
+batteryLength = 45;
+batteryRadius = 5.5;
 
-explodedPosition = true;
-printingPosition = true;
-openBall = false;
-threadOnly = false;
+externalThreadScale = 1.02;
+threadHolderHeight = 6;
+threadHolderThickness = 3;
+threadRadiusDelta = 0.5;
+threadPitch = 3;
+
+plateThickness = 2;
+plateHoleRadius = 2;
+plateSlotLength = 26;
+plateSlotWidth = 2.4;
+plateCutWidth = 6;
 
 function facet_count() = printingPosition ? 100 : 25;
 function small_object_facet_count() = printingPosition ? facet_count() : 4;
@@ -33,7 +37,7 @@ $fn = facet_count();
 use <threads.scad>
 
 function ball_a_thread_radius(inside) = inside ? thread_inner_radius(diameter = (mysize - threadHolderThickness + threadRadiusDelta) * 2, pitch = threadPitch, internal = false) : thread_outer_radius(diameter = (mysize - threadHolderThickness + threadRadiusDelta) * 2, pitch = threadPitch, internal = false);
-function ball_b_thread_radius(inside) = myscale * (inside ? thread_inner_radius(diameter = (mysize - threadHolderThickness + threadRadiusDelta) * 2, pitch = threadPitch, internal = true) : thread_outer_radius(diameter = (mysize - threadHolderThickness + threadRadiusDelta) * 2, pitch = threadPitch, internal = true));
+function ball_b_thread_radius(inside) = externalThreadScale * (inside ? thread_inner_radius(diameter = (mysize - threadHolderThickness + threadRadiusDelta) * 2, pitch = threadPitch, internal = true) : thread_outer_radius(diameter = (mysize - threadHolderThickness + threadRadiusDelta) * 2, pitch = threadPitch, internal = true));
 function height_for_length(length) = tan(angle) * length;
 function length_for_height(height) = height / tan(angle);
 
@@ -104,7 +108,7 @@ module b_ball()
     difference() {
       sphere(r = mysize);
       union() {
-        translate([0, 0, -threadHolderHeight / 2 - plateThickness - ball_b_angle_height()]) scale([myscale, myscale, myscale]) metric_thread(pitch = threadPitch, length = threadHolderHeight * 2 + plateThickness + ball_b_angle_height(), diameter = (mysize - threadHolderThickness + threadRadiusDelta) * 2, internal = true, max_segments = facet_count());
+        translate([0, 0, -threadHolderHeight / 2 - plateThickness - ball_b_angle_height()]) scale([externalThreadScale, externalThreadScale, externalThreadScale]) metric_thread(pitch = threadPitch, length = threadHolderHeight * 2 + plateThickness + ball_b_angle_height(), diameter = (mysize - threadHolderThickness + threadRadiusDelta) * 2, internal = true, max_segments = facet_count());
         difference() {
           sphere(r = mysize - thickness);
           translate ([0, 0, -mysize]) difference() {
@@ -157,8 +161,10 @@ module plate()
     if (threadOnly) translate([0, 0, -1 - plate_angle_thickness()]) cylinder(h = mysize, r = mysize * 0.7);
     translate([0, 0, plateThickness]) difference() {
       cylinder(h = batteryRadius * 2.5, r = mysize);
-      cylinder(h = batteryRadius * 3, r = (sqrt(batteryRadius * batteryRadius * 9 + batteryLength * batteryLength / 4)));
+      cylinder(h = batteryRadius * 3, r = mysize - (threadHolderThickness * 2) - 0.5);
     }
+    translate([-plateSlotLength / 2, 0, -1 - plate_angle_thickness()]) cube(size = [plateSlotLength, plateSlotWidth, real_plate_thickness() + 2]);
+    translate([-plateCutWidth / 2, batteryRadius * 3 + boxThickness + 2, -1 - plate_angle_thickness()]) cube(size = [plateCutWidth, mysize, real_plate_thickness() + 2]);
   }
 }
 
