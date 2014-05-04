@@ -4,10 +4,13 @@
 #include <math.h>
 
 #define PIXEL_COUNT  16
+#define LED_MODULO 4
 
 Adafruit_NeoPixel strip1 = Adafruit_NeoPixel(PIXEL_COUNT, D2, WS2812B);
 Adafruit_NeoPixel strip2 = Adafruit_NeoPixel(PIXEL_COUNT, D3, WS2812B);
 MPU6050 mpu = MPU6050(MPU6050::Address0);
+
+static bool ballTurnedOn = false;
 
 uint32_t Wheel(byte WheelPos);
 
@@ -59,16 +62,44 @@ void setup()
     Serial.println(error,DEC);
 }
 
-void loop() {
-    ball();
-    //rainbow(1, 1);
+void setBallLight(uint32_t color)
+{
+    uint8_t i;
+
+    for(i = 0; i < PIXEL_COUNT; i++) {
+        if (i % LED_MODULO == 0) {
+            strip1.setPixelColor(i, color);
+            strip2.setPixelColor(i, color);
+        } else {
+            strip1.setPixelColor(i, 0);
+            strip2.setPixelColor(i, 0);
+        }
+    }
+    strip1.show();
+    strip2.show();
+}
+
+void loop()
+{
+    MPU6050::Values values;
+    float norme;
+
+    mpu.readValues(&values, NULL);
+    norme = sqrtf((float)values.xAccel * (float)values.xAccel + (float)values.yAccel * (float)values.yAccel + (float)values.zAccel * (float)values.zAccel) / 32767.0 * 16.0;
+    Serial.println(norme);
+    if (norme < 0.6 && !ballTurnedOn) {
+        ballTurnedOn = true;
+        setBallLight(0xFFFFFF);
+    } else if (norme > 0.6 && ballTurnedOn) {
+        ballTurnedOn = false;
+        setBallLight(0x000000);
+    }
 }
 
 void ball(void)
 {
     static double speed = 5;
     static double friction = 0.01;
-    static double masse = 10;
     static double position = 0;
     
     double pi = 3.14159;
