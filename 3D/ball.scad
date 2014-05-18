@@ -9,7 +9,7 @@ threadOnly = false;
 
 mysize = 35;
 thickness = 3;
-boxThickness = 2;
+boxThickness = 2.5;
 ballCenter = false;
 angle = 0;
 min_angle = 2;
@@ -25,7 +25,7 @@ threadRadiusDelta = 0.5;
 threadPitch = 3;
 
 plateThickness = 2;
-plateHoleRadius = 2;
+plateHoleRadius = 1.5;
 plateSlotLength = 26;
 plateSlotWidth = 2.4;
 plateCutWidth = 11;
