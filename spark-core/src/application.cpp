@@ -170,31 +170,32 @@ void ball(void)
 
 void rainbow(uint8_t modulo, uint8_t wait)
 {
-  uint16_t i, j;
+    uint16_t i, j;
 
-  for(j=0; j<256; j++) {
-    for(i=0; i<strip1.numPixels(); i++) {
-      if (i % modulo == 0) {
-        strip1.setPixelColor(i, Wheel((i+j) & 255));
-      } else {
-        strip1.setPixelColor(i, 0);
-      }
+    for(j=0; j<256; j++) {
+        for(i=0; i<strip1.numPixels(); i++) {
+            if (i % modulo == 0) {
+                strip1.setPixelColor(i, Wheel((i+j) & 255));
+            } else {
+                strip1.setPixelColor(i, 0);
+            }
+        }
+        strip1.show();
+        delay(wait);
     }
-    strip1.show();
-    delay(wait);
-  }
 }
 
 // Input a value 0 to 255 to get a color value.
 // The colours are a transition r - g - b - back to r.
-uint32_t Wheel(byte WheelPos) {
-  if(WheelPos < 85) {
-   return strip1.Color(WheelPos * 3, 255 - WheelPos * 3, 0);
-  } else if(WheelPos < 170) {
-   WheelPos -= 85;
-   return strip1.Color(255 - WheelPos * 3, 0, WheelPos * 3);
-  } else {
-   WheelPos -= 170;
-   return strip1.Color(0, WheelPos * 3, 255 - WheelPos * 3);
-  }
+uint32_t Wheel(byte WheelPos)
+{
+    if(WheelPos < 85) {
+        return strip1.Color(WheelPos * 3, 255 - WheelPos * 3, 0);
+    } else if(WheelPos < 170) {
+        WheelPos -= 85;
+        return strip1.Color(255 - WheelPos * 3, 0, WheelPos * 3);
+    } else {
+        WheelPos -= 170;
+        return strip1.Color(0, WheelPos * 3, 255 - WheelPos * 3);
+    }
 }
