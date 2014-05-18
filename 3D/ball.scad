@@ -29,7 +29,7 @@ plateHoleRadius = 1.5;
 plateSlotLength = 26;
 plateSlotWidth = 2.4;
 plateCutWidth = 11;
-plateCircleInsideMargin = 0.3;
+plateCircleInsideMargin = 0.4;
 plateInsideCircleThickness = 0.5;
 plateCircleHeight = 0.2;
 
