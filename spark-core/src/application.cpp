@@ -33,6 +33,8 @@ void blinkLED(unsigned int count, unsigned int mydelay)
 
 static void initMPU(void)
 {
+    uint8_t error, c;
+    
     Wire.begin();
     c = mpu.readWho(&error);
     Serial.print("WHO_AM_I : ");
@@ -55,14 +57,14 @@ static void initMPU(void)
 
 void setup()
 {
-    uint8_t error, c;
-    
     Serial.begin(115200);
     Serial.println("started!");
     strip1.begin();
     strip1.show();
     blinkLED(4, 250);
-        
+    
+    initMPU();
+    
     RGB.control(true);
     RGB.color(0, 0, 0);
     
