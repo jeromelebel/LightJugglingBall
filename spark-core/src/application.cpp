@@ -31,18 +31,9 @@ void blinkLED(unsigned int count, unsigned int mydelay)
     }
 }
 
-void setup()
+static void initMPU(void)
 {
-    uint8_t error, c;
-    
-    Serial.begin(115200);
-    Serial.println("started!");
-    strip1.begin();
-    strip1.show();
-    blinkLED(4, 250);
-    
     Wire.begin();
-    Serial.println("prout");
     c = mpu.readWho(&error);
     Serial.print("WHO_AM_I : ");
     Serial.print(c,HEX);
@@ -60,6 +51,23 @@ void setup()
     mpu.writeSleepBit(0, &error);
     Serial.print("PWR_MGMT_1 write : error = ");
     Serial.println(error,DEC);
+}
+
+void setup()
+{
+    uint8_t error, c;
+    
+    Serial.begin(115200);
+    Serial.println("started!");
+    strip1.begin();
+    strip1.show();
+    blinkLED(4, 250);
+        
+    RGB.control(true);
+    RGB.color(0, 0, 0);
+    
+    Serial.println(Network.localIP());
+    Serial.println(Network.SSID());
 }
 
 void setBallLight(uint32_t color)
@@ -86,7 +94,6 @@ void loop()
 
     mpu.readValues(&values, NULL);
     norme = sqrtf((float)values.xAccel * (float)values.xAccel + (float)values.yAccel * (float)values.yAccel + (float)values.zAccel * (float)values.zAccel) / 32767.0 * 16.0;
-    Serial.println(norme);
     if (norme < 0.6 && !ballTurnedOn) {
         ballTurnedOn = true;
         setBallLight(0xFFFFFF);
