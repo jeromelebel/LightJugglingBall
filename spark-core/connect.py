@@ -16,7 +16,7 @@ while True:
         port = "/dev/" + filename
   
   try:  
-    s = serial.Serial(port = "/dev/tty.usbmodem621", baudrate = 115200)
+    s = serial.Serial(port = port, baudrate = 115200)
     print "connected to " + port
     while True:
       line = s.readline()
