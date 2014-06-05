@@ -10,6 +10,9 @@
 
 @interface AGDevice()
 @property (nonatomic, readwrite, assign, getter = isConnected) BOOL connected;
+@property (nonatomic, readwrite, strong) IOBluetoothDevice *device;
+@property (nonatomic, readwrite, strong) IOBluetoothRFCOMMChannel *rfcommChannel;
+
 
 - (void)_closeRFCommChannel;
 - (void)_openRFCommChannel;
@@ -23,14 +26,12 @@
 - (void)dealloc
 {
     [self _closeRFCommChannel];
-    [_device release];
-    [super dealloc];
 }
 
 - (void)_closeRFCommChannel
 {
-    [_rfcommChannel closeChannel];
-    [_rfcommChannel release];
+    [self.rfcommChannel closeChannel];
+    self.rfcommChannel = nil;
 }
 
 - (void)_openRFCommChannel
@@ -40,13 +41,16 @@
     IOBluetoothSDPServiceRecord *deviceSDPService;
     
     [self _closeRFCommChannel];
-    deviceSDPService = [_device getServiceRecordForUUID:[IOBluetoothSDPUUID uuid16:kBluetoothSDPUUID16ServiceClassSerialPort]];
+    deviceSDPService = [self.device getServiceRecordForUUID:[IOBluetoothSDPUUID uuid16:kBluetoothSDPUUID16ServiceClassSerialPort]];
     error = [deviceSDPService getRFCOMMChannelID:&channelID];
     if (error == kIOReturnSuccess) {
-        error = [_device openRFCOMMChannelAsync:&_rfcommChannel withChannelID:channelID delegate:self];        
+        IOBluetoothRFCOMMChannel *channel;
+        
+        error = [self.device openRFCOMMChannelAsync:&channel withChannelID:channelID delegate:self];
+        self.rfcommChannel = channel;
     }
     if (error == kIOReturnSuccess) {
-        [_rfcommChannel retain];
+        self.rfcommChannel = nil;
     } else {
         [self _openRFCommChannelWithDelay];
     }
@@ -64,8 +68,8 @@
     
     error = IOBluetoothNSStringToDeviceAddress(deviceID, &bluetoothDevice);
     if (error == kIOReturnSuccess) {
-        _device = [[IOBluetoothDevice deviceWithAddress:&bluetoothDevice] retain];
-        NSLog(@"device found %p, is connected %@, connected %d", _device, [_device isConnected]?@"YES":@"NO", error);
+        self.device = [IOBluetoothDevice deviceWithAddress:&bluetoothDevice];
+        NSLog(@"device found %p, is connected %@, connected %d", self.device, self.device.isConnected?@"YES":@"NO", error);
         [self _openRFCommChannel];
     }
 }
@@ -74,7 +78,7 @@ NSDate *date;
 
 - (BOOL)writeData:(const void *)bytes length:(NSUInteger)length
 {
-    date = [NSDate.date retain];
+    date = NSDate.date;
     return [_rfcommChannel writeSync:(void *)bytes length:length] == kIOReturnSuccess;
 }
 
@@ -85,7 +89,6 @@ NSDate *date;
         
         buffer = [[NSString alloc] initWithBytesNoCopy:dataPointer length:dataLength encoding:NSUTF8StringEncoding freeWhenDone:NO];
         if (buffer) [_delegate device:self receivedBuffer:buffer];
-        [buffer release];
     }
 }
 

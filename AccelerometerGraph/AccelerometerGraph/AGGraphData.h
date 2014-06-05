@@ -13,14 +13,8 @@
 @interface AGGraphData : NSObject
 {
     float *_buffer;
-    float _maxValue;
-    float _minValue;
     NSUInteger _bufferSize;
     NSUInteger _valueCursor;
-    NSUInteger _valueCountLimit;
-    NSUInteger _valueCount;
-    
-    NSString *_name;
 }
 
 @property (nonatomic, readwrite, assign) NSUInteger valueCountLimit;

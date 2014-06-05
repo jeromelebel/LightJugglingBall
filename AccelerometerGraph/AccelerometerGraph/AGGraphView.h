@@ -14,16 +14,6 @@
 
 @interface AGGraphView : NSView
 {
-    NSMutableArray *_graphs;
-    NSUInteger _xUnitInterval;
-    NSUInteger _yUnitInterval;
-    NSUInteger _indexCount;
-    
-    BOOL _hasSelection;
-    CGRect _selectedZone;
-    NSRange _selectedIndexes;
-    float _selectedMaxValue;
-    float _selectedMinValue;
 }
 
 @property (nonatomic, readwrite, assign) NSUInteger xUnitInterval;

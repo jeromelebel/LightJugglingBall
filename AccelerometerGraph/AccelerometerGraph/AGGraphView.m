@@ -19,16 +19,27 @@
 #define MIN_KEY @"min"
 #define MAX_KEY @"max"
 
-@implementation AGGraphView
+@interface AGGraphView ()
 
-@synthesize yUnitInterval = _yUnitInterval, xUnitInterval = _xUnitInterval, selectedZone = _selectedZone, selectedIndexes = _selectedIndexes, selectedMaxValue = _selectedMaxValue, selectedMinValue = _selectedMinValue, hasSelection = _hasSelection;
+@property (nonatomic, readwrite, assign) BOOL hasSelection;
+@property (nonatomic, readwrite, assign) CGRect selectedZone;
+@property (nonatomic, readwrite, assign) NSRange selectedIndexes;
+@property (nonatomic, readwrite, assign) float selectedMaxValue;
+@property (nonatomic, readwrite, assign) float selectedMinValue;
+
+@property (nonatomic, readwrite, strong) NSMutableArray *graphs;
+@property (nonatomic, readwrite, assign) NSUInteger indexCount;
+
+@end
+
+@implementation AGGraphView
 
 - (id)init
 {
     if (self = [super init]) {
-        _graphs = [[NSMutableArray alloc] init];
-        _xUnitInterval = 100;
-        _yUnitInterval = 1;
+        self.graphs = [[NSMutableArray alloc] init];
+        self.xUnitInterval = 100;
+        self.yUnitInterval = 1;
     }
     return self;
 }
@@ -36,9 +47,9 @@
 - (id)initWithFrame:(NSRect)frameRect
 {
     if (self = [super initWithFrame:frameRect]) {
-        _graphs = [[NSMutableArray alloc] init];
-        _xUnitInterval = 100;
-        _yUnitInterval = 1;
+        self.graphs = [[NSMutableArray alloc] init];
+        self.xUnitInterval = 100;
+        self.yUnitInterval = 1;
     }
     return self;
 }
@@ -46,9 +57,9 @@
 - (id)initWithCoder:(NSCoder *)aDecoder
 {
     if (self = [super initWithCoder:aDecoder]) {
-        _graphs = [[NSMutableArray alloc] init];
-        _xUnitInterval = 100;
-        _yUnitInterval = 1;
+        self.graphs = [[NSMutableArray alloc] init];
+        self.xUnitInterval = 100;
+        self.yUnitInterval = 1;
     }
     return self;
 }
@@ -56,8 +67,6 @@
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NewValueAGGraphDataNotification object:nil];
-    [_graphs release];
-    [super dealloc];
 }
 
 - (void)drawRect:(NSRect)dirtyRect
@@ -69,28 +78,28 @@
     
     [[NSColor whiteColor] set];
     [NSBezierPath fillRect:self.bounds];
-    if (_hasSelection) {
+    if (self.hasSelection) {
         CGRect selection;
         
         [[NSColor selectedTextBackgroundColor] set];
-        selection = _selectedZone;
+        selection = self.selectedZone;
         selection.origin.y = 0;
         selection.size.height = viewHeight;
         if (selection.size.width == 0) {
             selection.size.width = 1;
         } else if (selection.size.width < 0) {
-            selection.origin.x = _selectedZone.origin.x + _selectedZone.size.width;
-            selection.size.width = -_selectedZone.size.width;
+            selection.origin.x = self.selectedZone.origin.x + self.selectedZone.size.width;
+            selection.size.width = -self.selectedZone.size.width;
         }
         [NSBezierPath fillRect:selection];
     }
-    _indexCount = 0;
-    for (NSDictionary *graphInfo in _graphs) {
+    self.indexCount = 0;
+    for (NSDictionary *graphInfo in self.graphs) {
         AGGraphData *graphData = [graphInfo objectForKey:GRAPH_KEY];
         
         if (![graphInfo objectForKey:MAX_KEY] && maxValue < graphData.maxValue) maxValue = graphData.maxValue;
         if (![graphInfo objectForKey:MIN_KEY] && minValue > graphData.minValue) minValue = graphData.minValue;
-        if (_indexCount < graphData.valueCount) _indexCount = graphData.valueCount;
+        if (self.indexCount < graphData.valueCount) self.indexCount = graphData.valueCount;
     }
     if (maxValue == minValue) {
         minValue -= 2;
@@ -101,7 +110,7 @@
     }
     aPath = [NSBezierPath bezierPath];
     [[NSColor colorWithDeviceRed:0.75 green:0.75 blue:0.75 alpha:1.0] set];
-    for (float index = ceilf(minValue); index <= floorf(maxValue); index += _yUnitInterval) {
+    for (float index = ceilf(minValue); index <= floorf(maxValue); index += self.yUnitInterval) {
         if (index != 0) {
             [aPath moveToPoint:CGPointMake(0, Y_VALUE_TO_PIXEL(index, minValue, maxValue, viewHeight))];
             [aPath lineToPoint:CGPointMake(viewWidth, Y_VALUE_TO_PIXEL(index, minValue, maxValue, viewHeight))];
@@ -110,9 +119,9 @@
     }
     aPath = [NSBezierPath bezierPath];
     [[NSColor blackColor] set];
-    for (NSUInteger index = 0; index < _indexCount; index += _xUnitInterval) {
-        [aPath moveToPoint:CGPointMake(X_VALUE_TO_PIXEL(index, _indexCount, viewWidth), Y_VALUE_TO_PIXEL(0, minValue, maxValue, viewHeight) + 2.0)];
-        [aPath lineToPoint:CGPointMake(X_VALUE_TO_PIXEL(index, _indexCount, viewWidth), Y_VALUE_TO_PIXEL(0, minValue, maxValue, viewHeight) - 2.0)];
+    for (NSUInteger index = 0; index < self.indexCount; index += self.xUnitInterval) {
+        [aPath moveToPoint:CGPointMake(X_VALUE_TO_PIXEL(index, self.indexCount, viewWidth), Y_VALUE_TO_PIXEL(0, minValue, maxValue, viewHeight) + 2.0)];
+        [aPath lineToPoint:CGPointMake(X_VALUE_TO_PIXEL(index, self.indexCount, viewWidth), Y_VALUE_TO_PIXEL(0, minValue, maxValue, viewHeight) - 2.0)];
         [aPath stroke];
     }
     aPath = [NSBezierPath bezierPath];
@@ -120,7 +129,7 @@
     [aPath moveToPoint:CGPointMake(0, Y_VALUE_TO_PIXEL(0, minValue, maxValue, viewHeight))];
     [aPath lineToPoint:CGPointMake(viewWidth, Y_VALUE_TO_PIXEL(0, minValue, maxValue, viewHeight))];
     [aPath stroke];
-    for (NSDictionary *graphInfo in _graphs) {
+    for (NSDictionary *graphInfo in self.graphs) {
         NSUInteger index;
         NSColor *color;
         AGGraphData *graphData;
@@ -144,7 +153,7 @@
             float value = [graphData valueAtIndex:index];
             CGPoint point;
             
-            point = CGPointMake(X_VALUE_TO_PIXEL(index, _indexCount, viewWidth), Y_VALUE_TO_PIXEL(value, currentMinValue, currentMaxValue, viewHeight));
+            point = CGPointMake(X_VALUE_TO_PIXEL(index, self.indexCount, viewWidth), Y_VALUE_TO_PIXEL(value, currentMinValue, currentMaxValue, viewHeight));
             if (index == 0) {
                 [aPath moveToPoint:point];
              } else {
@@ -159,13 +168,13 @@
 {
     NSUInteger index = 0;
     
-    for (NSDictionary *graphInfo in _graphs) {
+    for (NSDictionary *graphInfo in self.graphs) {
         if ([graphInfo objectForKey:GRAPH_KEY] == graphData) {
             break;
         }
         index++;
     }
-    return index == _graphs.count?NSNotFound:index;
+    return index == self.graphs.count?NSNotFound:index;
 }
 
 - (void)addGraphData:(AGGraphData *)graphData withMinValue:(NSNumber *)minValue maxValue:(NSNumber *)maxValue color:(NSColor *)color
@@ -182,9 +191,9 @@
     index = [self graphInfoIndexOfGraphData:graphData];
     if (index == NSNotFound) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(newValueAGGraphDataNotification:) name:NewValueAGGraphDataNotification object:graphData];
-        [_graphs addObject:graphInfo];
+        [self.graphs addObject:graphInfo];
     } else {
-        [_graphs replaceObjectAtIndex:index withObject:graphInfo];
+        [self.graphs replaceObjectAtIndex:index withObject:graphInfo];
     }
     [self setNeedsDisplay:YES];
 }
@@ -201,7 +210,7 @@
     index = [self graphInfoIndexOfGraphData:graphData];
     if (index != NSNotFound) {
         [[NSNotificationCenter defaultCenter] removeObserver:self name:NewValueAGGraphDataNotification object:graphData];
-        [_graphs removeObjectAtIndex:index];
+        [self.graphs removeObjectAtIndex:index];
         [self setNeedsDisplay:YES];
     }
 }
@@ -216,38 +225,36 @@
     BOOL firstGraph = YES;
     NSUInteger firstIndex, secondIndex;
     
-    firstIndex = PIXEL_TO_VALUE_X(_selectedZone.origin.x, self.bounds.size.width, _indexCount);
-    secondIndex = PIXEL_TO_VALUE_X(_selectedZone.origin.x + _selectedZone.size.width, self.bounds.size.width, _indexCount);
+    firstIndex = PIXEL_TO_VALUE_X(_selectedZone.origin.x, self.bounds.size.width, self.indexCount);
+    secondIndex = PIXEL_TO_VALUE_X(_selectedZone.origin.x + self.selectedZone.size.width, self.bounds.size.width, self.indexCount);
     if (firstIndex < secondIndex) {
-        _selectedIndexes.location = firstIndex;
-        _selectedIndexes.length = secondIndex - firstIndex;
+        self.selectedIndexes = NSMakeRange(firstIndex, secondIndex - firstIndex);
     } else {
-        _selectedIndexes.location = secondIndex;
-        _selectedIndexes.length = firstIndex - secondIndex;
+        self.selectedIndexes = NSMakeRange(secondIndex, firstIndex - secondIndex);
     }
-    if (_selectedIndexes.length == 0) _selectedIndexes.length = 1;
-    for (NSDictionary *graphInfo in _graphs) {
+    if (self.selectedIndexes.length == 0) self.selectedIndexes = NSMakeRange(self.selectedIndexes.location, 1);
+    for (NSDictionary *graphInfo in self.graphs) {
         AGGraphData *graphData = [graphInfo objectForKey:GRAPH_KEY];
         
-        if (graphData.valueCount > _selectedIndexes.location) {
+        if (graphData.valueCount > self.selectedIndexes.location) {
             NSUInteger ii;
             NSUInteger maxIndex;
             
             if (firstGraph) {
-                _selectedMaxValue = [graphData valueAtIndex:_selectedIndexes.location];
-                _selectedMinValue = [graphData valueAtIndex:_selectedIndexes.location];
+                self.selectedMaxValue = [graphData valueAtIndex:self.selectedIndexes.location];
+                self.selectedMinValue = [graphData valueAtIndex:self.selectedIndexes.location];
                 firstGraph = YES;
             }
-            maxIndex = _selectedIndexes.location + _selectedIndexes.length;
+            maxIndex = self.selectedIndexes.location + self.selectedIndexes.length;
             if (maxIndex > graphData.valueCount) {
                 maxIndex = graphData.valueCount;
             }
-            for (ii = _selectedIndexes.location; ii < maxIndex; ii++) {
+            for (ii = self.selectedIndexes.location; ii < maxIndex; ii++) {
                 float value;
                 
                 value = [graphData valueAtIndex:ii];
-                if (value > _selectedMaxValue) _selectedMaxValue = value;
-                if (value < _selectedMinValue) _selectedMinValue = value;
+                if (value > self.selectedMaxValue) self.selectedMaxValue = value;
+                if (value < self.selectedMinValue) self.selectedMinValue = value;
             }
         }
     }
@@ -257,19 +264,16 @@
 
 - (void)_startSelectionAtPoint:(CGPoint)point
 {
-    _hasSelection = YES;
-    _selectedZone.origin = point;
-    _selectedZone.size = CGSizeMake(0, 0);
-    _selectedIndexes.location = PIXEL_TO_VALUE_X(point.x, self.bounds.size.width, _indexCount);
-    _selectedIndexes.length = 0;
+    self.hasSelection = YES;
+    self.selectedZone = CGRectMake(point.x, point.y, 0, 0);
+    self.selectedIndexes = NSMakeRange(PIXEL_TO_VALUE_X(point.x, self.bounds.size.width, self.indexCount), 0);
     
     [self _updateSelection];
 }
 
 - (void)_updateSelectionWithPoint:(CGPoint)point
 {
-    _selectedZone.size.width = point.x - _selectedZone.origin.x;
-    _selectedZone.size.height = point.y - _selectedZone.origin.y;
+    self.selectedZone = CGRectMake(self.selectedZone.origin.x, self.selectedZone.origin.y, point.x - self.selectedZone.origin.x, point.y - self.selectedZone.origin.y);
 
     [self _updateSelection];
 }
@@ -277,19 +281,17 @@
 - (void)mouseDown:(NSEvent *)theEvent
 {
     NSPoint             location = [self convertPoint:[theEvent locationInWindow] fromView:nil];
-    NSAutoreleasePool   *myPool = nil;
     NSEvent*            event = NULL;
     NSWindow            *targetWindow = [self window];
     CGRect              bounds = self.bounds;
     
-    myPool = [[NSAutoreleasePool alloc] init];
     if (location.x > bounds.origin.x + bounds.size.width) {
         location.x = bounds.origin.x + bounds.size.width;
     } else if (location.x < bounds.origin.x) {
         location.x = bounds.origin.x;
     }
     [self _startSelectionAtPoint:location];
-    while (_hasSelection) {
+    while (self.hasSelection) {
         event = [targetWindow nextEventMatchingMask:(NSLeftMouseDraggedMask | NSLeftMouseUpMask)
                                           untilDate:[NSDate distantFuture]
                                              inMode:NSEventTrackingRunLoopMode
@@ -308,7 +310,7 @@
                 break;
                 
             case NSLeftMouseUp:
-                _hasSelection = NO;
+                self.hasSelection = NO;
                 [[NSNotificationCenter defaultCenter] postNotificationName:SELECTION_DID_CHANGE_GRAPH_VIEW object:self];
                 [self setNeedsDisplay:YES];
                 break;
@@ -317,7 +319,6 @@
                 break;
         }
     }
-    [myPool release];
 }
 
 @end

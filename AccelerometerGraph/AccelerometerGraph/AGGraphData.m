@@ -10,20 +10,12 @@
 
 @implementation AGGraphData
 
-@synthesize valueCountLimit = _valueCountLimit, minValue = _minValue, maxValue = _maxValue, valueCount = _valueCount, name = _name;
-
 - (id)initWithName:(NSString *)name
 {
     if (self = [self init]) {
-        _name = [name retain];
+        self.name = name;
     }
     return self;
-}
-
-- (void)dealloc
-{
-    [_name release];
-    [super dealloc];
 }
 
 - (float)valueAtIndex:(NSUInteger)index

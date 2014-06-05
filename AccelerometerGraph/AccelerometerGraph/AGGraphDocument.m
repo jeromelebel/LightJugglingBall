@@ -32,6 +32,21 @@ static float my_atanf(float sinValue, float cosValue, float norm)
     return result;
 }
 
+@interface AGGraphDocument ()
+@property (nonatomic, readwrite, strong) AGGraphData *xGraphData;
+@property (nonatomic, readwrite, strong) AGGraphData *yGraphData;
+@property (nonatomic, readwrite, strong) AGGraphData *zGraphData;
+@property (nonatomic, readwrite, strong) AGGraphData *xRotationGraphData;
+@property (nonatomic, readwrite, strong) AGGraphData *yRotationGraphData;
+@property (nonatomic, readwrite, strong) AGGraphData *zRotationGraphData;
+@property (nonatomic, readwrite, strong) AGGraphData *normGraphData;
+@property (nonatomic, readwrite, strong) NSData *data;
+
+@property (nonatomic, readwrite, strong) NSTextField *label;
+@property (nonatomic, readwrite, strong) AGGraphView *graphView;
+
+@end
+
 @implementation AGGraphDocument
 
 + (BOOL)parseBuffer:(NSMutableString *)buffer xGraphData:(AGGraphData *)xGraphData yGraphData:(AGGraphData *)yGraphData zGraphData:(AGGraphData *)zGraphData xRotationGraphData:(AGGraphData *)xRotationGraphData yRotationGraphData:(AGGraphData *)yRotationGraphData zRotationGraphData:(AGGraphData *)zRotationGraphData normGraphData:(AGGraphData *)normGraphData
@@ -128,15 +143,6 @@ static float my_atanf(float sinValue, float cosValue, float norm)
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:SELECTION_DID_CHANGE_GRAPH_VIEW object:_graphView];
-    [_xGraphData release];
-    [_yGraphData release];
-    [_zGraphData release];
-    [_xRotationGraphData release];
-    [_yRotationGraphData release];
-    [_zRotationGraphData release];
-    [_normGraphData release];
-    [_data release];
-    [super dealloc];
 }
 
 - (NSString *)windowNibName
@@ -182,8 +188,7 @@ static float my_atanf(float sinValue, float cosValue, float norm)
         
         string = [[NSMutableString alloc] initWithBytes:data.bytes length:data.length encoding:NSUTF8StringEncoding];
         [[self class] parseBuffer:string xGraphData:_xGraphData yGraphData:_yGraphData zGraphData:_zGraphData xRotationGraphData:_xRotationGraphData yRotationGraphData:_yRotationGraphData zRotationGraphData:_zRotationGraphData normGraphData:_normGraphData];
-        [string release];
-        _data = [data retain];
+        self.data = data;
         [[self class] updateLabel:_label graphView:_graphView graphData:_normGraphData];
     } else {
         error = [NSError errorWithDomain:NSOSStatusErrorDomain code:unimpErr userInfo:NULL];

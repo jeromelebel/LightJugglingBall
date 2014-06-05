@@ -17,13 +17,9 @@
 
 @interface AGDevice : NSObject
 {
-    IOBluetoothDevice *_device;
-    IOBluetoothRFCOMMChannel *_rfcommChannel;
-    id<AGDeviceDelegate> _delegate;
-    BOOL _connected;
 }
 
-@property (nonatomic, readwrite, assign) id<AGDeviceDelegate> delegate;
+@property (nonatomic, readwrite, weak) id<AGDeviceDelegate> delegate;
 @property (nonatomic, readonly, assign, getter = isConnected) BOOL connected;
 
 - (void)connectWithDeviceID:(NSString *)deviceID;

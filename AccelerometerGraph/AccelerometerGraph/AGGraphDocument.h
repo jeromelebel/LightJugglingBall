@@ -13,17 +13,6 @@
 
 @interface AGGraphDocument : NSDocument
 {
-    AGGraphData *_xGraphData;
-    AGGraphData *_yGraphData;
-    AGGraphData *_zGraphData;
-    AGGraphData *_xRotationGraphData;
-    AGGraphData *_yRotationGraphData;
-    AGGraphData *_zRotationGraphData;
-    AGGraphData *_normGraphData;
-    NSData *_data;
-    
-    IBOutlet NSTextField *_label;
-    IBOutlet AGGraphView *_graphView;
 }
 
 + (BOOL)parseBuffer:(NSMutableString *)buffer xGraphData:(AGGraphData *)xGraphData yGraphData:(AGGraphData *)yGraphData zGraphData:(AGGraphData *)zGraphData xRotationGraphData:(AGGraphData *)xRotationGraphData yRotationGraphData:(AGGraphData *)yRotationGraphData zRotationGraphData:(AGGraphData *)zRotationGraphData normGraphData:(AGGraphData *)normGraphData;
