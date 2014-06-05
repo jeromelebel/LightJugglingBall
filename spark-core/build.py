@@ -32,15 +32,16 @@ def copy_mysource():
     extension = os.path.splitext(filename)[1]
     if extension in FILES:
       destination = FILES[extension]["destination"]
-      if os.path.exists(destination + "/" + filename) and filename != "application.cpp":
-        print(destination + "/" + filename + " already exists")
-        break
+#      if os.path.exists(destination + "/" + filename) and filename != "application.cpp":
+#        print(destination + "/" + filename + " already exists")
+#        break
       shutil.copy2(MY_SOURCE + "/" + filename, destination)
       if (extension == ".cpp" or extension == ".c") and filename != "application.cpp":
         source_list.append(filename)
   with open(SPARK_SOURCES + "/mysource.mk", "w") as file:
     for filename in source_list:
       file.write("CPPSRC += $(TARGET_SRC_PATH)/" + filename + "\n")
+  os.system("cd " + SPARK_FIRMWARE + "; git checkout " + "src/build.mk ; cd ..")
   with open(SPARK_SOURCES + "/build.mk", "a") as file:
     file.write("include ../src/mysource.mk\n")
 
@@ -50,7 +51,11 @@ elif len(sys.argv) == 2 and "cleanup" == sys.argv[1]:
   clean()
   copy_mysource()
 else:
+  copy_mysource()
   os.system("rsync -a " + MY_SOURCE +"/ " + SPARK_SOURCES)
   os.chdir(SPARK_FIRMWARE)
   os.chdir("build")
-  os.system("make")
+  if len(sys.argv) == 2 and "debug" == sys.argv[1]:
+    os.system("make DEBUG_BUILD=y")
+  else:
+    os.system("make")
