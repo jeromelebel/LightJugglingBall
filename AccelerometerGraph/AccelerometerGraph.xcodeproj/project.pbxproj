@@ -1,0 +1,332 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		02091A1615962B4400E21053 /* AGGraphDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 02091A1415962B4400E21053 /* AGGraphDocument.m */; };
+		02091A1715962B4400E21053 /* AGGraphDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = 02091A1515962B4400E21053 /* AGGraphDocument.xib */; };
+		0246A7131590F91B00B269E8 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0246A7121590F91B00B269E8 /* Cocoa.framework */; };
+		0246A71D1590F91B00B269E8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0246A71B1590F91B00B269E8 /* InfoPlist.strings */; };
+		0246A71F1590F91B00B269E8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0246A71E1590F91B00B269E8 /* main.m */; };
+		0246A7231590F91B00B269E8 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 0246A7211590F91B00B269E8 /* Credits.rtf */; };
+		0246A7261590F91B00B269E8 /* AGAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 0246A7251590F91B00B269E8 /* AGAppDelegate.m */; };
+		0246A7291590F91B00B269E8 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 0246A7271590F91B00B269E8 /* MainMenu.xib */; };
+		0246A7311590FB2700B269E8 /* AGGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0246A7301590FB2700B269E8 /* AGGraphView.m */; };
+		0246A7341590FDB000B269E8 /* AGGraphData.m in Sources */ = {isa = PBXBuildFile; fileRef = 0246A7331590FDB000B269E8 /* AGGraphData.m */; };
+		0246A73A1591EADB00B269E8 /* IOBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0246A7391591EADB00B269E8 /* IOBluetooth.framework */; };
+		0246A73E1591ECFB00B269E8 /* AGDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 0246A73D1591ECFB00B269E8 /* AGDevice.m */; };
+		0246A7401591ED9500B269E8 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0246A73F1591ED9500B269E8 /* IOKit.framework */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		02091A1315962B4400E21053 /* AGGraphDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGGraphDocument.h; sourceTree = "<group>"; };
+		02091A1415962B4400E21053 /* AGGraphDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGGraphDocument.m; sourceTree = "<group>"; };
+		02091A1515962B4400E21053 /* AGGraphDocument.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AGGraphDocument.xib; sourceTree = "<group>"; };
+		0246A70E1590F91B00B269E8 /* AccelerometerGraph.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AccelerometerGraph.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0246A7121590F91B00B269E8 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		0246A7151590F91B00B269E8 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		0246A7161590F91B00B269E8 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		0246A7171590F91B00B269E8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		0246A71A1590F91B00B269E8 /* AccelerometerGraph-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "AccelerometerGraph-Info.plist"; sourceTree = "<group>"; };
+		0246A71C1590F91B00B269E8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		0246A71E1590F91B00B269E8 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		0246A7201590F91B00B269E8 /* AccelerometerGraph-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AccelerometerGraph-Prefix.pch"; sourceTree = "<group>"; };
+		0246A7221590F91B00B269E8 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		0246A7241590F91B00B269E8 /* AGAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AGAppDelegate.h; sourceTree = "<group>"; };
+		0246A7251590F91B00B269E8 /* AGAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AGAppDelegate.m; sourceTree = "<group>"; };
+		0246A7281590F91B00B269E8 /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		0246A72F1590FB2700B269E8 /* AGGraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGGraphView.h; sourceTree = "<group>"; };
+		0246A7301590FB2700B269E8 /* AGGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGGraphView.m; sourceTree = "<group>"; };
+		0246A7321590FDB000B269E8 /* AGGraphData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGGraphData.h; sourceTree = "<group>"; };
+		0246A7331590FDB000B269E8 /* AGGraphData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGGraphData.m; sourceTree = "<group>"; };
+		0246A7391591EADB00B269E8 /* IOBluetooth.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOBluetooth.framework; path = System/Library/Frameworks/IOBluetooth.framework; sourceTree = SDKROOT; };
+		0246A73C1591ECFB00B269E8 /* AGDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGDevice.h; sourceTree = "<group>"; };
+		0246A73D1591ECFB00B269E8 /* AGDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGDevice.m; sourceTree = "<group>"; };
+		0246A73F1591ED9500B269E8 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		0246A70B1590F91B00B269E8 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0246A7131590F91B00B269E8 /* Cocoa.framework in Frameworks */,
+				0246A73A1591EADB00B269E8 /* IOBluetooth.framework in Frameworks */,
+				0246A7401591ED9500B269E8 /* IOKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0246A7031590F91A00B269E8 = {
+			isa = PBXGroup;
+			children = (
+				0246A7181590F91B00B269E8 /* AccelerometerGraph */,
+				0246A7111590F91B00B269E8 /* Frameworks */,
+				0246A70F1590F91B00B269E8 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		0246A70F1590F91B00B269E8 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0246A70E1590F91B00B269E8 /* AccelerometerGraph.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0246A7111590F91B00B269E8 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0246A73F1591ED9500B269E8 /* IOKit.framework */,
+				0246A7391591EADB00B269E8 /* IOBluetooth.framework */,
+				0246A7121590F91B00B269E8 /* Cocoa.framework */,
+				0246A7141590F91B00B269E8 /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		0246A7141590F91B00B269E8 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0246A7151590F91B00B269E8 /* AppKit.framework */,
+				0246A7161590F91B00B269E8 /* CoreData.framework */,
+				0246A7171590F91B00B269E8 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		0246A7181590F91B00B269E8 /* AccelerometerGraph */ = {
+			isa = PBXGroup;
+			children = (
+				0246A7241590F91B00B269E8 /* AGAppDelegate.h */,
+				0246A7251590F91B00B269E8 /* AGAppDelegate.m */,
+				0246A72F1590FB2700B269E8 /* AGGraphView.h */,
+				0246A7301590FB2700B269E8 /* AGGraphView.m */,
+				0246A7321590FDB000B269E8 /* AGGraphData.h */,
+				0246A7331590FDB000B269E8 /* AGGraphData.m */,
+				0246A73C1591ECFB00B269E8 /* AGDevice.h */,
+				0246A73D1591ECFB00B269E8 /* AGDevice.m */,
+				02091A1315962B4400E21053 /* AGGraphDocument.h */,
+				02091A1415962B4400E21053 /* AGGraphDocument.m */,
+				02091A1515962B4400E21053 /* AGGraphDocument.xib */,
+				0246A7271590F91B00B269E8 /* MainMenu.xib */,
+				0246A7191590F91B00B269E8 /* Supporting Files */,
+			);
+			path = AccelerometerGraph;
+			sourceTree = "<group>";
+		};
+		0246A7191590F91B00B269E8 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				0246A71A1590F91B00B269E8 /* AccelerometerGraph-Info.plist */,
+				0246A71B1590F91B00B269E8 /* InfoPlist.strings */,
+				0246A71E1590F91B00B269E8 /* main.m */,
+				0246A7201590F91B00B269E8 /* AccelerometerGraph-Prefix.pch */,
+				0246A7211590F91B00B269E8 /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		0246A70D1590F91B00B269E8 /* AccelerometerGraph */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0246A72C1590F91B00B269E8 /* Build configuration list for PBXNativeTarget "AccelerometerGraph" */;
+			buildPhases = (
+				0246A70A1590F91B00B269E8 /* Sources */,
+				0246A70B1590F91B00B269E8 /* Frameworks */,
+				0246A70C1590F91B00B269E8 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AccelerometerGraph;
+			productName = AccelerometerGraph;
+			productReference = 0246A70E1590F91B00B269E8 /* AccelerometerGraph.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0246A7051590F91A00B269E8 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = AG;
+				LastUpgradeCheck = 0430;
+				ORGANIZATIONNAME = Fotonauts;
+			};
+			buildConfigurationList = 0246A7081590F91A00B269E8 /* Build configuration list for PBXProject "AccelerometerGraph" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 0246A7031590F91A00B269E8;
+			productRefGroup = 0246A70F1590F91B00B269E8 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				0246A70D1590F91B00B269E8 /* AccelerometerGraph */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		0246A70C1590F91B00B269E8 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0246A71D1590F91B00B269E8 /* InfoPlist.strings in Resources */,
+				0246A7231590F91B00B269E8 /* Credits.rtf in Resources */,
+				0246A7291590F91B00B269E8 /* MainMenu.xib in Resources */,
+				02091A1715962B4400E21053 /* AGGraphDocument.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		0246A70A1590F91B00B269E8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				0246A71F1590F91B00B269E8 /* main.m in Sources */,
+				0246A7261590F91B00B269E8 /* AGAppDelegate.m in Sources */,
+				0246A7311590FB2700B269E8 /* AGGraphView.m in Sources */,
+				0246A7341590FDB000B269E8 /* AGGraphData.m in Sources */,
+				0246A73E1591ECFB00B269E8 /* AGDevice.m in Sources */,
+				02091A1615962B4400E21053 /* AGGraphDocument.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		0246A71B1590F91B00B269E8 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0246A71C1590F91B00B269E8 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		0246A7211590F91B00B269E8 /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0246A7221590F91B00B269E8 /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		0246A7271590F91B00B269E8 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				0246A7281590F91B00B269E8 /* en */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		0246A72A1590F91B00B269E8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		0246A72B1590F91B00B269E8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_64_BIT)";
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		0246A72D1590F91B00B269E8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "AccelerometerGraph/AccelerometerGraph-Prefix.pch";
+				INFOPLIST_FILE = "AccelerometerGraph/AccelerometerGraph-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		0246A72E1590F91B00B269E8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "AccelerometerGraph/AccelerometerGraph-Prefix.pch";
+				INFOPLIST_FILE = "AccelerometerGraph/AccelerometerGraph-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		0246A7081590F91A00B269E8 /* Build configuration list for PBXProject "AccelerometerGraph" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0246A72A1590F91B00B269E8 /* Debug */,
+				0246A72B1590F91B00B269E8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		0246A72C1590F91B00B269E8 /* Build configuration list for PBXNativeTarget "AccelerometerGraph" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				0246A72D1590F91B00B269E8 /* Debug */,
+				0246A72E1590F91B00B269E8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0246A7051590F91A00B269E8 /* Project object */;
+}
