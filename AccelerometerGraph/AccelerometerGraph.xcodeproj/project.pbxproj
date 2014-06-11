@@ -47,6 +47,7 @@
 		0246A73C1591ECFB00B269E8 /* AGDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGDevice.h; sourceTree = "<group>"; };
 		0246A73D1591ECFB00B269E8 /* AGDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGDevice.m; sourceTree = "<group>"; };
 		0246A73F1591ED9500B269E8 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		02FDC68719408B5F00B8EA60 /* MyPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MyPlayground.playground; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -66,6 +67,7 @@
 		0246A7031590F91A00B269E8 = {
 			isa = PBXGroup;
 			children = (
+				02FDC68719408B5F00B8EA60 /* MyPlayground.playground */,
 				0246A7181590F91B00B269E8 /* AccelerometerGraph */,
 				0246A7111590F91B00B269E8 /* Frameworks */,
 				0246A70F1590F91B00B269E8 /* Products */,
