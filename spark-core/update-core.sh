@@ -13,7 +13,7 @@ rm -fr inc src
 git checkout .
 git checkout spark-master
 git fetch
+git pull
 git checkout master
 git merge spark-master
-git rm build/core-firmware.bin build/core-firmware.elf build/core-firmware.hex
-git commit -m "Merge branch 'spark-master'"
+git push
