@@ -11,6 +11,9 @@
 #import "AGGraphView.h"
 #import "AGDevice.h"
 #import "AGGraphDocument.h"
+#import "AGSparkManager.h"
+#import "AGSparkDevice.h"
+//#import "AccelerometerGraph-Swift.h"
 
 #define BluetoothDeviceID @"00:06:66:45:B5:B1"
 

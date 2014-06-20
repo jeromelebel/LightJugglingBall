@@ -20,14 +20,15 @@
 		0246A73A1591EADB00B269E8 /* IOBluetooth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0246A7391591EADB00B269E8 /* IOBluetooth.framework */; };
 		0246A73E1591ECFB00B269E8 /* AGDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 0246A73D1591ECFB00B269E8 /* AGDevice.m */; };
 		0246A7401591ED9500B269E8 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0246A73F1591ED9500B269E8 /* IOKit.framework */; };
-		0263FC301948A08200146D10 /* SparkManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0263FC2F1948A08200146D10 /* SparkManager.swift */; };
-		0263FC321948AA0700146D10 /* SparkDevice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0263FC311948AA0700146D10 /* SparkDevice.swift */; };
+		025DE84A1953333A00F440A9 /* AGSparkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 025DE8491953333A00F440A9 /* AGSparkManager.m */; };
+		02C348FB1953FD8E0029313C /* AGSparkDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 02C348FA1953FD8E0029313C /* AGSparkDevice.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		02091A1315962B4400E21053 /* AGGraphDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGGraphDocument.h; sourceTree = "<group>"; };
 		02091A1415962B4400E21053 /* AGGraphDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGGraphDocument.m; sourceTree = "<group>"; };
 		02091A1515962B4400E21053 /* AGGraphDocument.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AGGraphDocument.xib; sourceTree = "<group>"; };
+		023BFAAD1954D09B006EE355 /* AGSparkManager_private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AGSparkManager_private.h; sourceTree = "<group>"; };
 		0246A70E1590F91B00B269E8 /* AccelerometerGraph.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AccelerometerGraph.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0246A7121590F91B00B269E8 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		0246A7151590F91B00B269E8 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -49,9 +50,14 @@
 		0246A73C1591ECFB00B269E8 /* AGDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGDevice.h; sourceTree = "<group>"; };
 		0246A73D1591ECFB00B269E8 /* AGDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGDevice.m; sourceTree = "<group>"; };
 		0246A73F1591ED9500B269E8 /* IOKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = IOKit.framework; path = System/Library/Frameworks/IOKit.framework; sourceTree = SDKROOT; };
+		025DE8481953333A00F440A9 /* AGSparkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGSparkManager.h; sourceTree = "<group>"; };
+		025DE8491953333A00F440A9 /* AGSparkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGSparkManager.m; sourceTree = "<group>"; };
+		025DE84C1954831600F440A9 /* AGSparkDevice_private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AGSparkDevice_private.h; sourceTree = "<group>"; };
 		0263FC2E1948A08200146D10 /* AccelerometerGraph-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AccelerometerGraph-Bridging-Header.h"; sourceTree = "<group>"; };
 		0263FC2F1948A08200146D10 /* SparkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SparkManager.swift; sourceTree = "<group>"; };
 		0263FC311948AA0700146D10 /* SparkDevice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SparkDevice.swift; sourceTree = "<group>"; };
+		02C348F91953FD8E0029313C /* AGSparkDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGSparkDevice.h; sourceTree = "<group>"; };
+		02C348FA1953FD8E0029313C /* AGSparkDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGSparkDevice.m; sourceTree = "<group>"; };
 		02FDC68719408B5F00B8EA60 /* MyPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MyPlayground.playground; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -121,6 +127,12 @@
 				0246A73D1591ECFB00B269E8 /* AGDevice.m */,
 				02091A1315962B4400E21053 /* AGGraphDocument.h */,
 				02091A1415962B4400E21053 /* AGGraphDocument.m */,
+				02C348F91953FD8E0029313C /* AGSparkDevice.h */,
+				02C348FA1953FD8E0029313C /* AGSparkDevice.m */,
+				025DE84C1954831600F440A9 /* AGSparkDevice_private.h */,
+				025DE8491953333A00F440A9 /* AGSparkManager.m */,
+				025DE8481953333A00F440A9 /* AGSparkManager.h */,
+				023BFAAD1954D09B006EE355 /* AGSparkManager_private.h */,
 				0263FC2F1948A08200146D10 /* SparkManager.swift */,
 				0263FC311948AA0700146D10 /* SparkDevice.swift */,
 				0263FC2E1948A08200146D10 /* AccelerometerGraph-Bridging-Header.h */,
@@ -210,12 +222,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				0246A71F1590F91B00B269E8 /* main.m in Sources */,
-				0263FC301948A08200146D10 /* SparkManager.swift in Sources */,
+				02C348FB1953FD8E0029313C /* AGSparkDevice.m in Sources */,
 				0246A7261590F91B00B269E8 /* AGAppDelegate.m in Sources */,
 				0246A7311590FB2700B269E8 /* AGGraphView.m in Sources */,
 				0246A7341590FDB000B269E8 /* AGGraphData.m in Sources */,
-				0263FC321948AA0700146D10 /* SparkDevice.swift in Sources */,
 				0246A73E1591ECFB00B269E8 /* AGDevice.m in Sources */,
+				025DE84A1953333A00F440A9 /* AGSparkManager.m in Sources */,
 				02091A1615962B4400E21053 /* AGGraphDocument.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -270,6 +282,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx10.9;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -293,13 +306,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				DEFINES_MODULE = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AccelerometerGraph/AccelerometerGraph-Prefix.pch";
 				INFOPLIST_FILE = "AccelerometerGraph/AccelerometerGraph-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "AccelerometerGraph/AccelerometerGraph-Bridging-Header.h";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -308,6 +321,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				DEFINES_MODULE = YES;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "AccelerometerGraph/AccelerometerGraph-Prefix.pch";
 				INFOPLIST_FILE = "AccelerometerGraph/AccelerometerGraph-Info.plist";

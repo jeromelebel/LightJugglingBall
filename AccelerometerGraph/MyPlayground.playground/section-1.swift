@@ -2,10 +2,14 @@
 
 import Cocoa
 
-var str = "Hello, playground"
 
-class SparkManager {
-    let SparkCoreToolPath:String = "/opt/local/bin/spark2x"
-}
+var a = ["1", "2"]
 
-var a = SparkManager()
+var b = Array(a)
+
+b[0] = "-1"
+b
+a
+
+("a" + "b").length()
+
