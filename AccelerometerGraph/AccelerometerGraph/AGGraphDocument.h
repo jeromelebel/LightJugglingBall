@@ -15,7 +15,6 @@
 {
 }
 
-+ (BOOL)parseBuffer:(NSMutableString *)buffer xGraphData:(AGGraphData *)xGraphData yGraphData:(AGGraphData *)yGraphData zGraphData:(AGGraphData *)zGraphData xRotationGraphData:(AGGraphData *)xRotationGraphData yRotationGraphData:(AGGraphData *)yRotationGraphData zRotationGraphData:(AGGraphData *)zRotationGraphData normGraphData:(AGGraphData *)normGraphData;
 + (void)updateLabel:(NSTextField *)label graphView:(AGGraphView *)graphView graphData:(AGGraphData *)graphData;
 
 @end

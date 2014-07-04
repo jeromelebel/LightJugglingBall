@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5056" systemVersion="13D65" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="6154.21" systemVersion="13D65" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment version="1070" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5056"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="6154.21"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -651,18 +651,16 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="335" y="390" width="558" height="338"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1178"/>
             <view key="contentView" id="372">
                 <rect key="frame" x="0.0" y="0.0" width="558" height="338"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <customView identifier="GraphView" translatesAutoresizingMaskIntoConstraints="NO" id="536" customClass="AGGraphView">
                         <rect key="frame" x="0.0" y="0.0" width="558" height="307"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     </customView>
                     <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="553">
                         <rect key="frame" x="18" y="315" width="377" height="17"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" id="554">
                             <font key="font" metaFont="system"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -671,7 +669,6 @@
                     </textField>
                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="608">
                         <rect key="frame" x="449" y="305" width="95" height="32"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="83" id="708"/>
                         </constraints>
@@ -685,7 +682,6 @@
                     </button>
                     <button translatesAutoresizingMaskIntoConstraints="NO" id="687">
                         <rect key="frame" x="399" y="314" width="50" height="18"/>
-                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="46" id="776"/>
                         </constraints>
@@ -715,14 +711,11 @@
         </window>
         <customObject id="494" customClass="AGAppDelegate">
             <connections>
-                <outlet property="_button" destination="608" id="615"/>
-                <outlet property="_displayAxisButton" destination="687" id="692"/>
-                <outlet property="_graphView" destination="536" id="545"/>
-                <outlet property="_label" destination="553" id="602"/>
-                <outlet property="_pauseContinueButton" destination="608" id="670"/>
-                <outlet property="_recordButton" destination="608" id="777"/>
-                <outlet property="_window" destination="371" id="546"/>
-                <outlet property="window" destination="371" id="532"/>
+                <outlet property="displayAxisButton" destination="687" id="fq8-TS-Jfp"/>
+                <outlet property="graphView" destination="536" id="ofa-z9-XGd"/>
+                <outlet property="label" destination="553" id="3cL-UV-AXd"/>
+                <outlet property="recordButton" destination="608" id="nJR-a0-4ZD"/>
+                <outlet property="window" destination="371" id="GKo-Hs-Iha"/>
             </connections>
         </customObject>
         <customObject id="420" customClass="NSFontManager"/>

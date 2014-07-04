@@ -42,8 +42,8 @@ static float my_atanf(float sinValue, float cosValue, float norm)
 @property (nonatomic, readwrite, strong) AGGraphData *normGraphData;
 @property (nonatomic, readwrite, strong) NSData *data;
 
-@property (nonatomic, readwrite, strong) NSTextField *label;
-@property (nonatomic, readwrite, strong) AGGraphView *graphView;
+@property (nonatomic, readwrite, strong) IBOutlet NSTextField *label;
+@property (nonatomic, readwrite, strong) IBOutlet AGGraphView *graphView;
 
 @end
 
@@ -129,20 +129,20 @@ static float my_atanf(float sinValue, float cosValue, float norm)
 {
     self = [super init];
     if (self) {
-        _xGraphData = [[AGGraphData alloc] initWithName:@"x"];
-        _yGraphData = [[AGGraphData alloc] initWithName:@"y"];
-        _zGraphData = [[AGGraphData alloc] initWithName:@"z"];
-        _xRotationGraphData = [[AGGraphData alloc] initWithName:@"horizontal"];
-        _yRotationGraphData = [[AGGraphData alloc] initWithName:@"vertical"];
-        _zRotationGraphData = [[AGGraphData alloc] initWithName:@"vertical"];
-        _normGraphData = [[AGGraphData alloc] init];
+        self.xGraphData = [[AGGraphData alloc] initWithName:@"x"];
+        self.yGraphData = [[AGGraphData alloc] initWithName:@"y"];
+        self.zGraphData = [[AGGraphData alloc] initWithName:@"z"];
+        self.xRotationGraphData = [[AGGraphData alloc] initWithName:@"horizontal"];
+        self.yRotationGraphData = [[AGGraphData alloc] initWithName:@"vertical"];
+        self.zRotationGraphData = [[AGGraphData alloc] initWithName:@"vertical"];
+        self.normGraphData = [[AGGraphData alloc] init];
     }
     return self;
 }
 
 - (void)dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:SELECTION_DID_CHANGE_GRAPH_VIEW object:_graphView];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:SELECTION_DID_CHANGE_GRAPH_VIEW object:self.graphView];
 }
 
 - (NSString *)windowNibName
@@ -155,12 +155,9 @@ static float my_atanf(float sinValue, float cosValue, float norm)
 - (void)windowControllerDidLoadNib:(NSWindowController *)aController
 {
     [super windowControllerDidLoadNib:aController];
-//    [_graphView addGraphData:_xRotationGraphData withMinValue:[NSNumber numberWithFloat:-180] maxValue:[NSNumber numberWithFloat:180] color:[NSColor redColor]];
-//    [_graphView addGraphData:_yRotationGraphData withMinValue:[NSNumber numberWithFloat:-180] maxValue:[NSNumber numberWithFloat:180] color:[NSColor blueColor]];
-//    [_graphView addGraphData:_zRotationGraphData withMinValue:[NSNumber numberWithFloat:-180] maxValue:[NSNumber numberWithFloat:180] color:[NSColor greenColor]];
-    [_graphView addGraphData:_normGraphData withColor:nil];
-    [[self class] updateLabel:_label graphView:_graphView graphData:_normGraphData];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(graphViewSelectionDidChangeNotification:) name:SELECTION_DID_CHANGE_GRAPH_VIEW object:_graphView];
+    [self.graphView addGraphData:self.normGraphData withColor:nil];
+    [[self class] updateLabel:self.label graphView:self.graphView graphData:self.normGraphData];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(graphViewSelectionDidChangeNotification:) name:SELECTION_DID_CHANGE_GRAPH_VIEW object:self.graphView];
 }
 
 - (NSData *)dataOfType:(NSString *)typeName error:(NSError **)outError
@@ -169,7 +166,7 @@ static float my_atanf(float sinValue, float cosValue, float norm)
     NSData *result = nil;
     
     if ([typeName isEqualToString:@"AccelerometerGraph"]) {
-        result = _data;
+        result = self.data;
     } else {
         error = [NSError errorWithDomain:NSOSStatusErrorDomain code:unimpErr userInfo:NULL];
     }
@@ -187,9 +184,9 @@ static float my_atanf(float sinValue, float cosValue, float norm)
         NSMutableString *string;
         
         string = [[NSMutableString alloc] initWithBytes:data.bytes length:data.length encoding:NSUTF8StringEncoding];
-        [[self class] parseBuffer:string xGraphData:_xGraphData yGraphData:_yGraphData zGraphData:_zGraphData xRotationGraphData:_xRotationGraphData yRotationGraphData:_yRotationGraphData zRotationGraphData:_zRotationGraphData normGraphData:_normGraphData];
+        [[self class] parseBuffer:string xGraphData:self.xGraphData yGraphData:self.yGraphData zGraphData:self.zGraphData xRotationGraphData:self.xRotationGraphData yRotationGraphData:self.yRotationGraphData zRotationGraphData:self.zRotationGraphData normGraphData:self.normGraphData];
         self.data = data;
-        [[self class] updateLabel:_label graphView:_graphView graphData:_normGraphData];
+        [[self class] updateLabel:self.label graphView:self.graphView graphData:self.normGraphData];
     } else {
         error = [NSError errorWithDomain:NSOSStatusErrorDomain code:unimpErr userInfo:NULL];
     }
@@ -201,7 +198,7 @@ static float my_atanf(float sinValue, float cosValue, float norm)
 
 - (void)graphViewSelectionDidChangeNotification:(NSNotification *)notification
 {
-    [[self class] updateLabel:_label graphView:_graphView graphData:_normGraphData];
+    [[self class] updateLabel:self.label graphView:self.graphView graphData:self.normGraphData];
 }
 
 + (BOOL)autosavesInPlace

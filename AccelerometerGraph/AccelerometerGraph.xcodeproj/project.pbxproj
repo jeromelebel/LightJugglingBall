@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		02091A1615962B4400E21053 /* AGGraphDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 02091A1415962B4400E21053 /* AGGraphDocument.m */; };
 		02091A1715962B4400E21053 /* AGGraphDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = 02091A1515962B4400E21053 /* AGGraphDocument.xib */; };
+		023BFAB01955A5D6006EE355 /* AGUDPServer.m in Sources */ = {isa = PBXBuildFile; fileRef = 023BFAAF1955A5D6006EE355 /* AGUDPServer.m */; };
 		0246A7131590F91B00B269E8 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0246A7121590F91B00B269E8 /* Cocoa.framework */; };
 		0246A71D1590F91B00B269E8 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 0246A71B1590F91B00B269E8 /* InfoPlist.strings */; };
 		0246A71F1590F91B00B269E8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 0246A71E1590F91B00B269E8 /* main.m */; };
@@ -22,6 +23,8 @@
 		0246A7401591ED9500B269E8 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0246A73F1591ED9500B269E8 /* IOKit.framework */; };
 		025DE84A1953333A00F440A9 /* AGSparkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 025DE8491953333A00F440A9 /* AGSparkManager.m */; };
 		02C348FB1953FD8E0029313C /* AGSparkDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 02C348FA1953FD8E0029313C /* AGSparkDevice.m */; };
+		02C63C3B196593CF00547250 /* AGBallManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 02C63C3A196593CF00547250 /* AGBallManager.m */; };
+		02C63C3E1965952100547250 /* AGBall.m in Sources */ = {isa = PBXBuildFile; fileRef = 02C63C3D1965952100547250 /* AGBall.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -29,6 +32,8 @@
 		02091A1415962B4400E21053 /* AGGraphDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGGraphDocument.m; sourceTree = "<group>"; };
 		02091A1515962B4400E21053 /* AGGraphDocument.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AGGraphDocument.xib; sourceTree = "<group>"; };
 		023BFAAD1954D09B006EE355 /* AGSparkManager_private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AGSparkManager_private.h; sourceTree = "<group>"; };
+		023BFAAE1955A5D6006EE355 /* AGUDPServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGUDPServer.h; sourceTree = "<group>"; };
+		023BFAAF1955A5D6006EE355 /* AGUDPServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGUDPServer.m; sourceTree = "<group>"; };
 		0246A70E1590F91B00B269E8 /* AccelerometerGraph.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AccelerometerGraph.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0246A7121590F91B00B269E8 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		0246A7151590F91B00B269E8 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -58,6 +63,11 @@
 		0263FC311948AA0700146D10 /* SparkDevice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SparkDevice.swift; sourceTree = "<group>"; };
 		02C348F91953FD8E0029313C /* AGSparkDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGSparkDevice.h; sourceTree = "<group>"; };
 		02C348FA1953FD8E0029313C /* AGSparkDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGSparkDevice.m; sourceTree = "<group>"; };
+		02C63C39196593CF00547250 /* AGBallManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGBallManager.h; sourceTree = "<group>"; };
+		02C63C3A196593CF00547250 /* AGBallManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGBallManager.m; sourceTree = "<group>"; };
+		02C63C3C1965952100547250 /* AGBall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGBall.h; sourceTree = "<group>"; };
+		02C63C3D1965952100547250 /* AGBall.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGBall.m; sourceTree = "<group>"; };
+		02C63C3F1965999800547250 /* AGBall_private.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AGBall_private.h; sourceTree = "<group>"; };
 		02FDC68719408B5F00B8EA60 /* MyPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; path = MyPlayground.playground; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -132,6 +142,13 @@
 				025DE84C1954831600F440A9 /* AGSparkDevice_private.h */,
 				025DE8491953333A00F440A9 /* AGSparkManager.m */,
 				025DE8481953333A00F440A9 /* AGSparkManager.h */,
+				02C63C39196593CF00547250 /* AGBallManager.h */,
+				02C63C3A196593CF00547250 /* AGBallManager.m */,
+				023BFAAE1955A5D6006EE355 /* AGUDPServer.h */,
+				023BFAAF1955A5D6006EE355 /* AGUDPServer.m */,
+				02C63C3C1965952100547250 /* AGBall.h */,
+				02C63C3F1965999800547250 /* AGBall_private.h */,
+				02C63C3D1965952100547250 /* AGBall.m */,
 				023BFAAD1954D09B006EE355 /* AGSparkManager_private.h */,
 				0263FC2F1948A08200146D10 /* SparkManager.swift */,
 				0263FC311948AA0700146D10 /* SparkDevice.swift */,
@@ -223,9 +240,12 @@
 			files = (
 				0246A71F1590F91B00B269E8 /* main.m in Sources */,
 				02C348FB1953FD8E0029313C /* AGSparkDevice.m in Sources */,
+				02C63C3B196593CF00547250 /* AGBallManager.m in Sources */,
 				0246A7261590F91B00B269E8 /* AGAppDelegate.m in Sources */,
+				023BFAB01955A5D6006EE355 /* AGUDPServer.m in Sources */,
 				0246A7311590FB2700B269E8 /* AGGraphView.m in Sources */,
 				0246A7341590FDB000B269E8 /* AGGraphData.m in Sources */,
+				02C63C3E1965952100547250 /* AGBall.m in Sources */,
 				0246A73E1591ECFB00B269E8 /* AGDevice.m in Sources */,
 				025DE84A1953333A00F440A9 /* AGSparkManager.m in Sources */,
 				02091A1615962B4400E21053 /* AGGraphDocument.m in Sources */,

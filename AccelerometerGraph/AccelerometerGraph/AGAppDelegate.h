@@ -12,27 +12,15 @@
 @class AGGraphData;
 @class AGGraphView;
 
-@interface AGAppDelegate : NSObject <NSApplicationDelegate, AGDeviceDelegate>
+@interface AGAppDelegate : NSObject <NSApplicationDelegate>
 {
-    IBOutlet NSWindow *_window;
-    IBOutlet AGGraphView *_graphView;
-    IBOutlet NSTextField *_label;
-    IBOutlet NSButton *_recordButton;
-    IBOutlet NSButton *_displayAxisButton;
-    
-    AGDevice *_device;
-    AGGraphData *_xGraphData;
-    AGGraphData *_yGraphData;
-    AGGraphData *_zGraphData;
-    AGGraphData *_xRotationGraphData;
-    AGGraphData *_yRotationGraphData;
-    AGGraphData *_zRotationGraphData;
-    AGGraphData *_normGraphData;
-    
-    NSMutableString *_buffer;
-    BOOL _recording;
-    NSMutableData *_recodingData;
 }
+@property (nonatomic, readwrite, weak) IBOutlet NSWindow *window;
+@property (nonatomic, readwrite, weak) IBOutlet AGGraphView *graphView;
+@property (nonatomic, readwrite, weak) IBOutlet NSTextField *label;
+@property (nonatomic, readwrite, weak) IBOutlet NSButton *recordButton;
+@property (nonatomic, readwrite, weak) IBOutlet NSButton *displayAxisButton;
+@property (nonatomic, readonly, assign) BOOL recording;
 
 - (IBAction)recordButtonAction:(id)sender;
 - (IBAction)displayAxisButtonAction:(id)sender;
