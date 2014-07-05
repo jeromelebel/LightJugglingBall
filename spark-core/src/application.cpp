@@ -2,6 +2,7 @@
 #include "MPU6050.h"
 #include "Adafruit_NeoPixel.h"
 #include <math.h>
+#include "UDPLogger.h"
 
 #define PIXEL_COUNT  16
 #define LED_MODULO 4
@@ -9,6 +10,7 @@
 Adafruit_NeoPixel strip1 = Adafruit_NeoPixel(PIXEL_COUNT, D2, WS2812B);
 Adafruit_NeoPixel strip2 = Adafruit_NeoPixel(PIXEL_COUNT, D3, WS2812B);
 MPU6050 mpu = MPU6050(MPU6050::Address0);
+UDPLogger logger;
 
 static bool ballTurnedOn = false;
 
@@ -67,6 +69,7 @@ void setup()
     
     RGB.control(true);
     RGB.color(0, 0, 0);
+    logger.begin();
     
     Serial.println(Network.localIP());
     Serial.println(Network.SSID());
@@ -94,6 +97,8 @@ void loop()
     MPU6050::Values values;
     float norme;
 
+    logger.loop();
+    return;
     mpu.readValues(&values, NULL);
     norme = sqrtf((float)values.xAccel * (float)values.xAccel + (float)values.yAccel * (float)values.yAccel + (float)values.zAccel * (float)values.zAccel) / 32767.0 * 16.0;
     if (norme < 0.6 && !ballTurnedOn) {
