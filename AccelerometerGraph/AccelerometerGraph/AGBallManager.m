@@ -96,14 +96,13 @@
     AGBallID *ballID = nil;
     AGBall *ball = nil;
     
-    NSLog(@"receive data from %@ %@", addr, data);
     if (server == self.managerServer) {
         if (data.length != sizeof(AGBallID)) {
             NSLog(@"wrong size");
         } else {
             AGBall *ballFromID, *ballFromIP;
             
-            ballID = (AGBallID *)data.bytes;
+            ballID = *(AGBallID *)data.bytes;
             ballFromIP = [self ballForAddress:data];
             ballFromID = [self ballForIdentifier:ballID];
             if (ballFromIP && !ballFromID) {
