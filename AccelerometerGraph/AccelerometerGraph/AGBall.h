@@ -8,8 +8,8 @@
 
 #import <Foundation/Foundation.h>
 
-#define AGBallID_MAX 0xFF
-typedef unsigned char AGBallID;
+#define AGBallID_MAX 0xFFFF
+typedef uint16_t AGBallID;
 
 @class AGGraphData;
 
