@@ -1,6 +1,6 @@
 #include "application.h"
 
-typedef unsigned char LOGGER_IDENTIFIER;
+typedef unsigned short LOGGER_IDENTIFIER;
 
 class UDPLogger
 {
@@ -8,6 +8,7 @@ protected:
     UDP udp;
     LOGGER_IDENTIFIER identifier;
     unsigned long lastIdentifierRequest;
+    IPAddress addressToTalkTo;
     
 public:
     UDPLogger();
