@@ -15,6 +15,9 @@
 
 @protocol AGBallManagerDelegate;
 
+typedef int16_t VALUE_TYPE;
+#define NUMBER_OF_VALUE 6
+
 @interface AGBallManager : NSObject
 @property (nonatomic, readwrite, weak) id<AGBallManagerDelegate> delegate;
 

@@ -52,19 +52,19 @@
 
 - (void)receiveData:(NSData *)data
 {
-    if (data.length == sizeof(AGBallID) + (sizeof(float) * 6)) {
-        float *value;
+    if (data.length == sizeof(AGBallID) + (sizeof(VALUE_TYPE) * NUMBER_OF_VALUE)) {
+        VALUE_TYPE *values;
         const char *buffer = data.bytes + sizeof(AGBallID);
         
-        value = (float *)buffer;
-        [self.xGraphData addValue:value[0]];
-        [self.yGraphData addValue:value[1]];
-        [self.zGraphData addValue:value[2]];
-        [self.xRotationGraphData addValue:value[3]];
-        [self.yRotationGraphData addValue:value[4]];
-        [self.zRotationGraphData addValue:value[5]];
-        [self.normGraphData addValue:sqrtf((value[0] * value[0]) + (value[1] * value[1]) + (value[2] * value[2]))];
-        [self.rotationNormGraphData addValue:sqrtf((value[3] * value[3]) + (value[4] * value[4]) + (value[5] * value[5]))];
+        values = (VALUE_TYPE *)buffer;
+        [self.xGraphData addValue:values[0]];
+        [self.yGraphData addValue:values[1]];
+        [self.zGraphData addValue:values[2]];
+        [self.xRotationGraphData addValue:values[3]];
+        [self.yRotationGraphData addValue:values[4]];
+        [self.zRotationGraphData addValue:values[5]];
+        [self.normGraphData addValue:sqrtf((values[0] * values[0]) + (values[1] * values[1]) + (values[2] * values[2]))];
+        [self.rotationNormGraphData addValue:sqrtf((values[3] * values[3]) + (values[4] * values[4]) + (values[5] * values[5]))];
     }
 }
 

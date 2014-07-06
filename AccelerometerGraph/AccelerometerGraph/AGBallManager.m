@@ -11,9 +11,6 @@
 #import "AGBall.h"
 #import "AGBall_private.h"
 
-typedef int16_t VALUE_TYPE;
-#define NUMBER_OF_VALUE 6
-
 @interface AGBallManager ()
 @property (nonatomic, readwrite, strong) AGUDPServer *managerServer;
 @property (nonatomic, readwrite, strong) AGUDPServer *dataServer;

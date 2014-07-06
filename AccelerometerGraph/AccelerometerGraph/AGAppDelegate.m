@@ -14,6 +14,7 @@
 #import "AGSparkManager.h"
 #import "AGSparkDevice.h"
 #import "AGBallManager.h"
+#import "AGBall.h"
 
 #define BluetoothDeviceID @"00:06:66:45:B5:B1"
 
@@ -44,30 +45,30 @@
     
     self.displayAxisButton.state = [[NSUserDefaults standardUserDefaults] boolForKey:@"displayAllAxis"]?NSOnState:NSOffState;
     
-    self.xGraphData = [[AGGraphData alloc] init];
-    self.xGraphData.valueCountLimit = 1000;
-    self.yGraphData = [[AGGraphData alloc] init];
-    self.yGraphData.valueCountLimit = 1000;
-    self.zGraphData = [[AGGraphData alloc] init];
-    self.zGraphData.valueCountLimit = 1000;
-    self.xRotationGraphData = [[AGGraphData alloc] init];
-    self.xRotationGraphData.valueCountLimit = 1000;
-    self.yRotationGraphData = [[AGGraphData alloc] init];
-    self.yRotationGraphData.valueCountLimit = 1000;
-    self.zRotationGraphData = [[AGGraphData alloc] init];
-    self.zRotationGraphData.valueCountLimit = 1000;
-    self.normGraphData = [[AGGraphData alloc] init];
-    self.normGraphData.valueCountLimit = 1000;
-    if (self.displayAxisButton.state == NSOnState) {
-        [self.graphView addGraphData:self.xGraphData withColor:[NSColor redColor]];
-        [self.graphView addGraphData:self.yGraphData withColor:[NSColor greenColor]];
-        [self.graphView addGraphData:self.zGraphData withColor:[NSColor blueColor]];
-    }
-    [self.graphView addGraphData:self.xRotationGraphData withMinValue:[NSNumber numberWithFloat:-180] maxValue:[NSNumber numberWithFloat:180] color:[NSColor redColor]];
-    [self.graphView addGraphData:self.yRotationGraphData withMinValue:[NSNumber numberWithFloat:-180] maxValue:[NSNumber numberWithFloat:180] color:[NSColor blueColor]];
-    [self.graphView addGraphData:self.zRotationGraphData withMinValue:[NSNumber numberWithFloat:-180] maxValue:[NSNumber numberWithFloat:180] color:[NSColor greenColor]];
-    [self.graphView addGraphData:self.normGraphData withColor:[NSColor blackColor]];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(graphViewSelectionDidChangeNotification:) name:SELECTION_DID_CHANGE_GRAPH_VIEW object:self.graphView];
+//    self.xGraphData = [[AGGraphData alloc] init];
+//    self.xGraphData.valueCountLimit = 1000;
+//    self.yGraphData = [[AGGraphData alloc] init];
+//    self.yGraphData.valueCountLimit = 1000;
+//    self.zGraphData = [[AGGraphData alloc] init];
+//    self.zGraphData.valueCountLimit = 1000;
+//    self.xRotationGraphData = [[AGGraphData alloc] init];
+//    self.xRotationGraphData.valueCountLimit = 1000;
+//    self.yRotationGraphData = [[AGGraphData alloc] init];
+//    self.yRotationGraphData.valueCountLimit = 1000;
+//    self.zRotationGraphData = [[AGGraphData alloc] init];
+//    self.zRotationGraphData.valueCountLimit = 1000;
+//    self.normGraphData = [[AGGraphData alloc] init];
+//    self.normGraphData.valueCountLimit = 1000;
+//    if (self.displayAxisButton.state == NSOnState) {
+//        [self.graphView addGraphData:self.xGraphData withColor:[NSColor redColor]];
+//        [self.graphView addGraphData:self.yGraphData withColor:[NSColor greenColor]];
+//        [self.graphView addGraphData:self.zGraphData withColor:[NSColor blueColor]];
+//    }
+//    [self.graphView addGraphData:self.xRotationGraphData withMinValue:[NSNumber numberWithFloat:-180] maxValue:[NSNumber numberWithFloat:180] color:[NSColor redColor]];
+//    [self.graphView addGraphData:self.yRotationGraphData withMinValue:[NSNumber numberWithFloat:-180] maxValue:[NSNumber numberWithFloat:180] color:[NSColor blueColor]];
+//    [self.graphView addGraphData:self.zRotationGraphData withMinValue:[NSNumber numberWithFloat:-180] maxValue:[NSNumber numberWithFloat:180] color:[NSColor greenColor]];
+//    [self.graphView addGraphData:self.normGraphData withColor:[NSColor blackColor]];
+//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(graphViewSelectionDidChangeNotification:) name:SELECTION_DID_CHANGE_GRAPH_VIEW object:self.graphView];
 }
 
 - (IBAction)recordButtonAction:(id)sender
@@ -115,7 +116,9 @@
 
 - (void)ballManager:(AGBallManager *)ballManager addBall:(AGBall *)ball
 {
-    
+    [self.graphView addGraphData:ball.xGraphData withColor:[NSColor redColor]];
+    [self.graphView addGraphData:ball.yGraphData withColor:[NSColor greenColor]];
+    [self.graphView addGraphData:ball.normGraphData withColor:[NSColor blueColor]];
 }
 
 - (void)ballManager:(AGBallManager *)ballManager removeBall:(AGBall *)ball
