@@ -11,6 +11,9 @@
 #import "AGBall.h"
 #import "AGBall_private.h"
 
+typedef int16_t VALUE_TYPE;
+#define NUMBER_OF_VALUE 6
+
 @interface AGBallManager ()
 @property (nonatomic, readwrite, strong) AGUDPServer *managerServer;
 @property (nonatomic, readwrite, strong) AGUDPServer *dataServer;
@@ -93,17 +96,15 @@
 
 - (NSData *)server:(AGUDPServer *)server didReceiveData:(NSData *)data fromAddress:(NSData *)addr
 {
-    AGBallID *ballID = nil;
+    AGBallID ballID;
     AGBall *ball = nil;
     
     if (server == self.managerServer) {
-        if (data.length != sizeof(AGBallID)) {
-            NSLog(@"wrong size");
-        } else {
+        if (data.length >= sizeof(AGBallID)) {
             AGBall *ballFromID, *ballFromIP;
             
             ballID = *(AGBallID *)data.bytes;
-            ballFromIP = [self ballForAddress:data];
+            ballFromIP = [self ballForAddress:addr];
             ballFromID = [self ballForIdentifier:ballID];
             if (ballFromIP && !ballFromID) {
                 [self removeBall:ballFromIP];
@@ -114,13 +115,32 @@
                 ballFromIP = ballFromID;
                 ball = ballFromID;
             }
-            if (!ball) {
+            if (ballFromID == ballFromIP && ballFromID) {
+                ball = ballFromID;
+            } else {
                 ballID = [self nextBallID];
-                ball = [[AGBall alloc] initWithIdentifier:ballID ipAddress:data];
+                ball = [[AGBall alloc] initWithIdentifier:ballID ipAddress:addr];
                 [self addBall:ball];
                 
+                NSLog(@"data %@", data);
+                NSLog(@"new ball %d ip %@", (int)ballID, addr);
                 return [NSData dataWithBytes:&ballID length:sizeof(ballID)];
             }
+        }
+        if (data.length == sizeof(AGBallID) + (NUMBER_OF_VALUE * sizeof(VALUE_TYPE))) {
+            static NSUInteger count = 0;
+            
+            count++;
+            if (count > 100) {
+                NSLog(@"value");
+                [ball receiveData:data];
+                count = 0;
+            }
+        } else if (data.length == sizeof(AGBallID)) {
+            
+        } else {
+            NSLog(@"ball id %ld int 16 %ld", sizeof(AGBallID), sizeof(VALUE_TYPE));
+            NSLog(@"wrong size %ld expecting %ld", data.length, sizeof(AGBallID) + (NUMBER_OF_VALUE * sizeof(VALUE_TYPE)));
         }
     } else if (server == self.dataServer) {
         if (data.length > sizeof(AGBallID)) {
