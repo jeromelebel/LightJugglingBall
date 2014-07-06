@@ -119,10 +119,12 @@
     }
     aPath = [NSBezierPath bezierPath];
     [[NSColor blackColor] set];
-    for (NSUInteger index = 0; index < self.indexCount; index += self.xUnitInterval) {
-        [aPath moveToPoint:CGPointMake(X_VALUE_TO_PIXEL(index, self.indexCount, viewWidth), Y_VALUE_TO_PIXEL(0, minValue, maxValue, viewHeight) + 2.0)];
-        [aPath lineToPoint:CGPointMake(X_VALUE_TO_PIXEL(index, self.indexCount, viewWidth), Y_VALUE_TO_PIXEL(0, minValue, maxValue, viewHeight) - 2.0)];
-        [aPath stroke];
+    if (self.indexCount > 1) {
+        for (NSUInteger index = 0; index < self.indexCount; index += self.xUnitInterval) {
+            [aPath moveToPoint:CGPointMake(X_VALUE_TO_PIXEL(index, self.indexCount, viewWidth), Y_VALUE_TO_PIXEL(0, minValue, maxValue, viewHeight) + 2.0)];
+            [aPath lineToPoint:CGPointMake(X_VALUE_TO_PIXEL(index, self.indexCount, viewWidth), Y_VALUE_TO_PIXEL(0, minValue, maxValue, viewHeight) - 2.0)];
+            [aPath stroke];
+        }
     }
     aPath = [NSBezierPath bezierPath];
     [[NSColor blackColor] set];
