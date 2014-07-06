@@ -97,9 +97,8 @@ void loop()
     MPU6050::Values values;
     float norme;
 
-    logger.loop();
-    return;
     mpu.readValues(&values, NULL);
+    logger.loopWithValues(values.xAccel, values.yAccel, values.zAccel, values.xGyro, values.yGyro, values.zGyro);
     norme = sqrtf((float)values.xAccel * (float)values.xAccel + (float)values.yAccel * (float)values.yAccel + (float)values.zAccel * (float)values.zAccel) / 32767.0 * 16.0;
     if (norme < 0.6 && !ballTurnedOn) {
         ballTurnedOn = true;
