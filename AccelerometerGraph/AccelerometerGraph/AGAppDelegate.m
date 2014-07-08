@@ -38,6 +38,20 @@
 
 @implementation AGAppDelegate
 
+- (void)_createFakeValues
+{
+    static float value = 0;
+    static float diff = 0.1;
+    
+    value += diff;
+    //    NSLog(@"diff %f (value >= 10.0 && diff > 0) %@ (value <= -10.0 && diff < 0) %@", diff, (value >= 10.0 && diff > 0)?@"YES":@"NO", (value <= -10.0 && diff < 0)?@"YES":@"NO");
+    if ((value >= 10.0 && diff > 0) || (value <= -10.0 && diff < 0)) {
+        diff = -diff;
+    }
+    [self.xGraphData addValue:value];
+    [self performSelector:@selector(_createFakeValues) withObject:nil afterDelay:1];
+}
+
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     self.ballManager = [[AGBallManager alloc] init];
@@ -45,8 +59,9 @@
     
     self.displayAxisButton.state = [[NSUserDefaults standardUserDefaults] boolForKey:@"displayAllAxis"]?NSOnState:NSOffState;
     
-//    self.xGraphData = [[AGGraphData alloc] init];
-//    self.xGraphData.valueCountLimit = 1000;
+    self.xGraphData = [[AGGraphData alloc] init];
+    self.xGraphData.valueCountLimit = 1000;
+//    [self.graphView addGraphData:self.xGraphData withColor:[NSColor redColor]];
 //    self.yGraphData = [[AGGraphData alloc] init];
 //    self.yGraphData.valueCountLimit = 1000;
 //    self.zGraphData = [[AGGraphData alloc] init];
@@ -69,6 +84,7 @@
 //    [self.graphView addGraphData:self.zRotationGraphData withMinValue:[NSNumber numberWithFloat:-180] maxValue:[NSNumber numberWithFloat:180] color:[NSColor greenColor]];
 //    [self.graphView addGraphData:self.normGraphData withColor:[NSColor blackColor]];
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(graphViewSelectionDidChangeNotification:) name:SELECTION_DID_CHANGE_GRAPH_VIEW object:self.graphView];
+    [self _createFakeValues];
 }
 
 - (IBAction)recordButtonAction:(id)sender
@@ -116,14 +132,24 @@
 
 - (void)ballManager:(AGBallManager *)ballManager addBall:(AGBall *)ball
 {
-    [self.graphView addGraphData:ball.xGraphData withColor:[NSColor redColor]];
-    [self.graphView addGraphData:ball.yGraphData withColor:[NSColor greenColor]];
+//    [self.graphView addGraphData:ball.xGraphData withColor:[NSColor redColor]];
+//    [self.graphView addGraphData:ball.yGraphData withColor:[NSColor greenColor]];
     [self.graphView addGraphData:ball.normGraphData withColor:[NSColor blueColor]];
+    if (0) {
+        [self.graphView addGraphData:ball.rotationNormGraphData withColor:[NSColor greenColor]];
+    } else {
+        [self.graphView addGraphData:ball.xRotationGraphData withColor:[NSColor greenColor]];
+        [self.graphView addGraphData:ball.yRotationGraphData withColor:[NSColor redColor]];
+        [self.graphView addGraphData:ball.zRotationGraphData withColor:[NSColor purpleColor]];
+    }
 }
 
 - (void)ballManager:(AGBallManager *)ballManager removeBall:(AGBall *)ball
 {
-    
+    [self.graphView removeGraphData:ball.normGraphData];
+    [self.graphView removeGraphData:ball.xRotationGraphData];
+    [self.graphView removeGraphData:ball.yRotationGraphData];
+    [self.graphView removeGraphData:ball.zRotationGraphData];
 }
 
 @end

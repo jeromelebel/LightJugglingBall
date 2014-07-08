@@ -39,7 +39,7 @@
     if (self = [super init]) {
         self.graphs = [[NSMutableArray alloc] init];
         self.xUnitInterval = 100;
-        self.yUnitInterval = 1;
+        self.yUnitInterval = 1000;
     }
     return self;
 }
@@ -49,7 +49,7 @@
     if (self = [super initWithFrame:frameRect]) {
         self.graphs = [[NSMutableArray alloc] init];
         self.xUnitInterval = 100;
-        self.yUnitInterval = 1;
+        self.yUnitInterval = 1000;
     }
     return self;
 }
@@ -59,7 +59,7 @@
     if (self = [super initWithCoder:aDecoder]) {
         self.graphs = [[NSMutableArray alloc] init];
         self.xUnitInterval = 100;
-        self.yUnitInterval = 1;
+        self.yUnitInterval = 1000;
     }
     return self;
 }
@@ -136,6 +136,7 @@
         NSColor *color;
         AGGraphData *graphData;
         float currentMinValue = minValue, currentMaxValue = maxValue;
+        BOOL firstPoint = YES;
         
         if ([graphInfo objectForKey:MIN_KEY]) {
             currentMinValue = [[graphInfo objectForKey:MIN_KEY] floatValue];
@@ -156,11 +157,14 @@
             CGPoint point;
             
             point = CGPointMake(X_VALUE_TO_PIXEL(index, self.indexCount, viewWidth), Y_VALUE_TO_PIXEL(value, currentMinValue, currentMaxValue, viewHeight));
-            if (index == 0) {
-                [aPath moveToPoint:point];
-             } else {
-                 [aPath lineToPoint:point];
-             }
+            if (CGFloatIsValid(point.x) && CGFloatIsValid(point.y)) {
+                if (firstPoint) {
+                    [aPath moveToPoint:point];
+                    firstPoint = NO;
+                 } else {
+                     [aPath lineToPoint:point];
+                 }
+            }
         }
         [aPath stroke];
     }

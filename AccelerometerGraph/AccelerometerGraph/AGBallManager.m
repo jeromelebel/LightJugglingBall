@@ -124,20 +124,12 @@
                 return [NSData dataWithBytes:&ballID length:sizeof(ballID)];
             }
         }
-        if (data.length == sizeof(AGBallID) + (NUMBER_OF_VALUE * sizeof(VALUE_TYPE))) {
-            static NSUInteger count = 0;
-            
-            count++;
-            if (count > 100) {
-                NSLog(@"value");
-                [ball receiveData:data];
-                count = 0;
-            }
+        if (data.length == sizeof(AGBallID) + sizeof(TIMESTAMP_TYPE) + (NUMBER_OF_VALUE * sizeof(VALUE_TYPE))) {
+            [ball receiveData:data];
         } else if (data.length == sizeof(AGBallID)) {
             
         } else {
-            NSLog(@"ball id %ld int 16 %ld", sizeof(AGBallID), sizeof(VALUE_TYPE));
-            NSLog(@"wrong size %ld expecting %ld", data.length, sizeof(AGBallID) + (NUMBER_OF_VALUE * sizeof(VALUE_TYPE)));
+            NSLog(@"wrong size %ld expecting %ld", data.length, sizeof(AGBallID) + sizeof(TIMESTAMP_TYPE) + (NUMBER_OF_VALUE * sizeof(VALUE_TYPE)));
         }
     } else if (server == self.dataServer) {
         if (data.length > sizeof(AGBallID)) {

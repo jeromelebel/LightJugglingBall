@@ -8,6 +8,7 @@
 
 #import "AGBall_private.h"
 #import "AGGraphData.h"
+#import "AGBallManager.h"
 
 @interface AGBall ()
 @property (nonatomic, readwrite, assign) AGBallID identifer;
@@ -19,8 +20,17 @@
 @property (nonatomic, readwrite, strong) AGGraphData *yRotationGraphData;
 @property (nonatomic, readwrite, strong) AGGraphData *zRotationGraphData;
 @property (nonatomic, readwrite, strong) AGGraphData *rotationNormGraphData;
+@property (nonatomic, readwrite, assign) TIMESTAMP_TYPE lastTimeStamp;
 
 @end
+
+#define DATA_LENGTH 500
+
+typedef struct {
+    AGBallID identifier;
+    TIMESTAMP_TYPE timeStamp;
+    VALUE_TYPE values[NUMBER_OF_VALUE];
+} DataType;
 
 @implementation AGBall
 
@@ -31,40 +41,48 @@
         self.identifer = identifier;
         self.ipAddress = ipAddress;
         self.xGraphData = [[AGGraphData alloc] init];
-        self.xGraphData.valueCountLimit = 1000;
+        self.xGraphData.valueCountLimit = DATA_LENGTH;
         self.yGraphData = [[AGGraphData alloc] init];
-        self.yGraphData.valueCountLimit = 1000;
+        self.yGraphData.valueCountLimit = DATA_LENGTH;
         self.zGraphData = [[AGGraphData alloc] init];
-        self.zGraphData.valueCountLimit = 1000;
+        self.zGraphData.valueCountLimit = DATA_LENGTH;
         self.normGraphData = [[AGGraphData alloc] init];
-        self.normGraphData.valueCountLimit = 1000;
+        self.normGraphData.valueCountLimit = DATA_LENGTH;
         self.xRotationGraphData = [[AGGraphData alloc] init];
-        self.xRotationGraphData.valueCountLimit = 1000;
+        self.xRotationGraphData.valueCountLimit = DATA_LENGTH;
         self.yRotationGraphData = [[AGGraphData alloc] init];
-        self.yRotationGraphData.valueCountLimit = 1000;
+        self.yRotationGraphData.valueCountLimit = DATA_LENGTH;
         self.zRotationGraphData = [[AGGraphData alloc] init];
-        self.zRotationGraphData.valueCountLimit = 1000;
+        self.zRotationGraphData.valueCountLimit = DATA_LENGTH;
         self.rotationNormGraphData = [[AGGraphData alloc] init];
-        self.rotationNormGraphData.valueCountLimit = 1000;
+        self.rotationNormGraphData.valueCountLimit = DATA_LENGTH;
     }
     return self;
 }
 
 - (void)receiveData:(NSData *)data
 {
-    if (data.length == sizeof(AGBallID) + (sizeof(VALUE_TYPE) * NUMBER_OF_VALUE)) {
-        VALUE_TYPE *values;
-        const char *buffer = data.bytes + sizeof(AGBallID);
+    if (data.length == sizeof(DataType)) {
+        DataType *buffer = (DataType *)data.bytes;
+        float normData;
         
-        values = (VALUE_TYPE *)buffer;
-        [self.xGraphData addValue:values[0]];
-        [self.yGraphData addValue:values[1]];
-        [self.zGraphData addValue:values[2]];
-        [self.xRotationGraphData addValue:values[3]];
-        [self.yRotationGraphData addValue:values[4]];
-        [self.zRotationGraphData addValue:values[5]];
-        [self.normGraphData addValue:sqrtf((values[0] * values[0]) + (values[1] * values[1]) + (values[2] * values[2]))];
-        [self.rotationNormGraphData addValue:sqrtf((values[3] * values[3]) + (values[4] * values[4]) + (values[5] * values[5]))];
+        if (buffer->timeStamp != self.lastTimeStamp + 1) {
+            NSLog(@"value missed %d", buffer->timeStamp - self.lastTimeStamp);
+            self.lastTimeStamp = buffer->timeStamp;
+        } else {
+            self.lastTimeStamp++;
+        }
+        [self.xGraphData addValue:buffer->values[0]];
+        [self.yGraphData addValue:buffer->values[1]];
+        [self.zGraphData addValue:buffer->values[2]];
+        [self.xRotationGraphData addValue:buffer->values[3]];
+        [self.yRotationGraphData addValue:buffer->values[4]];
+        [self.zRotationGraphData addValue:buffer->values[5]];
+        normData = sqrtf((buffer->values[0] * buffer->values[0]) + (buffer->values[1] * buffer->values[1]) + (buffer->values[2] * buffer->values[2]));
+        [self.normGraphData addValue:normData];
+        [self.rotationNormGraphData addValue:sqrtf((buffer->values[3] * buffer->values[3]) + (buffer->values[4] * buffer->values[4]) + (buffer->values[5] * buffer->values[5]))];
+    } else {
+        NSLog(@"wrong size");
     }
 }
 
