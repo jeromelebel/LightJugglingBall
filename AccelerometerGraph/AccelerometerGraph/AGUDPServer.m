@@ -78,8 +78,29 @@ static void SocketReadCallback(CFSocketRef s, CFSocketCallBackType type, CFDataR
     
     if (err != 0) {
         if ( (self.delegate != nil) && [self.delegate respondsToSelector:@selector(server:didReceiveError:)] ) {
-            [self.delegate server:self didReceiveError:[NSError errorWithDomain:NSPOSIXErrorDomain code:err userInfo:nil]];
+            dispatch_async(dispatch_get_main_queue(), ^{
+                [self.delegate server:self didReceiveError:[NSError errorWithDomain:NSPOSIXErrorDomain code:err userInfo:nil]];
+            });
         }
+    }
+}
+
+- (void)_serverThread
+{
+    CFRunLoopSourceRef      rls;
+    
+    // The socket will now take care of cleaning up our file descriptor.
+    
+    assert( CFSocketGetSocketFlags(self.cfSocket) & kCFSocketCloseOnInvalidate );
+    
+    rls = CFSocketCreateRunLoopSource(NULL, self.cfSocket, 0);
+    assert(rls != NULL);
+    
+    CFRunLoopAddSource(CFRunLoopGetCurrent(), rls, kCFRunLoopDefaultMode);
+    
+    CFRelease(rls);
+    while (YES) {
+        CFRunLoopRun();
     }
 }
 
@@ -94,7 +115,6 @@ static void SocketReadCallback(CFSocketRef s, CFSocketCallBackType type, CFDataR
     int                     junk;
     int                     sock;
     const CFSocketContext   context = { 0, (__bridge void *)(self), NULL, NULL, NULL };
-    CFRunLoopSourceRef      rls;
     
     assert(address == nil);
     assert( (address == nil) || ([address length] <= sizeof(struct sockaddr_storage)) );
@@ -160,17 +180,7 @@ static void SocketReadCallback(CFSocketRef s, CFSocketCallBackType type, CFDataR
     if (err == 0) {
         self.cfSocket = CFSocketCreateWithNative(NULL, sock, kCFSocketReadCallBack, SocketReadCallback, &context);
         
-        // The socket will now take care of cleaning up our file descriptor.
-        
-        assert( CFSocketGetSocketFlags(self.cfSocket) & kCFSocketCloseOnInvalidate );
-        sock = -1;
-        
-        rls = CFSocketCreateRunLoopSource(NULL, self.cfSocket, 0);
-        assert(rls != NULL);
-        
-        CFRunLoopAddSource(CFRunLoopGetCurrent(), rls, kCFRunLoopDefaultMode);
-        
-        CFRelease(rls);
+        [NSThread detachNewThreadSelector:@selector(_serverThread) toTarget:self withObject:nil];
     }
     
     // Handle any errors.
