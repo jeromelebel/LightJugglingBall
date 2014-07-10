@@ -6,6 +6,7 @@
 
 typedef struct {
     LOGGER_IDENTIFIER identifier;
+    uint16_t timestamp;
     int16_t values[6];
 } LOGGER_PACKET;
 
@@ -13,6 +14,7 @@ UDPLogger::UDPLogger(void)
 {
     this->identifier = NO_IDENTIFIER;
     this->lastIdentifierRequest = millis();
+    this->_skipNumber = 10;
 }
 
 void UDPLogger::begin(void)
@@ -21,10 +23,6 @@ void UDPLogger::begin(void)
     this->addressToTalkTo = IPAddress(localIP | ~Network.subnetMask());
     
     udp.begin(LISTEN_PORT);
-    Serial.println(this->addressToTalkTo[0]);
-    Serial.println(this->addressToTalkTo[1]);
-    Serial.println(this->addressToTalkTo[2]);
-    Serial.println(this->addressToTalkTo[3]);
 }
 
 void UDPLogger::loopWithValues(int16_t xAccel, int16_t yAccel, int16_t zAccel, int16_t xGyro, int16_t yGyro, int16_t zGyro)
@@ -43,15 +41,17 @@ void UDPLogger::loopWithValues(int16_t xAccel, int16_t yAccel, int16_t zAccel, i
             Serial.println(this->identifier);
         }
     } else {
-        xAccel = 0;
-        yAccel = 0x0F;
-        zAccel = 0xF0;
-        xGyro = 0x00FF;
-        yGyro = 0xFF00;
-        zGyro = 0xFFFF;
-        LOGGER_PACKET packet = { this->identifier, xAccel, yAccel, zAccel, xGyro, yGyro, zGyro };
-        udp.beginPacket(this->addressToTalkTo, TALK_TO_PORT);
-        udp.write((const uint8_t *)&packet, sizeof(packet));
-        udp.endPacket();
+        static int skipValues = 0;
+        
+        skipValues++;
+        if (skipValues > this->_skipNumber) {
+            static uint16_t timestamp = 0;
+            
+            LOGGER_PACKET packet = { this->identifier, timestamp++, xAccel, yAccel, zAccel, xGyro, yGyro, zGyro };
+            udp.beginPacket(this->addressToTalkTo, TALK_TO_PORT);
+            udp.write((const uint8_t *)&packet, sizeof(packet));
+            udp.endPacket();
+            skipValues = 0;
+        }
     }
 }

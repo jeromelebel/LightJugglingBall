@@ -57,6 +57,21 @@ static void initMPU(void)
     Serial.println(error,DEC);
 }
 
+static int setSkipValues(String args)
+{
+    logger.setSkipValues(args.toInt());
+    return 0;
+}
+
+float accelLimit = 0.6;
+float rotatLimit = 0;
+
+static int setAccelLimit(String args)
+{
+    accelLimit = args.toInt() / 1000.0;
+    return 0;
+}
+
 void setup()
 {
     Serial.begin(115200);
@@ -71,8 +86,8 @@ void setup()
     RGB.color(0, 0, 0);
     logger.begin();
     
-    Serial.println(Network.localIP());
-    Serial.println(Network.SSID());
+    Spark.function("setskipvalues", setSkipValues);
+    Spark.function("setaccllimit", setAccelLimit);
 }
 
 void setBallLight(uint32_t color)
@@ -100,7 +115,7 @@ void loop()
     mpu.readValues(&values, NULL);
     logger.loopWithValues(values.xAccel, values.yAccel, values.zAccel, values.xGyro, values.yGyro, values.zGyro);
     norme = sqrtf((float)values.xAccel * (float)values.xAccel + (float)values.yAccel * (float)values.yAccel + (float)values.zAccel * (float)values.zAccel) / 32767.0 * 16.0;
-    if (norme < 0.6 && !ballTurnedOn) {
+    if (norme < accelLimit && !ballTurnedOn) {
         ballTurnedOn = true;
         setBallLight(0xFFFFFF);
     } else if (norme > 0.6 && ballTurnedOn) {
