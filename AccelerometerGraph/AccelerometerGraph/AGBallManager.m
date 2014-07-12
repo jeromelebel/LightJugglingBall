@@ -15,7 +15,7 @@
 @property (nonatomic, readwrite, strong) AGUDPServer *managerServer;
 @property (nonatomic, readwrite, strong) AGUDPServer *dataServer;
 @property (nonatomic, readwrite, strong) NSMutableArray *balls;
-@property (nonatomic, readwrite, assign) AGBallID firstBallID;
+@property (nonatomic, readwrite, assign) BALL_IDENTIFIER firstBallID;
 
 @end
 
@@ -28,7 +28,7 @@
 {
     self = [super init];
     if (self) {
-        self.managerServer = [[AGUDPServer alloc] initWithPort:1974];
+        self.managerServer = [[AGUDPServer alloc] initWithPort:ServerPort];
         self.managerServer.delegate = self;
         [self.managerServer startServer];
         self.dataServer = [[AGUDPServer alloc] initWithPort:1975];
@@ -49,7 +49,7 @@
     return nil;
 }
 
-- (AGBall *)ballForIdentifier:(AGBallID)ballID
+- (AGBall *)ballForIdentifier:(BALL_IDENTIFIER)ballID
 {
     for (AGBall *ball in self.balls) {
         if (ball.identifer == ballID) {
@@ -73,9 +73,9 @@
     [self.delegate ballManager:self addBall:ball];
 }
 
-- (AGBallID)nextBallID
+- (BALL_IDENTIFIER)nextBallID
 {
-    AGBallID result = 0;
+    BALL_IDENTIFIER result = 0;
     
     while (YES) {
         if (![self ballForIdentifier:self.firstBallID]) {
@@ -84,7 +84,7 @@
             break;
         }
         self.firstBallID++;
-        if (self.firstBallID == AGBallID_MAX) {
+        if (self.firstBallID == BALL_IDENTIFIER_MAX) {
             self.firstBallID = 0;
         }
     }
@@ -93,14 +93,14 @@
 
 - (NSData *)server:(AGUDPServer *)server didReceiveData:(NSData *)data fromAddress:(NSData *)addr
 {
-    AGBallID ballID;
+    BALL_IDENTIFIER ballID;
     AGBall *ball = nil;
     
     if (server == self.managerServer) {
-        if (data.length >= sizeof(AGBallID)) {
+        if (data.length >= sizeof(BALL_IDENTIFIER)) {
             AGBall *ballFromID, *ballFromIP;
             
-            ballID = *(AGBallID *)data.bytes;
+            ballID = *(BALL_IDENTIFIER *)data.bytes;
             ballFromIP = [self ballForAddress:addr];
             ballFromID = [self ballForIdentifier:ballID];
             if (ballFromIP && !ballFromID) {
@@ -124,18 +124,18 @@
                 return [NSData dataWithBytes:&ballID length:sizeof(ballID)];
             }
         }
-        if (data.length == sizeof(AGBallID) + sizeof(TIMESTAMP_TYPE) + (NUMBER_OF_VALUE * sizeof(VALUE_TYPE))) {
+        if (data.length == sizeof(BALL_IDENTIFIER) + sizeof(TIMESTAMP_TYPE) + (NUMBER_OF_VALUE * sizeof(VALUE_TYPE))) {
             [ball receiveData:data];
-        } else if (data.length == sizeof(AGBallID)) {
+        } else if (data.length == sizeof(BALL_IDENTIFIER)) {
             
         } else {
-            NSLog(@"wrong size %ld expecting %ld", data.length, sizeof(AGBallID) + sizeof(TIMESTAMP_TYPE) + (NUMBER_OF_VALUE * sizeof(VALUE_TYPE)));
+            NSLog(@"wrong size %ld expecting %ld", data.length, sizeof(BALL_IDENTIFIER) + sizeof(TIMESTAMP_TYPE) + (NUMBER_OF_VALUE * sizeof(VALUE_TYPE)));
         }
     } else if (server == self.dataServer) {
-        if (data.length > sizeof(AGBallID)) {
+        if (data.length > sizeof(BALL_IDENTIFIER)) {
             NSLog(@"wrong data size");
         } else {
-            ballID = (AGBallID *)data.bytes;
+            ballID = (BALL_IDENTIFIER *)data.bytes;
             ball = [self ballForIdentifier:ballID];
             if (ball) {
                 [ball receiveData:data];

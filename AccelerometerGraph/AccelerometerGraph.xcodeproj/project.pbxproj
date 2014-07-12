@@ -22,10 +22,25 @@
 		0246A73E1591ECFB00B269E8 /* AGDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 0246A73D1591ECFB00B269E8 /* AGDevice.m */; };
 		0246A7401591ED9500B269E8 /* IOKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0246A73F1591ED9500B269E8 /* IOKit.framework */; };
 		025DE84A1953333A00F440A9 /* AGSparkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 025DE8491953333A00F440A9 /* AGSparkManager.m */; };
+		026B38A3196EC60D00B9AE57 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 026B38A2196EC60D00B9AE57 /* main.m */; };
+		026B38A9196EC6CC00B9AE57 /* AGFakeBallClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 026B38A8196EC6CC00B9AE57 /* AGFakeBallClient.m */; };
+		026B38AC196EC6DD00B9AE57 /* AGUDPClient.m in Sources */ = {isa = PBXBuildFile; fileRef = 026B38AB196EC6DD00B9AE57 /* AGUDPClient.m */; };
 		02C348FB1953FD8E0029313C /* AGSparkDevice.m in Sources */ = {isa = PBXBuildFile; fileRef = 02C348FA1953FD8E0029313C /* AGSparkDevice.m */; };
 		02C63C3B196593CF00547250 /* AGBallManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 02C63C3A196593CF00547250 /* AGBallManager.m */; };
 		02C63C3E1965952100547250 /* AGBall.m in Sources */ = {isa = PBXBuildFile; fileRef = 02C63C3D1965952100547250 /* AGBall.m */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		026B389E196EC60D00B9AE57 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		02091A1315962B4400E21053 /* AGGraphDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGGraphDocument.h; sourceTree = "<group>"; };
@@ -61,6 +76,13 @@
 		0263FC2E1948A08200146D10 /* AccelerometerGraph-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "AccelerometerGraph-Bridging-Header.h"; sourceTree = "<group>"; };
 		0263FC2F1948A08200146D10 /* SparkManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SparkManager.swift; sourceTree = "<group>"; };
 		0263FC311948AA0700146D10 /* SparkDevice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SparkDevice.swift; sourceTree = "<group>"; };
+		026B38A0196EC60D00B9AE57 /* FakeBallClient */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = FakeBallClient; sourceTree = BUILT_PRODUCTS_DIR; };
+		026B38A2196EC60D00B9AE57 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		026B38A7196EC6CC00B9AE57 /* AGFakeBallClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGFakeBallClient.h; sourceTree = "<group>"; };
+		026B38A8196EC6CC00B9AE57 /* AGFakeBallClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGFakeBallClient.m; sourceTree = "<group>"; };
+		026B38AA196EC6DD00B9AE57 /* AGUDPClient.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGUDPClient.h; sourceTree = "<group>"; };
+		026B38AB196EC6DD00B9AE57 /* AGUDPClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGUDPClient.m; sourceTree = "<group>"; };
+		02839C661971CE8F004C3C75 /* CommunicationStruct.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = CommunicationStruct.h; path = "../spark-core/src/CommunicationStruct.h"; sourceTree = "<group>"; };
 		02C348F91953FD8E0029313C /* AGSparkDevice.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGSparkDevice.h; sourceTree = "<group>"; };
 		02C348FA1953FD8E0029313C /* AGSparkDevice.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGSparkDevice.m; sourceTree = "<group>"; };
 		02C63C39196593CF00547250 /* AGBallManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGBallManager.h; sourceTree = "<group>"; };
@@ -82,6 +104,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		026B389D196EC60D00B9AE57 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -89,7 +118,9 @@
 			isa = PBXGroup;
 			children = (
 				02FDC68719408B5F00B8EA60 /* MyPlayground.playground */,
+				02839C661971CE8F004C3C75 /* CommunicationStruct.h */,
 				0246A7181590F91B00B269E8 /* AccelerometerGraph */,
+				026B38A1196EC60D00B9AE57 /* FakeBallClient */,
 				0246A7111590F91B00B269E8 /* Frameworks */,
 				0246A70F1590F91B00B269E8 /* Products */,
 			);
@@ -99,6 +130,7 @@
 			isa = PBXGroup;
 			children = (
 				0246A70E1590F91B00B269E8 /* AccelerometerGraph.app */,
+				026B38A0196EC60D00B9AE57 /* FakeBallClient */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -172,6 +204,18 @@
 			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
+		026B38A1196EC60D00B9AE57 /* FakeBallClient */ = {
+			isa = PBXGroup;
+			children = (
+				026B38A2196EC60D00B9AE57 /* main.m */,
+				026B38A7196EC6CC00B9AE57 /* AGFakeBallClient.h */,
+				026B38A8196EC6CC00B9AE57 /* AGFakeBallClient.m */,
+				026B38AA196EC6DD00B9AE57 /* AGUDPClient.h */,
+				026B38AB196EC6DD00B9AE57 /* AGUDPClient.m */,
+			);
+			path = FakeBallClient;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -192,6 +236,23 @@
 			productReference = 0246A70E1590F91B00B269E8 /* AccelerometerGraph.app */;
 			productType = "com.apple.product-type.application";
 		};
+		026B389F196EC60D00B9AE57 /* FakeBallClient */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 026B38A6196EC60D00B9AE57 /* Build configuration list for PBXNativeTarget "FakeBallClient" */;
+			buildPhases = (
+				026B389C196EC60D00B9AE57 /* Sources */,
+				026B389D196EC60D00B9AE57 /* Frameworks */,
+				026B389E196EC60D00B9AE57 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = FakeBallClient;
+			productName = FakeBallClient;
+			productReference = 026B38A0196EC60D00B9AE57 /* FakeBallClient */;
+			productType = "com.apple.product-type.tool";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -201,6 +262,11 @@
 				CLASSPREFIX = AG;
 				LastUpgradeCheck = 0430;
 				ORGANIZATIONNAME = Fotonauts;
+				TargetAttributes = {
+					026B389F196EC60D00B9AE57 = {
+						CreatedOnToolsVersion = 6.0;
+					};
+				};
 			};
 			buildConfigurationList = 0246A7081590F91A00B269E8 /* Build configuration list for PBXProject "AccelerometerGraph" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -215,6 +281,7 @@
 			projectRoot = "";
 			targets = (
 				0246A70D1590F91B00B269E8 /* AccelerometerGraph */,
+				026B389F196EC60D00B9AE57 /* FakeBallClient */,
 			);
 		};
 /* End PBXProject section */
@@ -249,6 +316,16 @@
 				0246A73E1591ECFB00B269E8 /* AGDevice.m in Sources */,
 				025DE84A1953333A00F440A9 /* AGSparkManager.m in Sources */,
 				02091A1615962B4400E21053 /* AGGraphDocument.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		026B389C196EC60D00B9AE57 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				026B38A9196EC6CC00B9AE57 /* AGFakeBallClient.m in Sources */,
+				026B38A3196EC60D00B9AE57 /* main.m in Sources */,
+				026B38AC196EC6DD00B9AE57 /* AGUDPClient.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -352,6 +429,65 @@
 			};
 			name = Release;
 		};
+		026B38A4196EC60D00B9AE57 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		026B38A5196EC60D00B9AE57 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -369,6 +505,15 @@
 			buildConfigurations = (
 				0246A72D1590F91B00B269E8 /* Debug */,
 				0246A72E1590F91B00B269E8 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		026B38A6196EC60D00B9AE57 /* Build configuration list for PBXNativeTarget "FakeBallClient" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				026B38A4196EC60D00B9AE57 /* Debug */,
+				026B38A5196EC60D00B9AE57 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

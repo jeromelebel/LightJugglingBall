@@ -1,7 +1,5 @@
 #include "application.h"
 
-typedef unsigned short LOGGER_IDENTIFIER;
-
 class UDPLogger
 {
 protected:

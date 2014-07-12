@@ -11,7 +11,7 @@
 #import "AGBallManager.h"
 
 @interface AGBall ()
-@property (nonatomic, readwrite, assign) AGBallID identifer;
+@property (nonatomic, readwrite, assign) BALL_IDENTIFIER identifer;
 @property (nonatomic, readwrite, strong) AGGraphData *xGraphData;
 @property (nonatomic, readwrite, strong) AGGraphData *yGraphData;
 @property (nonatomic, readwrite, strong) AGGraphData *zGraphData;
@@ -27,14 +27,14 @@
 #define DATA_LENGTH 500
 
 typedef struct {
-    AGBallID identifier;
+    BALL_IDENTIFIER identifier;
     TIMESTAMP_TYPE timeStamp;
     VALUE_TYPE values[NUMBER_OF_VALUE];
 } DataType;
 
 @implementation AGBall
 
-- (instancetype)initWithIdentifier:(AGBallID)identifier ipAddress:(NSData *)ipAddress
+- (instancetype)initWithIdentifier:(BALL_IDENTIFIER)identifier ipAddress:(NSData *)ipAddress
 {
     self = [self init];
     if (self) {
