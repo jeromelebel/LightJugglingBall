@@ -11,7 +11,7 @@
 #import "AGBallManager.h"
 
 @interface AGBall ()
-@property (nonatomic, readwrite, assign) BALL_IDENTIFIER identifer;
+@property (nonatomic, readwrite, assign) BallIdentifier identifer;
 @property (nonatomic, readwrite, strong) AGGraphData *xGraphData;
 @property (nonatomic, readwrite, strong) AGGraphData *yGraphData;
 @property (nonatomic, readwrite, strong) AGGraphData *zGraphData;
@@ -20,21 +20,15 @@
 @property (nonatomic, readwrite, strong) AGGraphData *yRotationGraphData;
 @property (nonatomic, readwrite, strong) AGGraphData *zRotationGraphData;
 @property (nonatomic, readwrite, strong) AGGraphData *rotationNormGraphData;
-@property (nonatomic, readwrite, assign) TIMESTAMP_TYPE lastTimeStamp;
+@property (nonatomic, readwrite, assign) BallPacketCount lastTimeStamp;
 
 @end
 
 #define DATA_LENGTH 500
 
-typedef struct {
-    BALL_IDENTIFIER identifier;
-    TIMESTAMP_TYPE timeStamp;
-    VALUE_TYPE values[NUMBER_OF_VALUE];
-} DataType;
-
 @implementation AGBall
 
-- (instancetype)initWithIdentifier:(BALL_IDENTIFIER)identifier ipAddress:(NSData *)ipAddress
+- (instancetype)initWithIdentifier:(BallIdentifier)identifier ipAddress:(NSData *)ipAddress
 {
     self = [self init];
     if (self) {
@@ -62,13 +56,13 @@ typedef struct {
 
 - (void)receiveData:(NSData *)data
 {
-    if (data.length == sizeof(DataType)) {
-        DataType *buffer = (DataType *)data.bytes;
+    if (data.length == sizeof(BallPacket)) {
+        BallPacket *buffer = (BallPacket *)data.bytes;
         float normData;
         
-        if (buffer->timeStamp != self.lastTimeStamp + 1) {
-            NSLog(@"value missed %d", buffer->timeStamp - self.lastTimeStamp);
-            self.lastTimeStamp = buffer->timeStamp;
+        if (buffer->count != self.lastTimeStamp + 1) {
+            NSLog(@"value missed %d", buffer->count - self.lastTimeStamp);
+            self.lastTimeStamp = buffer->count;
         } else {
             self.lastTimeStamp++;
         }

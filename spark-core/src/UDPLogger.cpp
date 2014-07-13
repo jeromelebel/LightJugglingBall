@@ -1,11 +1,10 @@
 #include "UDPLogger.h"
-#include "CommunicationStruct.h"
 
 #define LISTEN_PORT 1975
 
 UDPLogger::UDPLogger(void)
 {
-    this->identifier = BALL_IDENTIFIER_MAX;
+    this->identifier = BallIdentifierMax;
     this->lastIdentifierRequest = millis();
     this->_skipNumber = 10;
 }
@@ -20,7 +19,7 @@ void UDPLogger::begin(void)
 
 void UDPLogger::loopWithValues(int16_t xAccel, int16_t yAccel, int16_t zAccel, int16_t xGyro, int16_t yGyro, int16_t zGyro)
 {
-    if (this->identifier == BALL_IDENTIFIER_MAX) {
+    if (this->identifier == BallIdentifierMax) {
         if (millis() - this->lastIdentifierRequest > 1000) {
             Serial.println("ping");
             udp.beginPacket(this->addressToTalkTo, ServerPort);

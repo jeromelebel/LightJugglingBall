@@ -13,7 +13,7 @@
 
 @interface AGBall : NSObject
 @property (nonatomic, readonly, strong) NSData *ipAddress;
-@property (nonatomic, readonly, assign) BALL_IDENTIFIER identifer;
+@property (nonatomic, readonly, assign) BallIdentifier identifer;
 @property (nonatomic, readonly, strong) AGGraphData *xGraphData;
 @property (nonatomic, readonly, strong) AGGraphData *yGraphData;
 @property (nonatomic, readonly, strong) AGGraphData *zGraphData;
@@ -23,6 +23,6 @@
 @property (nonatomic, readonly, strong) AGGraphData *zRotationGraphData;
 @property (nonatomic, readonly, strong) AGGraphData *rotationNormGraphData;
 
-- (instancetype)initWithIdentifier:(BALL_IDENTIFIER)identifier ipAddress:(NSData *)ipAddress;
+- (instancetype)initWithIdentifier:(BallIdentifier)identifier ipAddress:(NSData *)ipAddress;
 
 @end

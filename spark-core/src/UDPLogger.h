@@ -1,10 +1,11 @@
 #include "application.h"
+#include "CommunicationStruct.h"
 
 class UDPLogger
 {
 protected:
     UDP udp;
-    LOGGER_IDENTIFIER identifier;
+    BallIdentifier identifier;
     unsigned long lastIdentifierRequest;
     IPAddress addressToTalkTo;
     unsigned int _skipNumber;
