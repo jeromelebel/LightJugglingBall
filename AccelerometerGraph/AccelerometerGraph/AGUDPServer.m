@@ -87,114 +87,43 @@ static void SocketReadCallback(CFSocketRef s, CFSocketCallBackType type, CFDataR
 
 - (void)_serverThread
 {
-    CFRunLoopSourceRef      rls;
+    CFRunLoopSourceRef      source;
     
     // The socket will now take care of cleaning up our file descriptor.
     
-    assert( CFSocketGetSocketFlags(self.cfSocket) & kCFSocketCloseOnInvalidate );
+    assert(CFSocketGetSocketFlags(self.cfSocket) & kCFSocketCloseOnInvalidate);
     
-    rls = CFSocketCreateRunLoopSource(NULL, self.cfSocket, 0);
-    assert(rls != NULL);
+    source = CFSocketCreateRunLoopSource(NULL, self.cfSocket, 0);
+    assert(source != NULL);
     
-    CFRunLoopAddSource(CFRunLoopGetCurrent(), rls, kCFRunLoopDefaultMode);
-    
-    CFRelease(rls);
+    CFRunLoopAddSource(CFRunLoopGetCurrent(), source, kCFRunLoopDefaultMode);
     while (YES) {
         CFRunLoopRun();
+        NSLog(@"prout");
     }
 }
 
-- (BOOL)setupSocketConnectedToAddress:(NSData *)address error:(NSError **)errorPtr
+- (BOOL)setupSocketWithError:(NSError **)errorPtr
 // Sets up the CFSocket in either client or server mode.  In client mode,
 // address contains the address that the socket should be connected to.
 // The address contains zero port number, so the port parameter is used instead.
 // In server mode, address is nil and the socket is bound to the wildcard
 // address on the specified port.
 {
-    int                     err;
-    int                     junk;
-    int                     sock;
     const CFSocketContext   context = { 0, (__bridge void *)(self), NULL, NULL, NULL };
+    struct sockaddr_in a = {0, AF_INET, htons(self.port), INADDR_ANY};
+    CFDataRef d1 = CFDataCreate(NULL, (UInt8 *)&a, sizeof(struct sockaddr_in));
+    CFSocketSignature signature = {PF_INET, SOCK_DGRAM, IPPROTO_UDP, d1};
+    self.cfSocket = CFSocketCreateWithSocketSignature(NULL, &signature, kCFSocketReadCallBack, SocketReadCallback, &context);
+    CFRelease(d1);
     
-    assert(address == nil);
-    assert( (address == nil) || ([address length] <= sizeof(struct sockaddr_storage)) );
-    
-    assert(self.cfSocket == NULL);
-    
-    // Create the UDP socket itself.
-    
-    err = 0;
-    sock = socket(AF_INET, SOCK_DGRAM, 0);
-    if (sock < 0) {
-        err = errno;
-    }
-    
-    // Bind or connect the socket, depending on whether we're in server or client mode.
-    
-    if (err == 0) {
-        struct sockaddr_in      addr;
-        
-        memset(&addr, 0, sizeof(addr));
-        if (address == nil) {
-            // Server mode.  Set up the address based on the socket family of the socket
-            // that we created, with the wildcard address and the caller-supplied port number.
-            addr.sin_len         = sizeof(addr);
-            addr.sin_family      = AF_INET;
-            addr.sin_port        = htons(self.port);
-            addr.sin_addr.s_addr = INADDR_ANY;
-            err = bind(sock, (const struct sockaddr *) &addr, sizeof(addr));
-        } else {
-            // Client mode.  Set up the address on the caller-supplied address and port
-            // number.
-            if ([address length] > sizeof(addr)) {
-                assert(NO);         // very weird
-                [address getBytes:&addr length:sizeof(addr)];
-            } else {
-                [address getBytes:&addr length:[address length]];
-            }
-            assert(addr.sin_family == AF_INET);
-            addr.sin_port = htons(self.port);
-            err = connect(sock, (const struct sockaddr *) &addr, sizeof(addr));
-        }
-        if (err < 0) {
-            err = errno;
-        }
-    }
-    
-    // From now on we want the socket in non-blocking mode to prevent any unexpected
-    // blocking of the main thread.  None of the above should block for any meaningful
-    // amount of time.
-    
-    if (err == 0) {
-        int flags;
-        
-        flags = fcntl(sock, F_GETFL);
-        err = fcntl(sock, F_SETFL, flags | O_NONBLOCK);
-        if (err < 0) {
-            err = errno;
-        }
-    }
-    
-    // Wrap the socket in a CFSocket that's scheduled on the runloop.
-    
-    if (err == 0) {
-        self.cfSocket = CFSocketCreateWithNative(NULL, sock, kCFSocketReadCallBack, SocketReadCallback, &context);
-        
+    if (self.cfSocket) {
         [NSThread detachNewThreadSelector:@selector(_serverThread) toTarget:self withObject:nil];
+        if (errorPtr) *errorPtr = NULL;
+    } else {
+        if (errorPtr) *errorPtr = [NSError errorWithDomain:NSPOSIXErrorDomain code:errno userInfo:nil];
     }
-    
-    // Handle any errors.
-    
-    if (sock != -1) {
-        junk = close(sock);
-        assert(junk == 0);
-    }
-    assert( (err == 0) == (self.cfSocket != NULL) );
-    if ( (self.cfSocket == NULL) && (errorPtr != NULL) ) {
-        *errorPtr = [NSError errorWithDomain:NSPOSIXErrorDomain code:err userInfo:nil];
-    }
-    
-    return (err == 0);
+    return self.cfSocket != NULL;
 }
 
 - (void)startServer
@@ -205,7 +134,7 @@ static void SocketReadCallback(CFSocketRef s, CFSocketCallBackType type, CFDataR
     
     // Create a fully configured socket.
     
-    success = [self setupSocketConnectedToAddress:nil error:&error];
+    success = [self setupSocketWithError:&error];
     
     // If we can create the socket, we're good to go.  Otherwise, we report an error
     // to the delegate.
@@ -306,6 +235,7 @@ static void SocketReadCallback(CFSocketRef s, CFSocketCallBackType type, CFDataR
 {
     AGUDPServer *       obj;
     
+    NSLog(@"data !!!");
     obj = (__bridge AGUDPServer *) info;
     assert([obj isKindOfClass:[AGUDPServer class]]);
     
