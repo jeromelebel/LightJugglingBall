@@ -14,9 +14,9 @@
 @property (nonatomic, readonly, strong) id<AGUDPClientDelegate> delegate;
 @property (nonatomic, readonly, assign) NSUInteger port;
 @property (nonatomic, readonly, strong) NSString *hostName;
-@property (nonatomic, readonly, assign, getter=isReady) BOOL ready;
 
 - (id)initWithHostName:(NSString *)hostName port:(NSUInteger)port delegate:(id<AGUDPClientDelegate>)delegate;
+- (void)setupSocket;
 - (BOOL)sendData:(NSData *)data error:(NSError **)error;
 
 

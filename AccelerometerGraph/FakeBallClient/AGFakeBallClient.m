@@ -21,6 +21,7 @@
     self = [super init];
     if (self) {
         self.udpClient = [[AGUDPClient alloc] initWithHostName:@"192.168.174.101" port:ServerPort delegate:self];
+        [self.udpClient setupSocket];
     }
     return self;
 }
