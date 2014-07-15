@@ -27,6 +27,10 @@
 #define DATA_LENGTH 500
 
 @implementation AGBall
+{
+    NSDate *_date;
+    NSInteger _counter;
+}
 
 - (instancetype)initWithIdentifier:(BallIdentifier)identifier ipAddress:(NSData *)ipAddress
 {
@@ -60,6 +64,14 @@
         BallPacket *buffer = (BallPacket *)data.bytes;
         float normData;
         
+        _counter++;
+        if (_date == nil) {
+            _date = [NSDate date];
+        } else if (-_date.timeIntervalSinceNow > 10) {
+            NSLog(@"%f", -(_counter / _date.timeIntervalSinceNow));
+            _date = [NSDate date];
+            _counter = 0;
+        }
         if (buffer->count != self.lastTimeStamp + 1) {
             NSLog(@"value missed %d", buffer->count - self.lastTimeStamp);
             self.lastTimeStamp = buffer->count;
