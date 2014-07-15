@@ -21,7 +21,6 @@ void UDPLogger::loopWithValues(int16_t xAccel, int16_t yAccel, int16_t zAccel, i
 {
     if (this->identifier == BallIdentifierMax) {
         if (millis() - this->lastIdentifierRequest > 1000) {
-            Serial.println("ping");
             udp.beginPacket(this->addressToTalkTo, ServerPort);
             udp.write((unsigned char*)&this->identifier, sizeof(this->identifier));
             udp.endPacket();
