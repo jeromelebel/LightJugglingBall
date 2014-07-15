@@ -235,7 +235,6 @@ static void SocketReadCallback(CFSocketRef s, CFSocketCallBackType type, CFDataR
 {
     AGUDPServer *       obj;
     
-    NSLog(@"data !!!");
     obj = (__bridge AGUDPServer *) info;
     assert([obj isKindOfClass:[AGUDPServer class]]);
     
