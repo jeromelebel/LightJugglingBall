@@ -135,7 +135,7 @@
 //    [self.graphView addGraphData:ball.xGraphData withColor:[NSColor redColor]];
 //    [self.graphView addGraphData:ball.yGraphData withColor:[NSColor greenColor]];
     [self.graphView addGraphData:ball.normGraphData withColor:[NSColor blueColor]];
-    if ((0)) {
+    if ((1)) {
         [self.graphView addGraphData:ball.rotationNormGraphData withColor:[NSColor greenColor]];
     } else {
         [self.graphView addGraphData:ball.xRotationGraphData withColor:[NSColor greenColor]];
